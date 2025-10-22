@@ -3,6 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram;
 import com.mojang.logging.LogUtils;
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModCreativeModeTab;
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
+import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,7 +32,7 @@ public class NythicalSpaceProgram
 
         ModItems.register(modEventBus);
         ModCreativeModeTab.register(modEventBus);
-
+        ModBlocks.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 

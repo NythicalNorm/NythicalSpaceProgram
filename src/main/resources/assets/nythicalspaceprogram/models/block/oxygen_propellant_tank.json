@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "nythicalspaceprogram:block/oxygen_propellant_tank_top",
+    "down": "nythicalspaceprogram:block/oxygen_propellant_tank_top",
+    "north": "nythicalspaceprogram:block/oxygen_propellant_tank_side",
+    "south": "nythicalspaceprogram:block/oxygen_propellant_tank_side",
+    "east": "nythicalspaceprogram:block/oxygen_propellant_tank_side",
+    "west": "nythicalspaceprogram:block/oxygen_propellant_tank_side",
+    "particle": "nythicalspaceprogram:block/oxygen_propellant_tank_side"
+  }
+}
