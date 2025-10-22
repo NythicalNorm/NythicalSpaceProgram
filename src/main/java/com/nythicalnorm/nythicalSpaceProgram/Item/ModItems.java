@@ -11,6 +11,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NythicalSpaceProgram.MODID);
 
     public static final RegistryObject<Item> HANDHELD_PROPELLER = ITEMS.register("handheld_propeller", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> MAGNET_BOOTS = ITEMS.register("magnet_boots", () -> new Item(new Item.Properties()));
 
     public static void register(IEventBus eventBus)
     {

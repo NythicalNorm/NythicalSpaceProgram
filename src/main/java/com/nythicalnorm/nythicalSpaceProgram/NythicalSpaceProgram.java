@@ -1,6 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram;
 
 import com.mojang.logging.LogUtils;
+import com.nythicalnorm.nythicalSpaceProgram.Item.ModCreativeModeTab;
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,6 +30,8 @@ public class NythicalSpaceProgram
         IEventBus modEventBus = context.getModEventBus();
 
         ModItems.register(modEventBus);
+        ModCreativeModeTab.register(modEventBus);
+
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -36,7 +39,7 @@ public class NythicalSpaceProgram
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
+        //modEventBus.addListener(this::addCreative);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         //context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -53,6 +56,7 @@ public class NythicalSpaceProgram
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
         {
             event.accept(ModItems.HANDHELD_PROPELLER);
+            event.accept(ModItems.MAGNET_BOOTS);
         }
     }
 
