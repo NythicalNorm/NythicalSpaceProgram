@@ -32,4 +32,5 @@ public class HandheldPropellerItem extends Item {
         }
        return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
     }
+    // state.is(ModTags.MAGNETIC_METALS);
 }
