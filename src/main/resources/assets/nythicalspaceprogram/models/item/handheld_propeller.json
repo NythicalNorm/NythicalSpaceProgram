@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "nythicalspaceprogram:item/handheld_propeller_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "nythicalspaceprogram:item/handheld_propeller_2d"
+    },
+    "ground": {
+      "parent": "nythicalspaceprogram:item/handheld_propeller_2d"
+    },
+    "fixed": {
+      "parent": "nythicalspaceprogram:item/handheld_propeller_2d"
+    }
+  }
+}

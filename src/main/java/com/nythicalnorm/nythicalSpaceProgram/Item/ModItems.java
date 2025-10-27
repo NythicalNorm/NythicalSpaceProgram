@@ -13,10 +13,10 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NythicalSpaceProgram.MODID);
 
     public static final RegistryObject<Item> HANDHELD_PROPELLER = ITEMS.register("handheld_propeller",
-            () -> new HandheldPropellerItem(new Item.Properties()));
+            () -> new HandheldPropellerItem(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> MAGNET_BOOTS = ITEMS.register("magnet_boots", () ->
-            new ArmorItem(ModArmorMaterial.MAGNETIC, ArmorItem.Type.BOOTS,  new Item.Properties()));
+            new ModArmorItem(ModArmorMaterial.MAGNETIC, ArmorItem.Type.BOOTS,  new Item.Properties()));
 
     public static void register(IEventBus eventBus)
     {

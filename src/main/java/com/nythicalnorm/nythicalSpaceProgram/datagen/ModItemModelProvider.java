@@ -1,5 +1,4 @@
 package com.nythicalnorm.nythicalSpaceProgram.datagen;
-
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import net.minecraft.data.PackOutput;
@@ -17,7 +16,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        simpleItem(ModItems.HANDHELD_PROPELLER);
+        item3dOnlyinHand(ModItems.HANDHELD_PROPELLER);
+
         simpleItem(ModItems.MAGNET_BOOTS);
     }
 
@@ -26,5 +26,20 @@ public class ModItemModelProvider extends ItemModelProvider {
         return  withExistingParent(item.getId().getPath(),
                 ResourceLocation.parse("item/generated")).texture("layer0",
                 ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "item/" + item.getId().getPath()));
+    }
+
+    private void item3dOnlyinHand(RegistryObject<Item> item) {
+        withExistingParent(item.getId().getPath() + "_2d",
+                ResourceLocation.parse("item/handheld")).texture("layer0",
+                ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "item/" + item.getId().getPath()));
+
+//        ModelFile.ExistingModelFile val = getExistingFile(ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "item/" + item.getId().getPath() + "_3d"));
+//
+//        withExistingParent(item.getId().getPath(), ResourceLocation.parse("item/handheld"))
+//                .customLoader(SeparateTransformsModelBuilder::begin)
+//                .base()
+//                .perspective(ItemDisplayContext.GUI, getBuilder("item/" + item.getId().getPath() + "_2d"))
+//                .perspective(ItemDisplayContext.GROUND, getBuilder("item/" + item.getId().getPath() + "_2d"))
+//                .perspective(ItemDisplayContext.FIXED, getBuilder("item/" + item.getId().getPath() + "_2d"));
     }
 }
