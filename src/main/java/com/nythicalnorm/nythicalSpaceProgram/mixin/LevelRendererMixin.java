@@ -1,7 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShineRenderer;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
@@ -10,6 +10,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FogType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@OnlyIn(Dist.CLIENT)
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 
@@ -30,7 +33,7 @@ public class LevelRendererMixin {
             if (!pIsFoggy) {
                 FogType fogtype = pCamera.getFluidInCamera();
                 if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !nythicalspaceprogram$doesMobEffectBlockSky(pCamera)) {
-                    PlanetShineRenderer.renderSkylight(mc, mylvl, pPoseStack, pProjectionMatrix, pPartialTick, pCamera);
+                    PlanetShine.renderSkybox(mc, mylvl, pPoseStack, pProjectionMatrix, pPartialTick, pCamera);
                 }
             }
             ci.cancel();

@@ -26,7 +26,7 @@ public class NythicalSpaceProgram
     // Define mod id in a common place for everything to reference
     public static final String MODID = "nythicalspaceprogram";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public NythicalSpaceProgram(FMLJavaModLoadingContext context)
     {

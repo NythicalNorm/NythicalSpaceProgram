@@ -40,7 +40,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                        ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/lunar_regolith")))};
            }
 
-           else { //if (state.getValue(FOOTPRINTTYPE) == FootprintedType.TWOBOOTZFACING) {
+           else {
                 return new ConfiguredModel[]{new ConfiguredModel(models().cubeTop("lunar_regolith_" + state.getValue(FOOTPRINTTYPE),
                         ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/lunar_regolith"),
                         ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/lunar_regolith_" + state.getValue(FOOTPRINTTYPE))
