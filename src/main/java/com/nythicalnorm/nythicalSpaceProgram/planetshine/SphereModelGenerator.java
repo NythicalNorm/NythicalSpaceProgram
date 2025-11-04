@@ -3,11 +3,14 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.pipeline.QuadBakingVertexConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@OnlyIn(Dist.CLIENT)
 public class SphereModelGenerator {
     private static final float textureboundingboxU1 = 0;
     private static final float textureboundingboxU2 = 1;

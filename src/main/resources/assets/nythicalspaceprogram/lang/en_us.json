@@ -5,5 +5,11 @@
   "block.nythicalspaceprogram.oxygen_propellant_tank": "Oxygen Propellant Tank",
   "block.nythicalspaceprogram.lunar_regolith": "Lunar Regolith",
 
-  "sounds.nythicalspaceprogram.propeller_start": "The Handheld Propeller clatters on."
+  "sounds.nythicalspaceprogram.propeller_start": "The Handheld Propeller clatters on.",
+
+  "nythicalspaceprogram.settimewarp": "Setting Time Warp to: ",
+
+  "key.category.nythicalspaceprogram.main": "Nythical Space Program",
+  "key.nythicalspaceprogram.increase_time_warp": "Increase Time Warp Speed",
+  "key.nythicalspaceprogram.decrease_time_warp": "Decrease Time Warp Speed"
 }

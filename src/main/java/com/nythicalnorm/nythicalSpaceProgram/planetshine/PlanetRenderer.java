@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
@@ -37,13 +38,15 @@ public class PlanetRenderer {
         poseStack.pushPose();
         RenderSystem.enableDepthTest(); // Used for testing Purposes. Allows the Planes to draw in front of blocks
 
-        poseStack.translate(-camera.getPosition().x,-camera.getPosition().y ,-camera.getPosition().z);
+        Vec3 PlanetPos = CelestialStateSupplier.getPlanetPositon("nila", mc.getPartialTick());
+
+        poseStack.translate(PlanetPos.x - camera.getPosition().x,PlanetPos.y - camera.getPosition().y ,PlanetPos.z - camera.getPosition().z);
 
         poseStack.scale(1f,1f, 1f);
 
         planetvertex.bind();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0,Nila_texture);
+        RenderSystem.setShaderTexture(0, Nila_texture);
         ShaderInstance shad = GameRenderer.getPositionTexShader();
 
         planetvertex.drawWithShader(poseStack.last().pose(), projectionMatrix, shad);

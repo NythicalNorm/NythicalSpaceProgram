@@ -2,7 +2,7 @@ package com.nythicalnorm.nythicalSpaceProgram.datagen;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
-import com.nythicalnorm.nythicalSpaceProgram.util.FootprintedType;
+import com.nythicalnorm.nythicalSpaceProgram.common.FootprintedType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;

@@ -4,6 +4,8 @@ import com.mojang.logging.LogUtils;
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModCreativeModeTab;
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
 import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
+import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.SolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.sound.ModSounds;
 import com.nythicalnorm.nythicalSpaceProgram.util.ModItemProperties;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -27,6 +29,8 @@ public class NythicalSpaceProgram
     public static final String MODID = "nythicalspaceprogram";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
+    //only use this in the Logical Server side
+    public static SolarSystem solarSystem = null;
 
     public NythicalSpaceProgram(FMLJavaModLoadingContext context)
     {
@@ -49,6 +53,7 @@ public class NythicalSpaceProgram
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         // Some common setup code
+        event.enqueueWork(PacketHandler::register);
     }
 
     // Add the example block item to the building blocks tab
@@ -65,7 +70,7 @@ public class NythicalSpaceProgram
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
-
+        solarSystem = new SolarSystem();
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

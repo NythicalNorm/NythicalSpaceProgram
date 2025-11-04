@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.util;
+package com.nythicalnorm.nythicalSpaceProgram.common;
 
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
@@ -7,8 +7,8 @@ public enum FootprintedType implements StringRepresentable {
     NOFOOTPRINTS("none"),
     TWOBOOTXFACING("2bootfacingx"),
     TWOBOOTZFACING("2bootfacingz"),
-    TWOBOOTSTANDINGXFACING("2bootstandingfacingx"),
-    TWOBOOTSTANDINGZFACING("2bootstandingfacingz"),
+    //TWOBOOTSTANDINGXFACING("2bootstandingfacingx"),
+    //TWOBOOTSTANDINGZFACING("2bootstandingfacingz"),
 
     LEFTBOOTXFACING("leftbootfacingx"),
     LEFTBOOTZFACING("leftbootfacingz"),
