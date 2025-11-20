@@ -2,6 +2,7 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
@@ -44,13 +45,15 @@ public class PlanetRenderer {
         Matrix4f PlanetProjection = PerspectiveShift(projectionMatrix, (float) CelestialStateSupplier.lastUpdatedTimePassedPerSec,
                 RelativePlanetDir, poseStack, camera);
 
-        planetvertex.bind();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, Nila_texture);
-        ShaderInstance shad = GameRenderer.getPositionTexShader();
+        if (PlanetProjection != null) {
+            planetvertex.bind();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, Nila_texture);
+            ShaderInstance shad = GameRenderer.getPositionTexShader();
 
-        planetvertex.drawWithShader(poseStack.last().pose(), PlanetProjection, shad);
-        VertexBuffer.unbind();
+            planetvertex.drawWithShader(poseStack.last().pose(), PlanetProjection, shad);
+            VertexBuffer.unbind();
+        }
         poseStack.popPose();
     }
 
@@ -59,44 +62,77 @@ public class PlanetRenderer {
         Matrix4f returnMatrix = new Matrix4f(projectionMatrix);
         float PlanetAngularSize = (float) Math.atan(PlanetDistance);
         float theta = (float) (2f*Math.atan((1/returnMatrix.m11())));
-        float m00prefix = returnMatrix.m00()/returnMatrix.m11();
+        float screenAspectRatio = returnMatrix.m00()/returnMatrix.m11();
         float newVal = (float) Math.abs(1/Math.tan(PlanetAngularSize/2f));
-        returnMatrix.m00(m00prefix*newVal);
+        returnMatrix.m00(screenAspectRatio*newVal);
         returnMatrix.m11(newVal);
 
-        float ScalediffwithResize = Math.abs(PlanetAngularSize/theta); //(float) Math.abs(Math.tan(theta)/Math.tan(PlanetAngularSize));
+        poseStack.setIdentity();
 
-        Vector3f CameraAngle = camera.getLookVector();
+        float PlanetAngularSizeTangent = (float) Math.tan(PlanetAngularSize/2);
+        float thetaTangent = (float) Math.tan(theta/2);
 
-        //float scaleFactor = (float) (Math.tan(theta/2) / Math.tan(PlanetAngularSize / 2));
-        //float AngleMultiplicationFactor = Math.abs(theta-PlanetAngularSize);// -  Math.abs(theta/PlanetAngularSize);//Math.abs(theta-PlanetAngularSize);///35.2340425512F;//(float) (Math.atan(theta)/(PlanetDistance));  //1f/(float)Math.PI*ScalediffwithResize;
-        //CameraAngle.mul(AngleMultiplicationFactor);
-        //scaleFactor = 1-scaleFactor;
+        float ScalediffwithResize = Math.abs(PlanetAngularSizeTangent/thetaTangent); //(float) Math.abs(Math.tan(theta)/Math.tan(PlanetAngularSize));
 
-        Quaternionf rotationBetween = getRotationBetween(CameraAngle, relativePlanetDir);
-        AxisAngle4f Diffangle = new AxisAngle4f(rotationBetween.normalize());
-        float ogDiffAngle = Diffangle.angle;
+        Vector2f planetRot = getAnglularComponents(relativePlanetDir.x,relativePlanetDir.y, relativePlanetDir.z);
+        Vector3f camaraAngle = camera.getLookVector().normalize();
+        Vector2f cameraRot = getAnglularComponents(camaraAngle.x,camaraAngle.y, camaraAngle.z);
 
-        float screenTimesPlanetFOV = (float)(ogDiffAngle/PlanetAngularSize);
-        float screenTimesActualFOV = (float)(ogDiffAngle/theta);
-        float differenceBetweenRatio = screenTimesPlanetFOV - screenTimesActualFOV;
-        float correctionFactor = 1;
-        Diffangle.angle = -differenceBetweenRatio*PlanetAngularSize*correctionFactor; // need to add something multiplyed by ogdiffangle- ogDiffAngle*PlanetAngularSize/2;
+        double diffRotX = getDiffAngle(cameraRot.x, planetRot.x) ;
+        double diffRotY = getDiffAngle(cameraRot.y, planetRot.y) ;
 
-        //problem when the screen times value is applied to the planet it wraps around the other sied since this is a circle it needs to be
-        // clipped to the back of the camera look direction
-//        if (Diffangle.angle > Math.PI) {
-//            Diffangle.angle = (float) Math.PI;
+        //removing the planet to stop it from wrapping around the other side when differenceBetweenRatio is too much
+//        if (angleX.angle > Math.PI) {
+//            return null;
 //        }
 
-        rotationBetween = new Quaternionf(Diffangle);
-        poseStack.rotateAround(rotationBetween,0,0,0);
+
+        Quaternionf rotationBetween = new Quaternionf();
+        float adjustedTheta = (float) Math.atan(Math.tan(theta)/screenAspectRatio);
+        float adjustedplanteAngle = (float) Math.atan(Math.tan(PlanetAngularSize)/screenAspectRatio);
+
+        float thetaHorizontal = (float) Math.tan(adjustedTheta/2);
+        float planteAngHorizontal = (float) Math.tan(adjustedplanteAngle/2);
+        float ScalediffHorizontal = (float) Math.abs(planteAngHorizontal/thetaHorizontal); //(float) Math.abs(Math.tan(theta)/Math.tan(PlanetAngularSize));
+
+        double AdjustedY =  -Math.atan(Math.tan(diffRotY)*ScalediffwithResize);
+        double AdjustedX = Math.atan(Math.tan(diffRotX)*ScalediffwithResize);
+
+        //double AdjustedY = -Math.tan(diffRotY/2)*ScalediffwithResize;
+        rotationBetween.mul(Axis.YP.rotation((float) (Math.PI + AdjustedY)));
+        rotationBetween.mul(Axis.XP.rotation((float) (AdjustedX)));
+
+        poseStack.mulPose(rotationBetween);
+        //poseStack.rotateAround(rotationBetween,0,0,0);
 
         relativePlanetDir.mul(InWorldPlanetsDistance);
         poseStack.translate(relativePlanetDir.x, relativePlanetDir.y, relativePlanetDir.z);
         poseStack.scale(ScalediffwithResize,ScalediffwithResize,ScalediffwithResize);
-        poseStack.scale(3,3,3);
+        poseStack.scale(4,4,4);
         return returnMatrix;
+    }
+
+    private static Vector2f getAnglularComponents(float x, float y, float z) {
+        Vector2f result = new Vector2f();
+        result.y = (float) Math.atan2(x,z);
+        result.x = (float) Math.asin(y);
+        return result;
+    }
+
+    private static double getDiffAngle(double source,double dest) {
+        if (source == Math.PI) {
+            source = -Math.PI;
+        }
+        double n = source - dest;
+//
+//        if (n > Math.PI) {
+//            n = n - Math.PI;
+//            n = -n;
+//        }
+//        if (n < -Math.PI) {
+//            n = Math.PI + (n + Math.PI);
+//        }
+        return n;
     }
 
     private static Quaternionf getRotationBetween(Vector3f u, Vector3f v)
