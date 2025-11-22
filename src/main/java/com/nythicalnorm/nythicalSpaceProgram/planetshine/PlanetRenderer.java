@@ -2,6 +2,7 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.ModShaders;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
@@ -40,21 +41,24 @@ public class PlanetRenderer {
         poseStack.pushPose();
         Vec3 PlanetPos = CelestialStateSupplier.getPlanetPositon("nila", mc.getPartialTick());
 
-        //PerspectiveShift((float) CelestialStateSupplier.lastUpdatedTimePassedPerSec, PlanetPos, poseStack);
+        PerspectiveShift((float) CelestialStateSupplier.lastUpdatedTimePassedPerSec, PlanetPos, poseStack);
 
-        poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
-        RenderSystem.enableDepthTest();
+        //poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
+        //RenderSystem.enableDepthTest();
 
         planetvertex.bind();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, Nila_texture);
 
-        ShaderInstance shad = GameRenderer.getPositionTexShader();
+        Vector3f lights0 = new Vector3f(0f,0f,1f);
+        ShaderInstance shad = ModShaders.getPlanetShaderInstance();
+        //assert shad.LIGHT0_DIRECTION != null;
+        //shad.LIGHT0_DIRECTION.set(lights0);
 
         planetvertex.drawWithShader(poseStack.last().pose(), projectionMatrix, shad);
         VertexBuffer.unbind();
         poseStack.popPose();
-        RenderSystem.disableDepthTest();
+        //RenderSystem.disableDepthTest();
     }
 
     private static void PerspectiveShift(float PlanetDistance, Vec3 PlanetPos,PoseStack poseStack){
