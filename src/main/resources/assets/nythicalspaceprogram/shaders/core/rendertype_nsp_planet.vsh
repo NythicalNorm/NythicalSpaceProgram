@@ -12,5 +12,5 @@ out vec3 vertPos;
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
     texCoord0 = UV0;
-    vertPos = Position;
+    vertPos = Position * 2.0;
 }

@@ -39,26 +39,32 @@ public class PlanetRenderer {
 
     public static void renderPlanet(PoseStack poseStack, Minecraft mc, Camera camera, Matrix4f projectionMatrix) {
         poseStack.pushPose();
+
         Vec3 PlanetPos = CelestialStateSupplier.getPlanetPositon("nila", mc.getPartialTick());
+        Quaternionf PlanetRot = CelestialStateSupplier.getPlanetRotation("nila", mc.getPartialTick());
 
-        PerspectiveShift((float) CelestialStateSupplier.lastUpdatedTimePassedPerSec, PlanetPos, poseStack);
+        //PerspectiveShift((float) CelestialStateSupplier.lastUpdatedTimePassedPerSec, PlanetPos, poseStack);
 
-        //poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
-        //RenderSystem.enableDepthTest();
+        poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
+        poseStack.mulPose(PlanetRot);
+
+        RenderSystem.enableDepthTest();
 
         planetvertex.bind();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, Nila_texture);
 
         Vector3f lights0 = new Vector3f(0f,0f,1f);
+        lights0.rotate(PlanetRot.invert());
+        lights0.normalize();
+
         ShaderInstance shad = ModShaders.getPlanetShaderInstance();
-        //assert shad.LIGHT0_DIRECTION != null;
-        //shad.LIGHT0_DIRECTION.set(lights0);
+        RenderSystem.setShaderLights(lights0, new Vector3f());
 
         planetvertex.drawWithShader(poseStack.last().pose(), projectionMatrix, shad);
         VertexBuffer.unbind();
         poseStack.popPose();
-        //RenderSystem.disableDepthTest();
+        RenderSystem.disableDepthTest();
     }
 
     private static void PerspectiveShift(float PlanetDistance, Vec3 PlanetPos,PoseStack poseStack){
