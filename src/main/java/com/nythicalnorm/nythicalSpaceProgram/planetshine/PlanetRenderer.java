@@ -25,7 +25,7 @@ public class PlanetRenderer {
     public static void setupModels() {
         PoseStack spherePose = new PoseStack();
         spherePose.setIdentity();
-        List<BakedQuad> planetquads = SphereModelGenerator.getsphereQuads(); //planetModel.getQuads(null,null, RandomSource.create(), ModelData.builder().build(), RenderType.solid());
+        List<BakedQuad> planetquads = QuadSphereModelGenerator.getsphereQuads(); //planetModel.getQuads(null,null, RandomSource.create(), ModelData.builder().build(), RenderType.solid());
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
@@ -35,7 +35,6 @@ public class PlanetRenderer {
         planetvertex.bind();
         planetvertex.upload(bufferbuilder.end());
         VertexBuffer.unbind();
-
     }
 
     public static void renderPlanetaryBodies(PoseStack poseStack, Minecraft mc, Camera camera, Matrix4f projectionMatrix, float partialTick) {
@@ -47,14 +46,16 @@ public class PlanetRenderer {
         Vector3d PlanetPos = renderPlanet.CalculateCartesianPosition(currentTimeElapsed);
         Quaternionf PlanetRot = renderPlanet.getRotationAt(currentTimeElapsed);
 
-        PerspectiveShift(PlanetPos.distance(new Vector3d()), PlanetPos, renderPlanet.getRadius(), poseStack);
-        poseStack.mulPose(PlanetRot);
+        //PerspectiveShift(PlanetPos.distance(new Vector3d()), PlanetPos, renderPlanet.getRadius(), poseStack);
+        //poseStack.mulPose(PlanetRot);
+        poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
+        RenderSystem.enableDepthTest();
 
         planetvertex.bind();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, Nila_texture);
 
-        Vector3f lights0 = new Vector3f(1f,0f,0f);
+        Vector3f lights0 = new Vector3f(0f,0f,-1f);
         lights0.rotate(PlanetRot.invert());
         lights0.normalize();
 
@@ -64,11 +65,10 @@ public class PlanetRenderer {
         planetvertex.drawWithShader(poseStack.last().pose(), projectionMatrix, shad);
         VertexBuffer.unbind();
         poseStack.popPose();
+        RenderSystem.disableDepthTest();
     }
 
     private static void PerspectiveShift(double PlanetDistance, Vector3d PlanetPos, double bodyRadius,PoseStack poseStack){
-        //double PlanetDistance = PlanetPos.distance(new Vector3d());
-
         //tan amd atan cancel each other out.
         float planetApparentSize = (float) (InWorldPlanetsDistance * 2 * bodyRadius/PlanetDistance);
         PlanetPos.normalize();

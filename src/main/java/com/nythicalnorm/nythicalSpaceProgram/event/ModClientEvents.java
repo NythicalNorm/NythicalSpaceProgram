@@ -6,6 +6,7 @@ import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.ModShaders;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
+import net.minecraft.Util;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,11 +24,11 @@ import java.io.IOException;
 public class ModClientEvents {
     @SubscribeEvent
     public static void OnLeveRenderedStartEvent(RenderLevelStageEvent.RegisterStageEvent event) {
-        NythicalSpaceProgram.LOGGER.debug("Setting Up Planet Rendering: ");
-        long  beforeTimes = System.nanoTime();
+        NythicalSpaceProgram.LOGGER.debug("Baking Planet Models: ");
+        long  beforeTimes = Util.getMillis();
         PlanetRenderer.setupModels();
         PlanetShine.setupBuffers();
-        NythicalSpaceProgram.LOGGER.debug("Set Up Complete Took : " + (System.nanoTime()-beforeTimes)/1000000f + " milliseconds");
+        NythicalSpaceProgram.LOGGER.debug("Setup Complete Took : " + (Util.getMillis()-beforeTimes) + " milliseconds");
     }
 
     @SubscribeEvent
