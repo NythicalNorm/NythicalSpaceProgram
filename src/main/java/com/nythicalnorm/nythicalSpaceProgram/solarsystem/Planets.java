@@ -69,39 +69,43 @@ public class Planets {
 
     public Orbit getOrbit(Stack<String> address) {
         Orbit orb = SURIYAN.getOrbit((Stack<String>)address.clone());
-        return (PlanetaryBody) orb;
+        return orb;
     }
 
-    //also called when someone joins an orbit
-    public void playerChangeOrbitalSOIs(String playerUUid, Stack<String> oldAddress, Stack<String> newAddress, OrbitalElements orbitalElementsNew) {
+    public PlanetaryBody playerChangeOrbitalSOIs(String playerUUid, Stack<String> oldAddress, Stack<String> newAddress, OrbitalElements orbitalElementsNew) {
         PlanetaryBody oldPlanet = null;
 
         if  (oldAddress != null) {//(allPlayerOrbitalAddresses.containsKey(oldAddress.firstElement())) {
             //copying the orbit so that new SOI has the same info
             oldPlanet = (PlanetaryBody) getOrbit(oldAddress);
+            Orbit newOrbitPlanet = getPlanet(newAddress);
+
             EntityOrbitalBody entitybody = (EntityOrbitalBody) oldPlanet.getChild(playerUUid);
+            orbitalElementsNew.setOrbitalPeriod(((PlanetaryBody)newOrbitPlanet).getMass());
             entitybody.setOrbitalElements(orbitalElementsNew);
 
             //removing the old reference to the object
             oldPlanet.removeChild(playerUUid);
 
             //adding to the new orbit
-            Orbit newOrbitPlanet = getPlanet(newAddress);
             if (newOrbitPlanet instanceof PlanetaryBody plnt) {
                 plnt.addChildSpacecraft(playerUUid, entitybody);
             }
+            return (PlanetaryBody) newOrbitPlanet;
         } else {
             NythicalSpaceProgram.logError("No Old Orbit given for changing SOIs");
-            return;
+            return null;
         }
     }
 
-    public void playerJoinedOrbital(String PlayerUUid, Stack<String> newAddress, EntityOrbitalBody OrbitalDataNew) {
+    public PlanetaryBody playerJoinedOrbital(String PlayerUUid, Stack<String> newAddress, EntityOrbitalBody OrbitalDataNew) {
         Orbit newOrbitPlanet = getPlanet(newAddress);
 
         if (newOrbitPlanet instanceof PlanetaryBody plnt) {
+            OrbitalDataNew.getOrbitalElements().setOrbitalPeriod(plnt.getMass());
             plnt.addChildSpacecraft(PlayerUUid, OrbitalDataNew);
         }
+        return (PlanetaryBody) newOrbitPlanet;
     }
 
     public Set<String> getAllPlanetNames() {
@@ -122,7 +126,6 @@ public class Planets {
     public String getDimensionPlanet(ResourceKey<Level> dim) {
         return planetDimensions.get(dim);
     }
-
 
     public boolean isDimensionSpace(ResourceKey<Level> dim) {
         return dim == SpaceDimension.SPACE_LEVEL_KEY;
@@ -147,7 +150,10 @@ public class Planets {
         LazyOptional<PlanetLevelData> planetLevelData = level.getCapability(PlanetLevelDataProvider.PLANET_LEVEL_DATA);
 
         if (planetLevelData.isPresent()) {
-            return Optional.of(getPlanet(planetLevelData.resolve().get().getPlanetName()));
+            Optional<PlanetLevelData> optionalPlanetData = planetLevelData.resolve();
+            if (optionalPlanetData.isPresent()) {
+                return Optional.of(getPlanet(optionalPlanetData.get().getPlanetName()));
+            }
         }
         return Optional.empty();
     }

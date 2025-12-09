@@ -3,6 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.generators.SkyboxCubeGen;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.AtmosphereRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.PlanetRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.SpaceObjRenderer;
@@ -42,6 +43,7 @@ public class PlanetShine {
     private static void setupShaders() {
         PlanetRenderer.setupShader();
         AtmosphereRenderer.setupShader(Skybox_Buffer);
+        MapRenderer.init();
         //SpaceObjRenderer.PopulateRenderPlanets();
     }
 

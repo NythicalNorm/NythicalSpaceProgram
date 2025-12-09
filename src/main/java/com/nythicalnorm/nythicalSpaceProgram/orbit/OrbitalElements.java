@@ -226,6 +226,9 @@ public class OrbitalElements {
             Mu = UniversalGravitationalConstant * parentMass;
             //double orbitalPeriod = 2 * Math.PI * Math.sqrt(SemiMajorAxis * SemiMajorAxis * SemiMajorAxis / Mu);
             this.MeanAngularMotion = Math.sqrt(Mu/(SemiMajorAxis * SemiMajorAxis * SemiMajorAxis));
+        } else {
+            Mu = UniversalGravitationalConstant * parentMass;
+            this.MeanAngularMotion = Math.sqrt(Mu/-(SemiMajorAxis * SemiMajorAxis * SemiMajorAxis));
         }
     }
 }

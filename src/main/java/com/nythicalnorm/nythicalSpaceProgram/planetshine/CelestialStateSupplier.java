@@ -28,9 +28,9 @@ public class CelestialStateSupplier {
 
     private ClientPlayerSpacecraftBody playerData;
     private PlanetaryBody currentPlanetOn;
-    //private PlanetaryBody currentPlanetSOIOn;
+    private PlanetaryBody currentPlanetSOIin;
 
-    private Planets planets;
+    private final Planets planets;
 
     public CelestialStateSupplier(EntityOrbitalBody playerDataFromServer, Planets planets) {
         playerData = new ClientPlayerSpacecraftBody(playerDataFromServer);
@@ -58,6 +58,10 @@ public class CelestialStateSupplier {
 
         clientSideTickTime = currentTime;
         planets.UpdatePlanets(clientSideSolarSystemTime);
+
+        if (!weInSpace()) {
+            currentPlanetSOIin = null;
+        }
 
         String planetName = planets.getDimensionPlanet(Minecraft.getInstance().level.dimension());
         if (planets.getAllPlanetNames().contains(planetName)) {
@@ -110,10 +114,10 @@ public class CelestialStateSupplier {
         if (Minecraft.getInstance().player.getId() == shipID) {
             if (oldAddress == null) {
                 playerData.setOrbitalElements(orbitalElements);
-                planets.playerJoinedOrbital(Minecraft.getInstance().player.getStringUUID(), newAddress, playerData);
+                currentPlanetSOIin = planets.playerJoinedOrbital(Minecraft.getInstance().player.getStringUUID(), newAddress, playerData);
             }
             else {
-                planets.playerChangeOrbitalSOIs(Minecraft.getInstance().player.getStringUUID(), oldAddress, newAddress, orbitalElements);
+                currentPlanetSOIin = planets.playerChangeOrbitalSOIs(Minecraft.getInstance().player.getStringUUID(), oldAddress, newAddress, orbitalElements);
             }
         }
     }
@@ -130,6 +134,15 @@ public class CelestialStateSupplier {
     public Optional<PlanetaryBody> getCurrentPlanet() {
         if (currentPlanetOn != null) {
             return Optional.of(currentPlanetOn);
+        }
+        else  {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<PlanetaryBody> getCurrentPlanetSOIin() {
+        if (currentPlanetSOIin != null) {
+            return Optional.of(currentPlanetSOIin);
         }
         else  {
             return Optional.empty();

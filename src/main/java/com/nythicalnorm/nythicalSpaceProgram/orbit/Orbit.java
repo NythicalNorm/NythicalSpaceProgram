@@ -6,6 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -55,6 +56,13 @@ public abstract class Orbit {
         return childElements.get(name) ;
     }
 
+    public Collection<Orbit> getChildren() {
+        if (!childElements.isEmpty()) {
+            return childElements.values();
+        }
+        return null;
+    }
+
     public void setOrbitalElements(OrbitalElements orbitalElements) {
         this.orbitalElements = orbitalElements;
     }
@@ -64,7 +72,11 @@ public abstract class Orbit {
     }
 
     public boolean hasChild(PlanetaryBody body) {
-        return childElements.containsValue(body);
+        if (!childElements.isEmpty()) {
+            return childElements.containsValue(body);
+        } else {
+            return false;
+        }
     }
 
     public CompoundTag saveNBT(CompoundTag nbt) {

@@ -1,27 +1,18 @@
 package com.nythicalnorm.nythicalSpaceProgram.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.dimensions.SpaceDimension;
-import com.nythicalnorm.nythicalSpaceProgram.dimensions.DimensionTeleporter;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.commands.arguments.coordinates.Coordinates;
-import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public class NSPTeleportCommand {
     public NSPTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -30,23 +21,38 @@ public class NSPTeleportCommand {
         })
             .then(Commands.argument("targets", EntityArgument.entities())
                 .then(Commands.argument("planets", PlanetArgument.planetArgument())
-                    .then(Commands.argument("orbit", Vec3Argument.vec3()).executes((stack) -> {
-                        return TeleportToOrbit(stack.getSource(), Collections.singleton(stack.getSource().getEntityOrException()), stack.getArgument("planets", String.class), Vec3Argument.getCoordinates(stack, "orbit"));
-                    })
+                    .then(Commands.argument("semi-major_axis", DoubleArgumentType.doubleArg())
+                        .then(Commands.argument("eccentricity", DoubleArgumentType.doubleArg())
+                            .then(Commands.argument("inclination", DoubleArgumentType.doubleArg())
+                                    .executes((stack) -> {
+                                    return TeleportToOrbit(stack.getSource(), EntityArgument.getEntities(stack, "targets"),
+                                    stack.getArgument("planets", String.class),
+                                    DoubleArgumentType.getDouble(stack, "semi-major_axis"),
+                                    DoubleArgumentType.getDouble(stack, "eccentricity"),
+                                    DoubleArgumentType.getDouble(stack, "inclination"));
+                                })
+                            )
+                        )
                     )
                 )
             )
         );
     }
 
-    private int TeleportToOrbit(CommandSourceStack pSource, Collection<? extends Entity> pTargets, String body, Coordinates pos) {
-        Vec3 orbitalValues = pos.getPosition(pSource);
+    private int TeleportToOrbit(CommandSourceStack pSource, Collection<? extends Entity> pTargets, String body,
+                                double semiMajorAxisInput, double eccentricity, double inclination) {
+        PlanetaryBody planet = NythicalSpaceProgram.getSolarSystem().get().getPlanets().getPlanet(body);
 
         for(Entity entity : pTargets) {
             if (entity instanceof ServerPlayer) {
                 if (NythicalSpaceProgram.getSolarSystem().isPresent()) {
-                    double semiMajorAxis = (orbitalValues.x*1000d) + NythicalSpaceProgram.getSolarSystem().get().getPlanets().getPlanet(body).getRadius();
-                    OrbitalElements orbitalElement = new OrbitalElements(semiMajorAxis, orbitalValues.y,  orbitalValues.z, 0d, 0d, 0d);
+                    double semiMajorAxis = (semiMajorAxisInput*1000d) + planet.getRadius();
+                    if (semiMajorAxisInput < 0) {
+                        semiMajorAxis = (semiMajorAxisInput*1000d) - planet.getRadius();
+                        //return 0;
+                    }
+                    double startingAnamoly = NythicalSpaceProgram.getSolarSystem().get().getCurrentTime();
+                    OrbitalElements orbitalElement = new OrbitalElements(semiMajorAxis, inclination, eccentricity, 0d, 0d, startingAnamoly);
                     NythicalSpaceProgram.getSolarSystem().get().playerJoinOrbit(body, (ServerPlayer) entity, orbitalElement);
                 }
             }
@@ -57,26 +63,26 @@ public class NSPTeleportCommand {
         return 1;
     }
 
-    private int NSPTeleport(CommandSourceStack pSource, Collection<? extends Entity> pTargets) throws CommandSyntaxException {
-        for(Entity entity : pTargets) {
-            if (entity instanceof ServerPlayer) {
-                TeleportPlayer((ServerPlayer) entity);
-            }
-            pSource.sendSuccess(() -> {
-                return Component.translatable("nythicalspaceprogram.commands.dimTeleport");
-            }, true);
-        }
-        return pTargets.size();
-    }
-
-    private void TeleportPlayer(ServerPlayer player) {
-        NythicalSpaceProgram.log("OMG");
-        MinecraftServer minecraftserver = player.getServer();
-        ResourceKey<Level> resourcekey = player.level().dimension() == SpaceDimension.SPACE_LEVEL_KEY ? Level.OVERWORLD : SpaceDimension.SPACE_LEVEL_KEY;
-
-        ServerLevel portalDimension = minecraftserver.getLevel(resourcekey);
-        if (portalDimension != null && !player.isPassenger()) {
-            player.changeDimension(portalDimension, new DimensionTeleporter(new Vec3(0d, 128d, 0d)));
-        }
-    }
+//    private int NSPTeleport(CommandSourceStack pSource, Collection<? extends Entity> pTargets) throws CommandSyntaxException {
+//        for(Entity entity : pTargets) {
+//            if (entity instanceof ServerPlayer) {
+//                TeleportPlayer((ServerPlayer) entity);
+//            }
+//            pSource.sendSuccess(() -> {
+//                return Component.translatable("nythicalspaceprogram.commands.dimTeleport");
+//            }, true);
+//        }
+//        return pTargets.size();
+//    }
+//
+//    private void TeleportPlayer(ServerPlayer player) {
+//        NythicalSpaceProgram.log("OMG");
+//        MinecraftServer minecraftserver = player.getServer();
+//        ResourceKey<Level> resourcekey = player.level().dimension() == SpaceDimension.SPACE_LEVEL_KEY ? Level.OVERWORLD : SpaceDimension.SPACE_LEVEL_KEY;
+//
+//        ServerLevel portalDimension = minecraftserver.getLevel(resourcekey);
+//        if (portalDimension != null && !player.isPassenger()) {
+//            player.changeDimension(portalDimension, new DimensionTeleporter(new Vec3(0d, 128d, 0d)));
+//        }
+//    }
 }
