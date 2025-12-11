@@ -45,6 +45,12 @@ public class PlanetRenderer {
 
     public static void render(PlanetaryBody planet, Optional<PlanetAtmosphere> currentPlanetAtmosphere, PoseStack poseStack,
                               Matrix4f projectionMatrix, double distance, float currentAlbedo, @Nullable Vector3d differenceVector) {
+
+        if ((differenceVector != null) && (distance < (planet.getRadius() + 320))) {
+            poseStack.popPose();
+            return;
+        }
+
         poseStack.pushPose();
         Quaternionf planetRot = planet.getRotation();
         RenderSystem.enableBlend();
@@ -57,10 +63,7 @@ public class PlanetRenderer {
         }
 
         if (differenceVector != null) {
-            if (distance < (planet.getRadius() + 320)) {
-                poseStack.popPose();
-                return;
-            }
+
             SpaceObjRenderer.PerspectiveShift(distance, differenceVector, planetRot,
                     planet.getRadius(), poseStack);
         }

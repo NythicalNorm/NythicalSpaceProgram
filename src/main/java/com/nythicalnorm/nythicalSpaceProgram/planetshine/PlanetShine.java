@@ -60,7 +60,7 @@ public class PlanetShine {
             return;
         }
 
-        css.UpdateOrbitalBodies();
+        css.UpdateOrbitalBodies(partialTick);
         if (css.isMapScreenOpen()) {
             return;
         }

@@ -5,24 +5,18 @@ import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.ClientPlayerSpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.network.ServerBoundTimeWarpChange;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.SpaceObjRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.OrbitalElements;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 
-import java.lang.Math;
 import java.util.Optional;
 import java.util.Stack;
 
 //@OnlyIn(Dist.CLIENT)
 public class CelestialStateSupplier {
-    private double serverSideSolarSystemTime = 0;
-    private double clientSideSolarSystemTime = 0;
-    private long clientSideTickTime = 0L;
-    public double lastUpdatedTimeWarpPerSec = 0;
     private boolean isMapScreenOpen = false;
-
     private static final int[] timeWarpSettings = new int[]{1,10,100,1000,10000,100000, 1000000};
     private short currentTimeWarpSetting;
 
@@ -38,26 +32,9 @@ public class CelestialStateSupplier {
         SpaceObjRenderer.PopulateRenderPlanets(planets);
     }
 
-    public void UpdateState(double currentTime, double TimePassedPerSec){
-        serverSideSolarSystemTime = currentTime;
-        lastUpdatedTimeWarpPerSec = TimePassedPerSec;
-
-        if (Math.abs(clientSideSolarSystemTime - serverSideSolarSystemTime) >  lastUpdatedTimeWarpPerSec*0.01d)
-        {
-            clientSideSolarSystemTime = serverSideSolarSystemTime;
-        }
-    }
-
-    public void UpdateOrbitalBodies() {
-        long currentTime = Util.getMillis();
-
-        if (!Minecraft.getInstance().isPaused()) {
-            float timeDiff = (float) (currentTime - clientSideTickTime) / 1000;
-            clientSideSolarSystemTime = clientSideSolarSystemTime + timeDiff * lastUpdatedTimeWarpPerSec;
-        }
-
-        clientSideTickTime = currentTime;
-        planets.UpdatePlanets(clientSideSolarSystemTime);
+    public void UpdateOrbitalBodies(float partialTick) {
+        //clientSideTickTime = currentTime;
+        planets.UpdatePlanets(ClientTimeHandler.calculateCurrentTime(partialTick));
 
         if (!weInSpace()) {
             currentPlanetSOIin = null;
@@ -70,14 +47,6 @@ public class CelestialStateSupplier {
         } else {
             currentPlanetOn = null;
         }
-    }
-
-    public double getLastUpdatedTimeWarpPerSec() {
-        return lastUpdatedTimeWarpPerSec;
-    }
-
-    public double getClientSideSolarSystemTime() {
-        return clientSideSolarSystemTime;
     }
 
     public ClientPlayerSpacecraftBody getPlayerOrbit() {

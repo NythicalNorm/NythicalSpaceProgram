@@ -1,6 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.network;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
@@ -29,8 +30,9 @@ public class ClientBoundSpaceShipsPosUpdate {
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
         if (contextSupplier.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT ) {
             NetworkEvent.Context context = contextSupplier.get();
+
             NythicalSpaceProgram.getCelestialStateSupplier().ifPresent( celestialStateSupplier -> {
-                context.enqueueWork(() -> celestialStateSupplier.UpdateState(currenttime, timePassPerSecond));
+                context.enqueueWork(() -> ClientTimeHandler.UpdateState(currenttime, timePassPerSecond));
             });
             context.setPacketHandled(true);
         }

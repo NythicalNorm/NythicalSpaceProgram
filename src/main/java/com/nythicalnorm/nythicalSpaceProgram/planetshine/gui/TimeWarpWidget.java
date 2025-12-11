@@ -3,6 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -11,7 +12,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import java.awt.*;
 import java.text.DecimalFormat;
 
 public class TimeWarpWidget extends AbstractWidget {
@@ -31,7 +31,7 @@ public class TimeWarpWidget extends AbstractWidget {
         pGuiGraphics.blit(TIME_WARP_TEXTURE, getX(), getY(),0,0,136,34);
 
         NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
-            Component timeComp = parseTime(celestialStateSupplier.getClientSideSolarSystemTime(), celestialStateSupplier.getPlanets().BUMI);
+            Component timeComp = parseTime(ClientTimeHandler.getClientSideSolarSystemTime(), celestialStateSupplier.getPlanets().BUMI);
             pGuiGraphics.drawString(Minecraft.getInstance().font, timeComp,13, 6, 0x00ff2b, false);
 
             int timeWarpSettingAmount = celestialStateSupplier.getTimeWarpSetting() + 1;
