@@ -47,7 +47,6 @@ public class PlanetRenderer {
                               Matrix4f projectionMatrix, double distance, float currentAlbedo, @Nullable Vector3d differenceVector) {
 
         if ((differenceVector != null) && (distance < (planet.getRadius() + 320))) {
-            poseStack.popPose();
             return;
         }
 
@@ -63,7 +62,6 @@ public class PlanetRenderer {
         }
 
         if (differenceVector != null) {
-
             SpaceObjRenderer.PerspectiveShift(distance, differenceVector, planetRot,
                     planet.getRadius(), poseStack);
         }
