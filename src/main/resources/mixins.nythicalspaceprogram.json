@@ -7,14 +7,14 @@
     "defaultRequire": 1
   },
   "client": [
+    "CameraMixin",
     "LevelRendererMixin",
     "daynightcycle.DimensionSpecialEffectsMixin"
   ],
-
   "mixins": [
-    "daynightcycle.WorldGenRegionMixin",
     "daynightcycle.LevelMixin",
     "daynightcycle.LevelReaderMixin",
-    "daynightcycle.LevelTimeAccessMixin"
+    "daynightcycle.LevelTimeAccessMixin",
+    "daynightcycle.WorldGenRegionMixin"
   ]
 }

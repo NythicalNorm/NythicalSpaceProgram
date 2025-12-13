@@ -1,7 +1,10 @@
 {
   "item.nythicalspaceprogram.handheld_propeller": "Handheld Propeller",
   "item.nythicalspaceprogram.magnet_boots": "Magnetic Boots",
-  "item.nythicalspaceprogram.creative_spacesuit_jetpack": "Creative Spacesuit Jetpack",
+  "item.nythicalspaceprogram.spacesuit_helmet": "Spacesuit Visor",
+  "item.nythicalspaceprogram.creative_spacesuit_chestplate": "Creative Spacesuit Torso",
+  "item.nythicalspaceprogram.spacesuit_leggings": "Spacesuit Legs",
+  "item.nythicalspaceprogram.spacesuit_boots": "Spacesuit Boots",
 
   "creativetab.Main_NSP": "Nythical Space Program",
   "block.nythicalspaceprogram.oxygen_propellant_tank": "Oxygen Propellant Tank",
@@ -15,6 +18,7 @@
   "key.nythicalspaceprogram.increase_time_warp": "Increase Time Warp Speed",
   "key.nythicalspaceprogram.decrease_time_warp": "Decrease Time Warp Speed",
   "key.nythicalspaceprogram.open_solar_system_map": "Open Solar System Map",
+  "key.nythicalspaceprogram.use_player_jetpack_key": "Use your Spacesuit's jetpack",
 
   "nythicalspaceprogram.commands.dimTeleport": "Teleported to the Space Dimension",
   "nythicalspaceprogram.commands.planet_invalid": "Invalid Planet at: ",

@@ -21,8 +21,18 @@ public class ModItems {
     public static final RegistryObject<Item> MAGNET_BOOTS = ITEMS.register("magnet_boots", () ->
             new MagneticBoots(ModArmorMaterial.MAGNETIC, ArmorItem.Type.BOOTS,  new Item.Properties()));
 
-    public static final RegistryObject<Item> CREATIVE_JETPACK =  ITEMS.register("creative_spacesuit_jetpack", () ->
+
+    public static final RegistryObject<Item> SPACESUIT_HELMET =  ITEMS.register("spacesuit_helmet", () ->
+            new ArmorItem(ModArmorMaterial.SPACESUIT, ArmorItem.Type.HELMET, new Item.Properties()));
+
+    public static final RegistryObject<Item> CREATIVE_SPACESUIT_CHESTPLATE =  ITEMS.register("creative_spacesuit_chestplate", () ->
             new CreativeJetpack(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> SPACESUIT_LEGGINGS =  ITEMS.register("spacesuit_leggings", () ->
+            new ArmorItem(ModArmorMaterial.SPACESUIT, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+
+    public static final RegistryObject<Item> SPACESUIT_BOOTS =  ITEMS.register("spacesuit_boots", () ->
+            new ArmorItem(ModArmorMaterial.SPACESUIT, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     public static void register(IEventBus eventBus)
     {

@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.planetshine.gui;
+package com.nythicalnorm.nythicalSpaceProgram.gui.widgets;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;

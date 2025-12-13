@@ -36,6 +36,7 @@ public class ModClientEvents {
         event.register(KeyBindings.INC_TIME_WARP_KEY);
         event.register(KeyBindings.DEC_TIME_WARP_KEY);
         event.register(KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY);
+        event.register(KeyBindings.USE_PLAYER_JETPACK_KEY);
     }
 
     @SubscribeEvent

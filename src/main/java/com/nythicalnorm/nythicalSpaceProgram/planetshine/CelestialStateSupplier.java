@@ -1,10 +1,12 @@
 package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 
+import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.EntityOrbitalBody;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.ClientPlayerSpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.network.ServerBoundTimeWarpChange;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.SpaceObjRenderer;
@@ -16,8 +18,7 @@ import java.util.Stack;
 
 //@OnlyIn(Dist.CLIENT)
 public class CelestialStateSupplier {
-    private boolean isMapScreenOpen = false;
-    private static final int[] timeWarpSettings = new int[]{1,10,100,1000,10000,100000, 1000000};
+    private static final int[] timeWarpSettings = new int[]{1, 10, 100, 1000, 10000, 100000, 1000000};
     private short currentTimeWarpSetting;
 
     private ClientPlayerSpacecraftBody playerOrbit;
@@ -25,6 +26,7 @@ public class CelestialStateSupplier {
     private PlanetaryBody currentPlanetSOIin;
 
     private final Planets planets;
+    private boolean isMapScreenOpen = false;
 
     public CelestialStateSupplier(EntityOrbitalBody playerDataFromServer, Planets planets) {
         playerOrbit = new ClientPlayerSpacecraftBody(playerDataFromServer);
@@ -136,7 +138,6 @@ public class CelestialStateSupplier {
     }
 
     public boolean isMapScreenOpen() {
-        return isMapScreenOpen;
+        return Minecraft.getInstance().screen instanceof MapSolarSystem;
     }
-
 }

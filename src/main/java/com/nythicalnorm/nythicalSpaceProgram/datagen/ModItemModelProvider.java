@@ -19,7 +19,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         item3dOnlyinHand(ModItems.HANDHELD_PROPELLER);
 
         simpleItem(ModItems.MAGNET_BOOTS);
-        simpleItem(ModItems.CREATIVE_JETPACK);
+
+        simpleItem(ModItems.SPACESUIT_HELMET);
+        simpleItem(ModItems.CREATIVE_SPACESUIT_CHESTPLATE);
+        simpleItem(ModItems.SPACESUIT_LEGGINGS);
+        simpleItem(ModItems.SPACESUIT_BOOTS);
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {

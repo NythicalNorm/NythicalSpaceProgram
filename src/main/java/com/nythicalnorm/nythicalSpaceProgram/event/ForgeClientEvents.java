@@ -1,17 +1,21 @@
 package com.nythicalnorm.nythicalSpaceProgram.event;
 
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
+import com.nythicalnorm.nythicalSpaceProgram.Item.armor.Jetpack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -28,10 +32,22 @@ public class ForgeClientEvents {
                     celestialStateSupplier.TryChangeTimeWarp(false)));
         } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.consumeClick()) {
             NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
-                if (celestialStateSupplier.doRender()){
-                    Minecraft.getInstance().setScreen(new MapSolarSystem(Component.empty()));
+                if (celestialStateSupplier.doRender()) {
+                    Minecraft.getInstance().setScreen(new MapSolarSystem());
                 }
             });
+        }
+        else if (KeyBindings.USE_PLAYER_JETPACK_KEY.consumeClick()) {
+            LocalPlayer player = Minecraft.getInstance().player;
+            ItemStack chestplateItem = player.getSlot(102).get();
+
+            if (chestplateItem.getItem() instanceof Jetpack) {
+                NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
+                    if (celestialStateSupplier.doRender()) {
+                        Minecraft.getInstance().setScreen(new PlayerSpacecraftScreen(chestplateItem, player, celestialStateSupplier));
+                    }
+                });
+            }
         }
     }
 
@@ -39,11 +55,16 @@ public class ForgeClientEvents {
     public static void postPlayerRender(RenderPlayerEvent.Pre event) {
         PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
 
-        if (event.getEntity().getSlot(102).get().is(ModItems.CREATIVE_JETPACK.get())) {
+        if (event.getEntity().getSlot(102).get().is(ModItems.CREATIVE_SPACESUIT_CHESTPLATE.get())) {
             playerModel.leftArm.visible = false;
             playerModel.rightArm.visible = false;
             playerModel.leftSleeve.visible = false;
             playerModel.rightSleeve.visible = false;
         }
+    }
+
+    @SubscribeEvent
+    public static void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
+
     }
 }

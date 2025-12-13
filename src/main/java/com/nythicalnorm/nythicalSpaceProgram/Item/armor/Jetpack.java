@@ -15,10 +15,4 @@ public class Jetpack extends ArmorItem implements IClientItemExtensions {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new SpacesuitModelModifier());
     }
-
-    //    @Override
-//    public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-//        original.body.skipDraw = true;
-//        return IClientItemExtensions.super.getHumanoidArmorModel(livingEntity, itemStack, equipmentSlot, null);
-//    }
 }

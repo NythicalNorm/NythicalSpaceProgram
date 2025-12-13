@@ -3,17 +3,15 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine.map;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.gui.MouseLookScreen;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.EntityOrbitalBody;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.Orbit;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.gui.TimeWarpWidget;
+import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.TimeWarpWidget;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.*;
@@ -22,18 +20,13 @@ import org.lwjgl.glfw.GLFW;
 import java.lang.Math;
 
 @OnlyIn(Dist.CLIENT)
-public class MapSolarSystem extends Screen implements GuiEventListener {
-    private float cameraYrot;
-    private float cameraXrot;
-    private float zoomLevel = 2f;
-
-    private double radiusZoomLevel;
+public class MapSolarSystem extends MouseLookScreen {
     private CelestialStateSupplier css;
     private Orbit[] FocusableBodies;
     private int currentFocusedBodyIndex;
 
-    public MapSolarSystem(Component pTitle) {
-        super(pTitle);
+    public MapSolarSystem() {
+        super(Component.empty());
         NythicalSpaceProgram.getCelestialStateSupplier().ifPresent (celestialStateSupplier -> {
             css = celestialStateSupplier;
             celestialStateSupplier.setMapScreenOpen(true);
@@ -81,26 +74,6 @@ public class MapSolarSystem extends Screen implements GuiEventListener {
     }
 
     @Override
-    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-        if (pButton == 1) {
-            float sensitivity = 1.40041507642f;
-
-            cameraYrot = cameraYrot + (float) -Math.sin(sensitivity*(pDragX/width));
-            cameraXrot = cameraXrot + (float) -Math.sin(sensitivity*(pDragY/height));
-            cameraXrot = Mth.clamp(cameraXrot, -Mth.HALF_PI, Mth.HALF_PI);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
-        zoomLevel =  zoomLevel * (float) Math.pow(1.1, -pDelta);
-        float maxDistanceZoom = 1424600000000f/((float) radiusZoomLevel);
-        zoomLevel = Mth.clamp(zoomLevel, 1.000001f, maxDistanceZoom);
-        return true;
-    }
-
-    @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
         if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.matches(pKeyCode, pScanCode)) {
             this.onClose();
@@ -122,11 +95,6 @@ public class MapSolarSystem extends Screen implements GuiEventListener {
             changeFocusBody(1);
         }
         return super.keyPressed(pKeyCode, pScanCode, pModifiers);
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return false;
     }
 
     @Override
