@@ -5,7 +5,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import java.util.function.Consumer;
 
-public class Jetpack extends ArmorItem implements IClientItemExtensions {
+public class Jetpack extends ArmorItem {
 
     public Jetpack(Properties pProperties) {
         super(ModArmorMaterial.SPACESUIT, Type.CHESTPLATE, pProperties);

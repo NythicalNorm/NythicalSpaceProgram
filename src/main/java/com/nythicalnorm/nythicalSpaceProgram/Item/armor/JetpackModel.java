@@ -5,7 +5,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class JetpackModel<T extends LivingEntity> extends HumanoidModel<T> {
     private static final float pYOffset = 0.0f;
     private static final CubeDeformation OUTER_ARMOR_DEFORMATION = new CubeDeformation(1.0F);

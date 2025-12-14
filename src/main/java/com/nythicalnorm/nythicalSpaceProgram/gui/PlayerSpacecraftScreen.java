@@ -1,7 +1,9 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui;
 
+import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.NavballWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.TimeWarpWidget;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
@@ -10,7 +12,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class PlayerSpacecraftScreen extends MouseLookScreen {
     ItemStack jetpackItem;
     LocalPlayer player;
@@ -24,11 +29,12 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
         this.player = player;
         this.css = css;
         this.minecraftOptions = Minecraft.getInstance().options;
-        initScreen();
     }
 
-    private void initScreen() {
+    @Override
+    protected void init() {
         this.addRenderableWidget(new TimeWarpWidget(0,0, width, height, Component.empty()));
+        this.addRenderableWidget(new NavballWidget(width/2, height, width, height, Component.empty()));
         minecraftOptions.setCameraType(CameraType.THIRD_PERSON_BACK);
         minecraftOptions.hideGui = true;
         player.setXRot(0f);
@@ -37,6 +43,8 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
         initialYLookDir = player.getViewYRot(0f);
         cameraYrot = (float) -Math.toRadians(initialYLookDir);
         player.setYBodyRot(initialYLookDir);
+
+        css.getScreenManager().setSpacecraftScreenOpen(true);
     }
 
     @Override
@@ -44,13 +52,15 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
         if (KeyBindings.USE_PLAYER_JETPACK_KEY.matches(pKeyCode, pScanCode)) {
             this.onClose();
             return true;
+        } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.matches(pKeyCode, pScanCode)) {
+            Minecraft.getInstance().setScreen(new MapSolarSystem(this));
+            return true;
         }
         return super.keyPressed(pKeyCode, pScanCode, pModifiers);
     }
 
     public void onClose() {
-        minecraftOptions.hideGui = false;
-        minecraftOptions.setCameraType(CameraType.FIRST_PERSON);
+        css.getScreenManager().closeSpacecraftScreen();
         super.onClose();
     }
 

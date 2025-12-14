@@ -1,5 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 
+import com.nythicalnorm.nythicalSpaceProgram.gui.ModScreenManager;
 import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.EntityOrbitalBody;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
@@ -26,12 +27,13 @@ public class CelestialStateSupplier {
     private PlanetaryBody currentPlanetSOIin;
 
     private final Planets planets;
-    private boolean isMapScreenOpen = false;
+    private ModScreenManager screenManager;
 
     public CelestialStateSupplier(EntityOrbitalBody playerDataFromServer, Planets planets) {
         playerOrbit = new ClientPlayerSpacecraftBody(playerDataFromServer);
         this.planets = planets;
         SpaceObjRenderer.PopulateRenderPlanets(planets);
+        this.screenManager = new ModScreenManager();
     }
 
     public void UpdateOrbitalBodies(float partialTick) {
@@ -133,11 +135,7 @@ public class CelestialStateSupplier {
         return planets.isDimensionSpace(Minecraft.getInstance().level.dimension());
     }
 
-    public void setMapScreenOpen(boolean open) {
-        this.isMapScreenOpen = open;
-    }
-
-    public boolean isMapScreenOpen() {
-        return Minecraft.getInstance().screen instanceof MapSolarSystem;
+    public ModScreenManager getScreenManager() {
+        return screenManager;
     }
 }

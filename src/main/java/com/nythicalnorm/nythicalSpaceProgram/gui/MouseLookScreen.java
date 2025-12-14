@@ -1,10 +1,16 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui;
 
+import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
+import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class MouseLookScreen extends Screen implements GuiEventListener {
     protected float cameraYrot = 0f;
     protected float cameraXrot = 0f;
@@ -38,5 +44,21 @@ public class MouseLookScreen extends Screen implements GuiEventListener {
         float maxDistanceZoom = 1424600000000f/((float) radiusZoomLevel);
         zoomLevel = Mth.clamp(zoomLevel, 1.000001f, maxDistanceZoom);
         return true;
+    }
+
+    @Override
+    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+        if (KeyBindings.INC_TIME_WARP_KEY.matches(pKeyCode, pScanCode)) {
+            NythicalSpaceProgram.getCelestialStateSupplier().ifPresent((celestialStateSupplier ->
+                    celestialStateSupplier.TryChangeTimeWarp(true)));
+            return true;
+        }
+
+        else if (KeyBindings.DEC_TIME_WARP_KEY.matches(pKeyCode, pScanCode)) {
+            NythicalSpaceProgram.getCelestialStateSupplier().ifPresent((celestialStateSupplier ->
+                    celestialStateSupplier.TryChangeTimeWarp(false)));
+            return true;
+        }
+        return super.keyPressed(pKeyCode, pScanCode, pModifiers);
     }
 }

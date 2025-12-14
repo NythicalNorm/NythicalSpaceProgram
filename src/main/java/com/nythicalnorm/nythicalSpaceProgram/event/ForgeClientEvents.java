@@ -33,7 +33,7 @@ public class ForgeClientEvents {
         } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.consumeClick()) {
             NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
                 if (celestialStateSupplier.doRender()) {
-                    Minecraft.getInstance().setScreen(new MapSolarSystem());
+                    Minecraft.getInstance().setScreen(new MapSolarSystem(null));
                 }
             });
         }

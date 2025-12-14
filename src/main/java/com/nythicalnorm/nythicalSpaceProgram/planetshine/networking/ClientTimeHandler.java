@@ -2,7 +2,10 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine.networking;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class ClientTimeHandler {
     private static double clientSideSolarSystemTime = 0d;
     private static double lerpVar = 0d;

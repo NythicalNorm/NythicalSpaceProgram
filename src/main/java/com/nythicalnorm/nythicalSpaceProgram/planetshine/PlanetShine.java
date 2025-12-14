@@ -61,7 +61,8 @@ public class PlanetShine {
         }
 
         css.UpdateOrbitalBodies(partialTick);
-        if (css.isMapScreenOpen()) {
+
+        if (css.getScreenManager().doPlanetShineDraw()) {
             return;
         }
 

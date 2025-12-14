@@ -10,10 +10,13 @@ import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.TimeWarpWidget;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 import org.lwjgl.glfw.GLFW;
 
@@ -24,20 +27,20 @@ public class MapSolarSystem extends MouseLookScreen {
     private CelestialStateSupplier css;
     private Orbit[] FocusableBodies;
     private int currentFocusedBodyIndex;
+    private final Screen lastScreen;
 
-    public MapSolarSystem() {
+    public MapSolarSystem(@Nullable Screen lastScreen) {
         super(Component.empty());
         NythicalSpaceProgram.getCelestialStateSupplier().ifPresent (celestialStateSupplier -> {
             css = celestialStateSupplier;
-            celestialStateSupplier.setMapScreenOpen(true);
+            celestialStateSupplier.getScreenManager().setMapScreenOpen(true);
         });
+        this.lastScreen = lastScreen;
     }
 
     @Override
     protected void init() {
-        if (NythicalSpaceProgram.getCelestialStateSupplier().isPresent()) {
-            populateFocusedBodiesList();
-        }
+        populateFocusedBodiesList();
         MapRenderer.setScreen(this);
         this.addRenderableWidget(new TimeWarpWidget(0,0, width, height, Component.empty()));
         super.init();
@@ -80,17 +83,6 @@ public class MapSolarSystem extends MouseLookScreen {
             return true;
         }
 
-        else if (KeyBindings.INC_TIME_WARP_KEY.matches(pKeyCode, pScanCode)) {
-            NythicalSpaceProgram.getCelestialStateSupplier().ifPresent((celestialStateSupplier ->
-                    celestialStateSupplier.TryChangeTimeWarp(true)));
-            return true;
-        }
-
-        else if (KeyBindings.DEC_TIME_WARP_KEY.matches(pKeyCode, pScanCode)) {
-                NythicalSpaceProgram.getCelestialStateSupplier().ifPresent((celestialStateSupplier ->
-                        celestialStateSupplier.TryChangeTimeWarp(false)));
-            return true;
-        }
         else if (GLFW.GLFW_KEY_TAB == pKeyCode){
             changeFocusBody(1);
         }
@@ -100,10 +92,10 @@ public class MapSolarSystem extends MouseLookScreen {
     @Override
     public void onClose() {
         super.onClose();
-        MapRenderer.setScreen(null);
-        NythicalSpaceProgram.getCelestialStateSupplier().ifPresent (celestialStateSupplier -> {
-            celestialStateSupplier.setMapScreenOpen(false);
-        });
+        if (lastScreen != null) {
+            Minecraft.getInstance().setScreen(lastScreen);
+        }
+        css.getScreenManager().closeMapScreen();
     }
 
     public void changeFocusBody(int additionalIndex) {
