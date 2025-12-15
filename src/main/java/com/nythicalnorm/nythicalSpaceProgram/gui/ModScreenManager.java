@@ -1,5 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui;
 
+import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import net.minecraft.client.CameraType;
@@ -43,10 +44,15 @@ public class ModScreenManager {
         isMapScreenOpen = false;
     }
 
+    public boolean isSpacecraftScreenOpen() {
+        return isSpacecraftScreenOpen;
+    }
+
     public void closeSpacecraftScreen() {
         Options minecraftOptions = Minecraft.getInstance().options;
         minecraftOptions.hideGui = false;
         minecraftOptions.setCameraType(CameraType.FIRST_PERSON);
         isSpacecraftScreenOpen = false;
+        NythicalSpaceProgram.getCelestialStateSupplier().get().setControllingBody(null);
     }
 }

@@ -23,4 +23,40 @@ public class KeyBindings {
 
     public static final KeyMapping USE_PLAYER_JETPACK_KEY = new KeyMapping(KEY_USE_PLAYER_JETPACK, KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_J, KEY_CATEGORY_NYTHICAL_SPACE_PROGRAM);
+
+    public static final String KEY_CATEGORY_SPACECRAFT_CONTROL = "key.category.nythicalspaceprogram.spacecraft_control";
+    public static final String KEY_INCREASE_THROTTLE = "key.nythicalspaceprogram.increase_throttle";
+    public static final String KEY_DECREASE_THROTTLE = "key.nythicalspaceprogram.decrease_throttle";
+    public static final String KEY_STAGING = "key.nythicalspaceprogram.staging";
+    public static final String KEY_RCS_TOGGLE = "key.nythicalspaceprogram.rcs_toggle";
+    public static final String KEY_SAS_TOGGLE = "key.nythicalspaceprogram.sas_toggle";
+    public static final String KEY_DOCKING_MODE_TOGGLE = "key.nythicalspaceprogram.docking_mode_toggle";
+
+    public static final String KEY_CLOCKWISE_SPIN = "key.nythicalspaceprogram.clockwise_spin";
+    public static final String KEY_ANTI_CLOCKWISE_SPIN = "key.nythicalspaceprogram.anti_clockwise_spin";
+
+    public static final KeyMapping INCREASE_THROTTLE_KEY = new KeyMapping(KEY_INCREASE_THROTTLE, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_SHIFT, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
+    public static final KeyMapping DECREASE_THROTTLE_KEY = new KeyMapping(KEY_DECREASE_THROTTLE, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_CONTROL, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
+    public static final KeyMapping STAGING_KEY = new KeyMapping(KEY_STAGING, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_SPACE, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
+    public static final KeyMapping RCS_TOGGLE_KEY = new KeyMapping(KEY_RCS_TOGGLE, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
+    public static final KeyMapping SAS_TOGGLE_KEY = new KeyMapping(KEY_SAS_TOGGLE, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_T, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
+    public static final KeyMapping DOCKING_MODE_TOGGLE_KEY = new KeyMapping(KEY_DOCKING_MODE_TOGGLE, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
+    public static final KeyMapping CLOCKWISE_SPIN_KEY = new KeyMapping(KEY_CLOCKWISE_SPIN, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_E, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
+    public static final KeyMapping ANTI_CLOCKWISE_SPIN_KEY = new KeyMapping(KEY_ANTI_CLOCKWISE_SPIN, KeyConflictContext.GUI,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Q, KEY_CATEGORY_SPACECRAFT_CONTROL);
+
 }

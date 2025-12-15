@@ -64,7 +64,7 @@ public class TimeWarpWidget extends AbstractWidget {
 
         DecimalFormat twodigits = new DecimalFormat("00");
 
-        return Component.translatable("nythicalspaceprogram.mapscreen.time",
+        return Component.translatable("nythicalspaceprogram.screen.time",
                 year, day, twodigits.format(hour), twodigits.format(minute));
     }
 

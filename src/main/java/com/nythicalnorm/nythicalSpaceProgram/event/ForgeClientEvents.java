@@ -4,6 +4,7 @@ import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
 import com.nythicalnorm.nythicalSpaceProgram.Item.armor.Jetpack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.Minecraft;
@@ -16,6 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -45,6 +47,7 @@ public class ForgeClientEvents {
                 NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
                     if (celestialStateSupplier.doRender()) {
                         Minecraft.getInstance().setScreen(new PlayerSpacecraftScreen(chestplateItem, player, celestialStateSupplier));
+                        celestialStateSupplier.setControllingBody(celestialStateSupplier.getPlayerOrbit());
                     }
                 });
             }
@@ -64,7 +67,9 @@ public class ForgeClientEvents {
     }
 
     @SubscribeEvent
-    public static void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
-
+    public static void clientTickEvent(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(CelestialStateSupplier::tick);
+        }
     }
 }

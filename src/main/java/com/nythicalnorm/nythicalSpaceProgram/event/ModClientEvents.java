@@ -37,6 +37,15 @@ public class ModClientEvents {
         event.register(KeyBindings.DEC_TIME_WARP_KEY);
         event.register(KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY);
         event.register(KeyBindings.USE_PLAYER_JETPACK_KEY);
+
+        event.register(KeyBindings.INCREASE_THROTTLE_KEY);
+        event.register(KeyBindings.DECREASE_THROTTLE_KEY);
+        event.register(KeyBindings.STAGING_KEY);
+        event.register(KeyBindings.RCS_TOGGLE_KEY);
+        event.register(KeyBindings.SAS_TOGGLE_KEY);
+        event.register(KeyBindings.DOCKING_MODE_TOGGLE_KEY);
+        event.register(KeyBindings.CLOCKWISE_SPIN_KEY);
+        event.register(KeyBindings.ANTI_CLOCKWISE_SPIN_KEY);
     }
 
     @SubscribeEvent

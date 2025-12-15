@@ -20,8 +20,20 @@
   "key.nythicalspaceprogram.open_solar_system_map": "Open Solar System Map",
   "key.nythicalspaceprogram.use_player_jetpack_key": "Use your Spacesuit's jetpack",
 
+  "key.category.nythicalspaceprogram.spacecraft_control": "NSP Spacecraft Controls",
+  "key.nythicalspaceprogram.increase_throttle":  "Increase Engine Throttle",
+  "key.nythicalspaceprogram.decrease_throttle":  "Decrease Engine Throttle",
+
+  "key.nythicalspaceprogram.staging":  "Stage the Spacecraft",
+  "key.nythicalspaceprogram.rcs_toggle":  "Toggle the Reaction Control System",
+  "key.nythicalspaceprogram.sas_toggle":  "Toggle the Stability Assist System",
+  "key.nythicalspaceprogram.docking_mode_toggle":  "Toggle between the control Modes",
+  "key.nythicalspaceprogram.clockwise_spin":  "Increase the Roll (Spinning Clockwise)",
+  "key.nythicalspaceprogram.anti_clockwise_spin":  "Decrease the Roll (Spinning Anti-Clockwise)",
+
   "nythicalspaceprogram.commands.dimTeleport": "Teleported to the Space Dimension",
   "nythicalspaceprogram.commands.planet_invalid": "Invalid Planet at: ",
 
-  "nythicalspaceprogram.mapscreen.time": "Year %1$s, Day %2$s, %3$s:%4$s"
+  "nythicalspaceprogram.screen.time": "Year %1$s, Day %2$s, %3$s:%4$s",
+  "nythicalspaceprogram.screen.orbital_speed": "%1$s b/s"
 }

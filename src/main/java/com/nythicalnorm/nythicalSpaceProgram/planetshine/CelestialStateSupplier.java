@@ -2,17 +2,14 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 
 import com.nythicalnorm.nythicalSpaceProgram.gui.ModScreenManager;
 import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.EntityOrbitalBody;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.ClientPlayerSpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.orbit.*;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.network.ServerBoundTimeWarpChange;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.SpaceObjRenderer;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.OrbitalElements;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.syncher.EntityDataAccessor;
 
 import java.util.Optional;
 import java.util.Stack;
@@ -25,6 +22,7 @@ public class CelestialStateSupplier {
     private ClientPlayerSpacecraftBody playerOrbit;
     private PlanetaryBody currentPlanetOn;
     private PlanetaryBody currentPlanetSOIin;
+    private ClientEntityOrbitalBody controllingBody;
 
     private final Planets planets;
     private ModScreenManager screenManager;
@@ -34,6 +32,12 @@ public class CelestialStateSupplier {
         this.planets = planets;
         SpaceObjRenderer.PopulateRenderPlanets(planets);
         this.screenManager = new ModScreenManager();
+    }
+
+    public void tick() {
+        if (controllingBody != null && Minecraft.getInstance().screen instanceof PlayerSpacecraftScreen screen) {
+            controllingBody.processMovement(screen.getInputs());
+        }
     }
 
     public void UpdateOrbitalBodies(float partialTick) {
@@ -103,7 +107,6 @@ public class CelestialStateSupplier {
         return planets.isDimensionPlanet(mc.level.dimension()) || planets.isDimensionSpace(mc.level.dimension());
     }
 
-
     public Optional<PlanetaryBody> getCurrentPlanet() {
         if (currentPlanetOn != null) {
             return Optional.of(currentPlanetOn);
@@ -120,6 +123,17 @@ public class CelestialStateSupplier {
         else  {
             return Optional.empty();
         }
+    }
+
+    public Optional<Orbit> getControllingBody() {
+        if (controllingBody != null) {
+            return  Optional.of(controllingBody);
+        }
+        return Optional.empty();
+    }
+
+    public void setControllingBody(ClientEntityOrbitalBody controllingBody) {
+        this.controllingBody = controllingBody;
     }
 
     public boolean isOnPlanet()

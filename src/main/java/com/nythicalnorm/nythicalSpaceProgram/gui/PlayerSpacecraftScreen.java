@@ -2,10 +2,12 @@ package com.nythicalnorm.nythicalSpaceProgram.gui;
 
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.NavballWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.TimeWarpWidget;
+import com.nythicalnorm.nythicalSpaceProgram.orbit.SpacecraftControlState;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.CameraType;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,11 +19,19 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class PlayerSpacecraftScreen extends MouseLookScreen {
-    ItemStack jetpackItem;
-    LocalPlayer player;
-    CelestialStateSupplier css;
-    Options minecraftOptions;
-    float initialYLookDir;
+    private ItemStack jetpackItem;
+    private final LocalPlayer player;
+    private final CelestialStateSupplier css;
+    private final Options minecraftOptions;
+    private float initialYLookDir;
+    private boolean SAS = false;
+    private boolean RCS = false;
+
+    //these axis are based on the defauly keymappings
+    private PlayerInputAxis SWAxis;
+    private PlayerInputAxis ADAxis;
+    private PlayerInputAxis QEAxis;
+    private PlayerInputAxis throttleAxis;
 
     public PlayerSpacecraftScreen(ItemStack spacesuitItem, LocalPlayer player, CelestialStateSupplier css) {
         super(Component.empty());
@@ -45,6 +55,15 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
         player.setYBodyRot(initialYLookDir);
 
         css.getScreenManager().setSpacecraftScreenOpen(true);
+        throttleAxis = new PlayerInputAxis(0.05f, 0f, 1f, 0.08f,0f,
+                KeyBindings.DECREASE_THROTTLE_KEY, KeyBindings.INCREASE_THROTTLE_KEY);
+
+        SWAxis = new PlayerInputAxis(0.05f, -1f, 1f, 0.08f,
+                0f, minecraftOptions.keyDown, minecraftOptions.keyUp);
+        ADAxis = new PlayerInputAxis(0.05f, -1f, 1f, 0.08f,
+                0f, minecraftOptions.keyLeft, minecraftOptions.keyRight);
+        QEAxis = new PlayerInputAxis(0.05f, -1f, 1f, 0.08f,
+                0f, KeyBindings.ANTI_CLOCKWISE_SPIN_KEY, KeyBindings.CLOCKWISE_SPIN_KEY);
     }
 
     @Override
@@ -55,8 +74,46 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
         } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.matches(pKeyCode, pScanCode)) {
             Minecraft.getInstance().setScreen(new MapSolarSystem(this));
             return true;
+        }  else if (KeyBindings.RCS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
+            RCS = !RCS;
+        } else if (KeyBindings.SAS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
+            SAS = !SAS;
+        } else if (throttleAxis.keyPressCheck(pKeyCode, pScanCode)) {
+            return true;
+        } else if (SWAxis.keyPressCheck(pKeyCode, pScanCode)) {
+            return true;
+        } else if (ADAxis.keyPressCheck(pKeyCode, pScanCode)) {
+            return true;
+        } else if (QEAxis.keyPressCheck(pKeyCode, pScanCode)) {
+            return true;
         }
         return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+    }
+
+    @Override
+    public void afterKeyboardAction() {
+        super.afterKeyboardAction();
+    }
+
+    @Override
+    public boolean keyReleased(int pKeyCode, int pScanCode, int pModifiers) {
+        throttleAxis.resetKeys(pKeyCode, pScanCode);
+        SWAxis.resetKeys(pKeyCode, pScanCode);
+        ADAxis.resetKeys(pKeyCode, pScanCode);
+        QEAxis.resetKeys(pKeyCode, pScanCode);
+        return super.keyReleased(pKeyCode, pScanCode, pModifiers);
+    }
+
+    public float getThrottleSetting() {
+        return throttleAxis.getAxisValue();
+    }
+
+    public boolean isSAS() {
+        return SAS;
+    }
+
+    public boolean isRCS() {
+        return RCS;
     }
 
     public void onClose() {
@@ -76,5 +133,9 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
 
     public float getViewXrot() {
         return -cameraXrot*57.29577951308232f;
+    }
+
+    public SpacecraftControlState getInputs() {
+        return new SpacecraftControlState(ADAxis.getAxisValue(), SWAxis.getAxisValue(), QEAxis.getAxisValue(), throttleAxis.getAxisValue(), SAS, RCS, true);
     }
 }

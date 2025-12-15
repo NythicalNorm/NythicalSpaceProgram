@@ -10,7 +10,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
-public class ClientPlayerSpacecraftBody extends EntityOrbitalBody {
+public class ClientPlayerSpacecraftBody extends ClientEntityOrbitalBody {
     private float sunAngle = 0f;
 
     public ClientPlayerSpacecraftBody() {
@@ -46,6 +46,11 @@ public class ClientPlayerSpacecraftBody extends EntityOrbitalBody {
         relativeOrbitalPos = Calcs.planetDimPosToNormalizedVector(position, currentPlanetOn.getRadius(), currentPlanetOn.getRotation(), false);
         Vector3d newAbs = currentPlanetOn.getAbsolutePos();
         absoluteOrbitalPos = newAbs.add(relativeOrbitalPos);
+    }
+
+    @Override
+    public void processMovement(SpacecraftControlState inputs) {
+        
     }
 
     public float getSunAngle() {
