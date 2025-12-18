@@ -12,8 +12,9 @@
 
   "sounds.nythicalspaceprogram.propeller_start": "The Handheld Propeller clatters on.",
 
-  "nythicalspaceprogram.settimewarp": "Setting Time Warp to: ",
-
+  "nythicalspaceprogram.state.settimewarp": "Setting Time Warp to: %1$sx",
+  "nythicalspaceprogram.state.planetgen_start": "Starting Planet texture generation...",
+  "nythicalspaceprogram.state.planetgen_end": "planet %1$s's texture generation complete",
   "key.category.nythicalspaceprogram.main": "Nythical Space Program",
   "key.nythicalspaceprogram.increase_time_warp": "Increase Time Warp Speed",
   "key.nythicalspaceprogram.decrease_time_warp": "Decrease Time Warp Speed",

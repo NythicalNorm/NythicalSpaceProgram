@@ -1,0 +1,41 @@
+package com.nythicalnorm.nythicalSpaceProgram.network;
+
+import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
+
+import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
+
+public class ClientBoundPlanetTexturePacket {
+    private final String planetName;
+    private final byte[] planetTexture;
+
+    public ClientBoundPlanetTexturePacket(String planetname, byte[] planetTex) {
+        this.planetName = planetname;
+        this.planetTexture = planetTex;
+    }
+
+    public ClientBoundPlanetTexturePacket(FriendlyByteBuf friendlyByteBuf) {
+        int stringSize = friendlyByteBuf.readVarInt();
+        this.planetName = friendlyByteBuf.readCharSequence(stringSize, StandardCharsets.US_ASCII).toString();
+        this.planetTexture = friendlyByteBuf.readByteArray();
+    }
+
+    public void encode(FriendlyByteBuf friendlyByteBuf) {
+        friendlyByteBuf.writeVarInt(planetName.length());
+        friendlyByteBuf.writeCharSequence(planetName, StandardCharsets.US_ASCII);
+        friendlyByteBuf.writeByteArray(this.planetTexture);
+    }
+
+    public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
+        if (contextSupplier.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
+            NetworkEvent.Context context = contextSupplier.get();
+
+            NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
+                context.enqueueWork(() -> celestialStateSupplier.getPlanetTexManager().incomingTexture(planetName, planetTexture));
+            });
+        }
+    }
+}

@@ -1,8 +1,18 @@
 package com.nythicalnorm.nythicalSpaceProgram.planettexgen;
 
 import java.awt.*;
+import java.util.Map;
 
 public class GradientSupplier {
+    public static PlanetGradient STAR_GRADIENT = new PlanetGradient(new BiomeGroup[]{
+            new BiomeGroup("orangeHot", -1f, 1f, new BiomeGradient[]{
+                    new BiomeGradient(0,0.5f, 0, 1, 1f, Color.decode("#fbba39")),
+                    new BiomeGradient(0.5f,0.6f, 0, 1, 1f, Color.decode("#fbd955")),
+                    new BiomeGradient(0.6f,65f, 0, 1, 1f, Color.decode("#ffffa8")),
+                    new BiomeGradient(0.65f,1f, 0, 1, 1f, Color.decode("#fffffe")),
+            }),
+    });
+
     public static PlanetGradient OVERWORLD_GRADIENT = new PlanetGradient(new BiomeGroup[]{
             new BiomeGroup("Ocean", -1f, 0.1f, new BiomeGradient[]{
                     new BiomeGradient(0,0.75f, 0, 1, 1f, Color.decode("#3938C9")),
@@ -28,4 +38,6 @@ public class GradientSupplier {
                     new BiomeGradient(0.3f,1f, 0, 1f, 1f, Color.decode("#d0d0d0")),
             }),
     });
+
+    public static final Map<String, PlanetGradient> textureForPlanets = Map.of("bumi", OVERWORLD_GRADIENT,"nila", NILA_GRADIENT, "suriyan", STAR_GRADIENT);
 }

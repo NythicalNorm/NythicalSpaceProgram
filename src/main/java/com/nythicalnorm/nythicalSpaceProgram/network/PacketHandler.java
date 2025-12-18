@@ -43,6 +43,12 @@ public class PacketHandler {
                 .consumerMainThread(ClientBoundTimeWarpUpdate::handle)
                 .add();
 
+        INSTANCE.messageBuilder(ClientBoundPlanetTexturePacket.class, ++id)
+                .encoder(ClientBoundPlanetTexturePacket::encode)
+                .decoder(ClientBoundPlanetTexturePacket::new)
+                .consumerMainThread(ClientBoundPlanetTexturePacket::handle)
+                .add();
+
         INSTANCE.messageBuilder(ServerBoundTimeWarpChange.class, ++id)
                 .encoder(ServerBoundTimeWarpChange::encode)
                 .decoder(ServerBoundTimeWarpChange::new)

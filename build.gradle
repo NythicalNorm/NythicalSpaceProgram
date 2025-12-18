@@ -217,15 +217,15 @@ mixin {
 //     dependsOn 'reobfJar'
 // }
 
-jar {
-    sourceSets {
-        main {
-            java {
-                exclude 'com/nythicalnorm/nythicalSpaceProgram/planettexgen/MapGenTestDisplay.java'
-            }
-        }
-    }
-}
+//jar {
+//    sourceSets {
+//        main {
+//            java {
+//                exclude 'com/nythicalnorm/nythicalSpaceProgram/planettexgen/MapGenTestDisplay.java'
+//            }
+//        }
+//    }
+//}
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {

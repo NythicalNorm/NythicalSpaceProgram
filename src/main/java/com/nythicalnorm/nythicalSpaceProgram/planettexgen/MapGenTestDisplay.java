@@ -48,25 +48,13 @@ public class MapGenTestDisplay {
         long randomLong = random.nextLong();
         long starttime = System.nanoTime();
 
-        BufferedImage planetMap = PlanetMapGen.GenerateMap(randomLong, GradientSupplier.NILA_GRADIENT);
+        BufferedImage planetMap = PlanetMapGen.GenerateMap(randomLong, GradientSupplier.STAR_GRADIENT);
 
         float timeDiff = ((float)(System.nanoTime() - starttime))/1000000f;
         System.out.println("Generation took : " + timeDiff + " milliseconds");
         int targetWidth = 1000; // Desired width
         int targetHeight = 1000; // Desired height
-        Image scaledImage = planetMap.getScaledInstance(targetWidth, targetHeight, Image.SCALE_FAST);
 
-//        File outputFile = new File("src/savedmaps/recentMap.png"); // Specify the output file path and name
-//
-//        try {
-//            // Write the BufferedImage to the specified file in PNG format
-//            ImageIO.write(planetMap, "png", outputFile);
-//            System.out.println("Image saved successfully to: " + outputFile.getAbsolutePath());
-//        } catch (IOException e) {
-//            System.err.println("Error saving image: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-
-        return scaledImage;
+        return planetMap.getScaledInstance(targetWidth, targetHeight, Image.SCALE_FAST);
     }
 }

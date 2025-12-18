@@ -1,15 +1,14 @@
 package com.nythicalnorm.nythicalSpaceProgram.orbit;
 
 import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.util.*;
 
 public class Star extends PlanetaryBody {
-    public Star(PlanetAtmosphere effects, @Nullable HashMap<String, Orbit> childBody, double radius, double mass, ResourceLocation texture) {
-        super(null, effects, childBody, radius, mass, 0f, 0, 0, texture);
+    public Star(PlanetAtmosphere effects, @Nullable HashMap<String, Orbit> childBody, double radius, double mass) {
+        super(null, effects, childBody, radius, mass, 0f, 0, 0);
     }
 
     public void simulatePlanets(double currentTime) {
@@ -23,11 +22,11 @@ public class Star extends PlanetaryBody {
     }
 
     public void setChildAddresses(HashMap<String, Stack<String>> allPlanetsAddresses) {
-        allPlanetsAddresses.put("suriyan", new Stack<>());
+        this.name = "suriyan";
+        allPlanetsAddresses.put(name, new Stack<>());
 
         for (Map.Entry<String, Orbit> orbitBody : childElements.entrySet()) {
-            if (orbitBody.getValue() instanceof PlanetaryBody) {
-                PlanetaryBody body = (PlanetaryBody) orbitBody.getValue();
+            if (orbitBody.getValue() instanceof PlanetaryBody body) {
                 Stack<String> currentAddress = new Stack<>();
                 body.setChildAddresses(allPlanetsAddresses, currentAddress, orbitBody.getKey());
             }
@@ -36,7 +35,7 @@ public class Star extends PlanetaryBody {
         //reversing the stack for future use here cause I can't be bothered to do change the recursion code. still this only runs once anyway so should be fine.
         for (Map.Entry<String, Stack<String>> entry : allPlanetsAddresses.entrySet()) {
             Stack<String> stack = entry.getValue();
-            stack.sort(Collections.reverseOrder());;
+            stack.sort(Collections.reverseOrder());
             entry.setValue(stack);
         }
     }

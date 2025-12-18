@@ -2,7 +2,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.orbit;
 
 import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
@@ -12,21 +11,19 @@ import java.util.Map;
 import java.util.Stack;
 
 public class PlanetaryBody extends Orbit {
-    //private final String[] childBodies;
+    protected String name;
     private final double radius;
     private final double mass;
     private final AxisAngle4f NorthPoleDir;
     private final float RotationPeriod;
     private final PlanetAtmosphere atmoshpericEffects;
-    public ResourceLocation texture; //temp val
 
     private double SOI;
 
     public PlanetaryBody (@Nullable OrbitalElements orbitalElements, PlanetAtmosphere effects, HashMap<String, Orbit>  childBodies,
-                          double radius, double mass, float inclinationAngle, float startingRot, float rotationPeriod, ResourceLocation texture) {
+                          double radius, double mass, float inclinationAngle, float startingRot, float rotationPeriod) {
         this.orbitalElements = orbitalElements;
         this.radius = radius;
-        this.texture = texture;
         this.RotationPeriod = rotationPeriod;
         this.atmoshpericEffects = effects;
         this.childElements = childBodies;
@@ -81,6 +78,7 @@ public class PlanetaryBody extends Orbit {
 
     public void setChildAddresses(HashMap<String, Stack<String>> allPlanetsAddresses, Stack<String> currentAddress, String name) {
         currentAddress.push(name);
+        this.name = name;
         allPlanetsAddresses.put(name, currentAddress);
 
         for (Map.Entry<String, Orbit> orbitBody : childElements.entrySet()) {
@@ -98,6 +96,11 @@ public class PlanetaryBody extends Orbit {
     public void removeChild(String oldAddress) {
         this.childElements.remove(oldAddress);
     }
+
+    public String getName() {
+        return name;
+    }
+
     public double getRadius(){
         return radius;
     }

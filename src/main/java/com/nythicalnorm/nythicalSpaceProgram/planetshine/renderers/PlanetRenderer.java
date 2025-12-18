@@ -12,6 +12,8 @@ import com.nythicalnorm.nythicalSpaceProgram.planetshine.generators.QuadSphereMo
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.ModShaders;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +40,7 @@ public class PlanetRenderer {
         }
     }
 
-    //for rendering in the map
+    //for rendering in the map screen
     public static void render(PlanetaryBody planet, PoseStack poseStack, Matrix4f projectionMatrix) {
         render(planet, Optional.empty(), poseStack, projectionMatrix, 0, 1.0f, null);
     }
@@ -67,7 +69,13 @@ public class PlanetRenderer {
         }
 
         QuadSphereModelGenerator.getSphereBuffer().bind();
-        RenderSystem.setShaderTexture(0, planet.texture);
+
+        Optional<ResourceLocation> planetTex = NythicalSpaceProgram.getCelestialStateSupplier().get().getPlanetTexManager().getTextureForPlanet(planet.getName());
+        planetTex.ifPresentOrElse(tex -> {
+            RenderSystem.setShaderTexture(0, tex);
+        }, () -> {
+            RenderSystem.setShaderTexture(0, MissingTextureAtlasSprite.getLocation());
+        });
 
         Vector3d absoluteDir = planet.getAbsolutePos().normalize();
         Vector3f lightDir = new Vector3f((float) absoluteDir.x,(float) absoluteDir.y,(float) absoluteDir.z);

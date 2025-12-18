@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class PlanetMapGen {
-    private static final int size = 1024;
+    public static final int size = 1024;
     private static final int imageLength = size * 3;
 
     public static BufferedImage GenerateMap(long seed, PlanetGradient gradient) {

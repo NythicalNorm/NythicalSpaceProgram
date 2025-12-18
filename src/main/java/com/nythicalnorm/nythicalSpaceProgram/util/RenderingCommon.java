@@ -1,10 +1,13 @@
 package com.nythicalnorm.nythicalSpaceProgram.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+@OnlyIn(Dist.CLIENT)
 public class RenderingCommon {
     public static int[] worldToScreenCoordinate(Vector3f pos, PoseStack poseStack,
                                                  Matrix4f projectionMatrix, int width, int height) {
