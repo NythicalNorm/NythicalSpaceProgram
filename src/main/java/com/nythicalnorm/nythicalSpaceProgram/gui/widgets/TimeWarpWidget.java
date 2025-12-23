@@ -1,6 +1,5 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui.widgets;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
@@ -8,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,10 +25,6 @@ public class TimeWarpWidget extends AbstractWidget {
 
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1f,1f,1f,1f);
-        RenderSystem.setShaderTexture(0, TIME_WARP_TEXTURE);
-
         pGuiGraphics.blit(TIME_WARP_TEXTURE, getX(), getY(),0,0,136,34);
 
         NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {

@@ -23,6 +23,10 @@ public class PlayerInputDirection {
         }
     }
 
+    public float getPositiveAxisValue() {
+        return (getAxisValue() + 1.0f) * 0.5f;
+    }
+
     public boolean keyPressCheck(int pKeyCode, int pScanCode) {
         if (IncreaseKey.matches(pKeyCode, pScanCode)) {
             incKeyDown = true;

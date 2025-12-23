@@ -13,7 +13,7 @@ public class PhysicsPlanet extends PhysicsContext{
     @Override
     public void applyAcceleration(double accelerationX, double accelerationY, double accelerationZ, Vector3f angularAcceleration) {
         if (playerEntity instanceof LocalPlayer player) {
-            player.travel(new Vec3(-accelerationX, accelerationY, -accelerationZ));
+            player.travel(new Vec3(-accelerationX, accelerationY, accelerationZ));
         }
     }
 }

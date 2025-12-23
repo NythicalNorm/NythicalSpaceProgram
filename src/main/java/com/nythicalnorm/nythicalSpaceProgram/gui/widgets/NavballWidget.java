@@ -1,23 +1,33 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui.widgets;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.generators.QuadSphereModelGenerator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class NavballWidget extends AbstractWidget {
     private static final ResourceLocation NAVBALL_GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
             "textures/gui/navballwidget.png");
+
+    private static final ResourceLocation NAVBALL_TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+            "textures/gui/navball.png");
 
     public NavballWidget(int pX, int pY, int pWidth, int pHeight, Component pMessage) {
         super(pX, pY, pWidth, pHeight, pMessage);
@@ -25,10 +35,7 @@ public class NavballWidget extends AbstractWidget {
 
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1f,1f,1f,1f);
-        RenderSystem.setShaderTexture(0, NAVBALL_GUI_TEXTURE);
-        int xPos = getX() - 48;
+        int xPos = getX() - 47;
         int yPos = getY() - 86;
 
         pGuiGraphics.blit(NAVBALL_GUI_TEXTURE, xPos, yPos,0,0,94,86);
@@ -39,7 +46,46 @@ public class NavballWidget extends AbstractWidget {
             renderButtons(pGuiGraphics, xPos, yPos, spacecraftScreen);
             renderGForceBar(pGuiGraphics, xPos, yPos);
             renderRelativeVelocity(pGuiGraphics, xPos, yPos);
+            NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
+                renderNavBall(celestialStateSupplier, pGuiGraphics, xPos, yPos);
+            });
         }
+    }
+
+    private void renderNavBall(CelestialStateSupplier css, GuiGraphics pGuiGraphics, int xPos, int yPos) {
+        RenderSystem.depthMask(false);
+        RenderSystem.enableDepthTest();
+
+        PoseStack navballPosestack = new PoseStack();
+        Window gameWindow =  Minecraft.getInstance().getWindow();
+
+        // 70f is the distance from the center of the sphere's place to the bottom
+        float Yheight = 70f/gameWindow.getGuiScaledHeight();
+
+        float aspectRatio = (float) pGuiGraphics.guiWidth() / pGuiGraphics.guiHeight();
+        float Orthosize = 1f;
+        Matrix4f projectionMatrix = new Matrix4f().setOrtho(-Orthosize*aspectRatio, Orthosize*aspectRatio, -Orthosize, Orthosize, 0.001f, 10.0f);
+
+        navballPosestack.translate(0f,-1f+Yheight,-1f);
+
+        float navballScale = (float) gameWindow.getGuiScale()*0.12109375f;
+        navballPosestack.scale(navballScale, navballScale, navballScale);
+
+        if (css.getPlayerOrbit() != null) {
+            if (css.getPlayerOrbit().getRotation() != null) {
+                navballPosestack.mulPose(css.getPlayerOrbit().getRotation());
+            }
+        }
+
+        QuadSphereModelGenerator.getSphereBuffer().bind();
+        RenderSystem.setShaderTexture(0, NAVBALL_TEXTURE);
+        ShaderInstance shad = GameRenderer.getPositionTexShader();
+
+        QuadSphereModelGenerator.getSphereBuffer().drawWithShader(navballPosestack.last().pose(), projectionMatrix, shad);
+        VertexBuffer.unbind();
+
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(true);
     }
 
     private void renderButtons(GuiGraphics pGuiGraphics, int xPos, int yPos, PlayerSpacecraftScreen spacecraftScreen) {

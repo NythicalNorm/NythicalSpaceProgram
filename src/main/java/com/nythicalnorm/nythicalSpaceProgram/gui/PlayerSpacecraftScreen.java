@@ -1,5 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui;
 
+import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.AltitudeWidget;
+import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.LeftPanelWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.NavballWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.TimeWarpWidget;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.ClientPlayerSpacecraftBody;
@@ -46,6 +48,9 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
     protected void init() {
         this.addRenderableWidget(new TimeWarpWidget(0,0, width, height, Component.empty()));
         this.addRenderableWidget(new NavballWidget(width/2, height, width, height, Component.empty()));
+        this.addRenderableWidget(new LeftPanelWidget(0, height, width, height, Component.empty()));
+        this.addRenderableWidget(new AltitudeWidget(width/2, 0, width, height, Component.empty()));
+
         minecraftOptions.setCameraType(CameraType.THIRD_PERSON_BACK);
         minecraftOptions.hideGui = true;
         player.setXRot(0f);
@@ -59,7 +64,7 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
         throttleAxis = new PlayerInputAxis(0.05f, 0f, 1f, 0.08f,0f,
                 KeyBindings.DECREASE_THROTTLE_KEY, KeyBindings.INCREASE_THROTTLE_KEY);
 
-        SWAxis = new PlayerInputDirection(minecraftOptions.keyUp, minecraftOptions.keyDown);
+        SWAxis = new PlayerInputDirection(minecraftOptions.keyDown, minecraftOptions.keyUp);
         ADAxis = new PlayerInputDirection(minecraftOptions.keyLeft, minecraftOptions.keyRight);
         QEAxis = new PlayerInputDirection(KeyBindings.ANTI_CLOCKWISE_SPIN_KEY, KeyBindings.CLOCKWISE_SPIN_KEY);
         CtrlShiftAxis = new PlayerInputDirection(KeyBindings.DECREASE_THROTTLE_KEY, KeyBindings.INCREASE_THROTTLE_KEY);
@@ -67,23 +72,37 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
 
     @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+        boolean keyPressed = false;
+
         if (KeyBindings.USE_PLAYER_JETPACK_KEY.matches(pKeyCode, pScanCode)) {
             this.onClose();
-            return true;
+            keyPressed = true;
         } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.matches(pKeyCode, pScanCode)) {
             Minecraft.getInstance().setScreen(new MapSolarSystem(true));
-            return true;
+            keyPressed = true;
         }  else if (KeyBindings.RCS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
             RCS = !RCS;
         } else if (KeyBindings.SAS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
             SAS = !SAS;
         } else if (KeyBindings.DOCKING_MODE_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
             dockingMode = !dockingMode;
-        } else if (throttleAxis.keyPressCheck(pKeyCode, pScanCode) || SWAxis.keyPressCheck(pKeyCode, pScanCode) || ADAxis.keyPressCheck(pKeyCode, pScanCode)
-                || QEAxis.keyPressCheck(pKeyCode, pScanCode) || CtrlShiftAxis.keyPressCheck(pKeyCode, pScanCode)) {
-            return true;
+        } else if (SWAxis.keyPressCheck(pKeyCode, pScanCode) || ADAxis.keyPressCheck(pKeyCode, pScanCode)
+                || QEAxis.keyPressCheck(pKeyCode, pScanCode)) {
+            keyPressed = true;
         }
-        return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+        if (dockingMode) {
+            if (CtrlShiftAxis.keyPressCheck(pKeyCode, pScanCode)) {
+                keyPressed = true;
+            }
+        } else if (throttleAxis.keyPressCheck(pKeyCode, pScanCode)) {
+            keyPressed = true;
+        }
+
+        if (keyPressed) {
+            return keyPressed;
+        }else {
+            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+        }
     }
 
     @Override
@@ -111,6 +130,26 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
 
     public boolean isRCS() {
         return RCS;
+    }
+
+    public boolean isDockingMode() {
+        return dockingMode;
+    }
+
+    public PlayerInputDirection getSWAxis() {
+        return SWAxis;
+    }
+
+    public PlayerInputDirection getADAxis() {
+        return ADAxis;
+    }
+
+    public PlayerInputDirection getQEAxis() {
+        return QEAxis;
+    }
+
+    public PlayerInputDirection getCtrlShiftAxis() {
+        return CtrlShiftAxis;
     }
 
     public void onClose() {

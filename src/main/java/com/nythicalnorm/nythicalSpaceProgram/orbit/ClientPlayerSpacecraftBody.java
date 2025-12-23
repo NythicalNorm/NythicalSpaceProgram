@@ -73,7 +73,6 @@ public class ClientPlayerSpacecraftBody extends PlayerSpacecraftBody {
             angularAcceleration.mul((JetpackRotationalForce));
             accelerationZ = inputShiftCTRL;
         }
-        //Acceleration.mul(Minecraft.getInstance().getDeltaFrameTime());
         currentContext.applyAcceleration(accelerationX, accelerationY, accelerationZ, angularAcceleration);
     }
 

@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.gui.MouseLookScreen;
+import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.AltitudeWidget;
+import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.LeftPanelWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.NavballWidget;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.EntitySpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.orbit.Orbit;
@@ -44,6 +46,8 @@ public class MapSolarSystem extends MouseLookScreen {
         this.addRenderableWidget(new TimeWarpWidget(0,0, width, height, Component.empty()));
         if (isSpacecraftScreenOpen) {
             this.addRenderableWidget(new NavballWidget(width/2, height, width, height, Component.empty()));
+            this.addRenderableWidget(new LeftPanelWidget(0, height, width, height, Component.empty()));
+            this.addRenderableWidget(new AltitudeWidget(width/2, 0, width, height, Component.empty()));
         }
         super.init();
     }
@@ -92,6 +96,7 @@ public class MapSolarSystem extends MouseLookScreen {
 
         else if (GLFW.GLFW_KEY_TAB == pKeyCode){
             changeFocusBody(1);
+            return true;
         }
         return super.keyPressed(pKeyCode, pScanCode, pModifiers);
     }
