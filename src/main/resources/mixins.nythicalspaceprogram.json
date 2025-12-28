@@ -9,7 +9,7 @@
   "client": [
     "CameraMixin",
     "LevelRendererMixin",
-    "daynightcycle.DimensionSpecialEffectsMixin"
+    "daynightcycle.FogRendererMixin"
   ],
   "mixins": [
     "daynightcycle.LevelMixin",

@@ -2,6 +2,7 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.generators.SkyboxCubeGen;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.AtmosphereRenderer;
@@ -9,12 +10,16 @@ import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.PlanetRendere
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.SpaceObjRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
@@ -23,6 +28,7 @@ public class PlanetShine {
     private static VertexBuffer Skybox_Buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
     private static Vec3 latestSkyColor;
     private static boolean isFirstTime = true;
+    private static CelestialStateSupplier css;
 
     public static void setupBuffers() {
         BufferBuilder bufferbuilder =  Tesselator.getInstance().getBuilder();
@@ -48,13 +54,15 @@ public class PlanetShine {
     }
 
     public static void renderSkybox(Minecraft mc, LevelRenderer levelRenderer, PoseStack poseStack,
-    Matrix4f projectionMatrix, float partialTick, Camera camera, VertexBuffer sky_Buffer, CelestialStateSupplier css)
+    Matrix4f projectionMatrix, float partialTick, Camera camera, VertexBuffer sky_Buffer, CelestialStateSupplier celestialStateSupplier)
     {
+        css = celestialStateSupplier;
         if (isFirstTime) {
             setupShaders();
             isFirstTime = false;
         }
         FogRenderer.levelFogColor();
+
         if (mc.player.getEyePosition(partialTick).y < mc.level.getMinBuildHeight()) {
             return;
         }
@@ -76,6 +84,8 @@ public class PlanetShine {
                 sky_Buffer.bind();
                 sky_Buffer.drawWithShader(poseStack.last().pose(), projectionMatrix, posShad);
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+                drawSunriseDisc(poseStack, Minecraft.getInstance().level);
             }
         }
 
@@ -173,5 +183,52 @@ public class PlanetShine {
 
     public static Vec3 getLatestSkyColor() {
         return latestSkyColor;
+    }
+
+    public static Vector3f getSunPosOverworld() {
+        Level clientLevel = Minecraft.getInstance().level;
+        if (css != null && clientLevel != null) {
+            if (css.isOnPlanet() && clientLevel.dimension() == Level.OVERWORLD) {
+                Vector3d sunPosD = css.getPlayerOrbit().getAbsolutePos().normalize();
+                Vector3f sunPosF = new Vector3f((float) sunPosD.x, (float) sunPosD.y, (float) sunPosD.z);
+                return sunPosF.rotate(css.getPlayerOrbit().getRotation());
+            }
+        }
+        return null;
+    }
+
+    private static void drawSunriseDisc(PoseStack poseStack, ClientLevel level) {
+        RenderSystem.enableBlend();
+        float[] sunriseColor = level.effects().getSunriseColor(css.getPlayerOrbit().getSunAngle(),0f);
+        Vector3f sunPos = getSunPosOverworld();
+
+        if (sunriseColor == null || sunPos == null) {
+            return;
+        }
+
+        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.pushPose();
+        float sunAngleToGround = (float) Math.atan2(sunPos.z, sunPos.x);
+
+        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+        poseStack.mulPose(Axis.ZP.rotation(Mth.HALF_PI + sunAngleToGround));
+
+        Matrix4f matrix4f = poseStack.last().pose();
+        bufferbuilder.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        bufferbuilder.vertex(matrix4f, 0.0F, 100.0F, 0.0F).color(sunriseColor[0], sunriseColor[1], sunriseColor[2], sunriseColor[3]).endVertex();
+
+        for(int j = 0; j <= 16; ++j) {
+            float f7 = (float)j * ((float)Math.PI * 2F) / 16.0F;
+            float f8 = Mth.sin(f7);
+            float f9 = Mth.cos(f7);
+            bufferbuilder.vertex(matrix4f, f8 * 120.0F, f9 * 120.0F, -f9 * 40.0F * sunriseColor[3]).color(sunriseColor[0], sunriseColor[1], sunriseColor[2], 0.0F).endVertex();
+        }
+
+        BufferUploader.drawWithShader(bufferbuilder.end());
+        RenderSystem.disableBlend();
+        poseStack.popPose();
     }
 }
