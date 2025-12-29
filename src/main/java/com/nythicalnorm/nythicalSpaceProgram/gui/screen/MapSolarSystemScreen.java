@@ -6,7 +6,7 @@ import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.AltitudeWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.LeftPanelWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.NavballWidget;
-import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
@@ -94,7 +94,7 @@ public class MapSolarSystemScreen extends MouseLookScreen {
             }
         }
 
-        else if (GLFW.GLFW_KEY_TAB == pKeyCode){
+        if (GLFW.GLFW_KEY_TAB == pKeyCode){
             changeFocusBody(1);
             return true;
         }
@@ -135,7 +135,7 @@ public class MapSolarSystemScreen extends MouseLookScreen {
                 }
             }
             radiusZoomLevel = ((PlanetaryBody) FocusableBodies[currentFocusedBodyIndex]).getRadius();
-        } else if (FocusableBodies[currentFocusedBodyIndex] instanceof AbstractEntitySpacecraftBody) {
+        } else if (FocusableBodies[currentFocusedBodyIndex] instanceof EntitySpacecraftBody) {
             radiusZoomLevel = 1000000;
         }
 
@@ -152,7 +152,7 @@ public class MapSolarSystemScreen extends MouseLookScreen {
         }
 
         int totalFocusAmount = css.getPlanetsProvider().allPlanetsAddresses.size();
-        if (currentFocusedBody instanceof AbstractEntitySpacecraftBody) {
+        if (currentFocusedBody instanceof EntitySpacecraftBody) {
             totalFocusAmount += 1;
         }
 

@@ -5,21 +5,15 @@ import com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics.PhysicsContext;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics.PlayerPhysicsPlanet;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics.PlayerPhysicsSpace;
 import net.minecraft.world.entity.player.Player;
-import org.joml.Vector3f;
 
-public abstract class AbstractPlayerSpacecraftBody extends AbstractEntitySpacecraftBody {
+public abstract class AbstractPlayerSpacecraftBody extends EntitySpacecraftBody {
     protected static final float JetpackRotationalForce = 0.1f;
     protected static final double JetpackTranslationForce = 1d;
     protected static final double JetpackThrottleForce = 25d;
     protected Player player;
 
     public AbstractPlayerSpacecraftBody() {
-        this.angularVelocity = new Vector3f();
-        this.velocityChangedLastFrame = false;
-    }
-
-    public void processMovement(SpacecraftControlState state) {
-
+        super();
     }
 
     @Override
@@ -39,5 +33,14 @@ public abstract class AbstractPlayerSpacecraftBody extends AbstractEntitySpacecr
 
     public Player getPlayerEntity() {
         return player;
+    }
+
+    public void removeYourself() {
+        if (parent != null) {
+           if (parent.hasChild(this)) {
+               parent.removeChild(this.id);
+               this.parent = null;
+           }
+        }
     }
 }

@@ -33,9 +33,7 @@ public class ForgeServerEvents {
         if (event.side != LogicalSide.SERVER && event.phase != TickEvent.Phase.END) {
             return;
         }
-        NythicalSpaceProgram.getSolarSystem().ifPresent(solarSystem -> {
-            solarSystem.OnTick();
-        });
+        NythicalSpaceProgram.getSolarSystem().ifPresent(SolarSystem::OnTick);
     }
 
     @SubscribeEvent
@@ -67,8 +65,8 @@ public class ForgeServerEvents {
 
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
-        if(event.isWasDeath() && event.getEntity() instanceof ServerPlayer) {
-            NythicalSpaceProgram.getSolarSystem().get().playerCloned(event.getEntity());
+        if(event.isWasDeath() && event.getEntity() instanceof ServerPlayer serverPlayer) {
+            NythicalSpaceProgram.getSolarSystem().get().playerCloned(serverPlayer);
         }
     }
 
@@ -86,8 +84,10 @@ public class ForgeServerEvents {
         }
     }
 
-//    @SubscribeEvent
-//    public static void onDimensionChanged(PlayerEvent.PlayerChangedDimensionEvent event) {
-//
-//    }
+    @SubscribeEvent
+    public static void onDimensionChanged(PlayerEvent.PlayerChangedDimensionEvent event) {
+        NythicalSpaceProgram.getSolarSystem().ifPresent(solarSystem -> {
+            solarSystem.playerDimChanged(event.getEntity(), event.getTo());
+        });
+    }
 }

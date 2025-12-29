@@ -19,40 +19,46 @@ public class PacketHandler {
     public static void register() {
         int id = 500;
 
-        INSTANCE.messageBuilder(ClientBoundLoginSolarSystemState.class, ++id)
-                .encoder(ClientBoundLoginSolarSystemState::encode)
-                .decoder(ClientBoundLoginSolarSystemState::new)
-                .consumerMainThread(ClientBoundLoginSolarSystemState::handle)
+        INSTANCE.messageBuilder(ClientboundLoginSolarSystemState.class, ++id)
+                .encoder(ClientboundLoginSolarSystemState::encode)
+                .decoder(ClientboundLoginSolarSystemState::new)
+                .consumerMainThread(ClientboundLoginSolarSystemState::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ClientBoundSolarSystemTimeUpdate.class, ++id)
-                .encoder(ClientBoundSolarSystemTimeUpdate::encode)
-                .decoder(ClientBoundSolarSystemTimeUpdate::new)
-                .consumerMainThread(ClientBoundSolarSystemTimeUpdate::handle)
+        INSTANCE.messageBuilder(ClientboundSolarSystemTimeUpdate.class, ++id)
+                .encoder(ClientboundSolarSystemTimeUpdate::encode)
+                .decoder(ClientboundSolarSystemTimeUpdate::new)
+                .consumerMainThread(ClientboundSolarSystemTimeUpdate::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ClientBoundTrackedOrbitUpdate.class, ++id)
-                .encoder(ClientBoundTrackedOrbitUpdate::encode)
-                .decoder(ClientBoundTrackedOrbitUpdate::new)
-                .consumerMainThread(ClientBoundTrackedOrbitUpdate::handle)
+        INSTANCE.messageBuilder(ClientboundFocusedOrbitUpdate.class, ++id)
+                .encoder(ClientboundFocusedOrbitUpdate::encode)
+                .decoder(ClientboundFocusedOrbitUpdate::new)
+                .consumerMainThread(ClientboundFocusedOrbitUpdate::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ClientBoundTimeWarpUpdate.class, ++id)
-                .encoder(ClientBoundTimeWarpUpdate::encode)
-                .decoder(ClientBoundTimeWarpUpdate::new)
-                .consumerMainThread(ClientBoundTimeWarpUpdate::handle)
+        INSTANCE.messageBuilder(ClientboundTimeWarpUpdate.class, ++id)
+                .encoder(ClientboundTimeWarpUpdate::encode)
+                .decoder(ClientboundTimeWarpUpdate::new)
+                .consumerMainThread(ClientboundTimeWarpUpdate::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ClientBoundPlanetTexturePacket.class, ++id)
-                .encoder(ClientBoundPlanetTexturePacket::encode)
-                .decoder(ClientBoundPlanetTexturePacket::new)
-                .consumerMainThread(ClientBoundPlanetTexturePacket::handle)
+        INSTANCE.messageBuilder(ClientboundPlanetTexturePacket.class, ++id)
+                .encoder(ClientboundPlanetTexturePacket::encode)
+                .decoder(ClientboundPlanetTexturePacket::new)
+                .consumerMainThread(ClientboundPlanetTexturePacket::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ServerBoundTimeWarpChange.class, ++id)
-                .encoder(ServerBoundTimeWarpChange::encode)
-                .decoder(ServerBoundTimeWarpChange::new)
-                .consumerMainThread(ServerBoundTimeWarpChange::handle)
+        INSTANCE.messageBuilder(ServerboundSpacecraftMove.class, ++id)
+                .encoder(ServerboundSpacecraftMove::encode)
+                .decoder(ServerboundSpacecraftMove::new)
+                .consumerMainThread(ServerboundSpacecraftMove::handle)
+                .add();
+
+        INSTANCE.messageBuilder(ServerboundTimeWarpChange.class, ++id)
+                .encoder(ServerboundTimeWarpChange::encode)
+                .decoder(ServerboundTimeWarpChange::new)
+                .consumerMainThread(ServerboundTimeWarpChange::handle)
                 .add();
     }
 

@@ -3,7 +3,6 @@ package com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet;
 
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
-import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
@@ -13,7 +12,6 @@ import java.util.Map;
 import java.util.Stack;
 
 public class PlanetaryBody extends Orbit {
-    protected String name;
     private final double radius;
     private final double mass;
     private final AxisAngle4f NorthPoleDir;
@@ -80,7 +78,7 @@ public class PlanetaryBody extends Orbit {
 
     public void setChildAddresses(HashMap<String, Stack<String>> allPlanetsAddresses, Stack<String> currentAddress, String name) {
         currentAddress.push(name);
-        this.name = name;
+        this.id = name;
         allPlanetsAddresses.put(name, currentAddress);
 
         for (Map.Entry<String, Orbit> orbitBody : childElements.entrySet()) {
@@ -90,17 +88,8 @@ public class PlanetaryBody extends Orbit {
         }
     }
 
-    public void addChildSpacecraft(String key, AbstractEntitySpacecraftBody orbitData) {
-        orbitData.setParent(this);
-        this.childElements.put(key, orbitData);
-    }
-
-    public void removeChild(String oldAddress) {
-        this.childElements.remove(oldAddress);
-    }
-
     public String getName() {
-        return name;
+        return id;
     }
 
     public double getRadius(){

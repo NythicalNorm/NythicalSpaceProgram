@@ -10,16 +10,16 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientBoundSolarSystemTimeUpdate {
+public class ClientboundSolarSystemTimeUpdate {
     private final double currenttime;
     private final double timePassPerSecond;
 
-    public ClientBoundSolarSystemTimeUpdate(double currenttime, double timePassPerSecond) {
+    public ClientboundSolarSystemTimeUpdate(double currenttime, double timePassPerSecond) {
         this.currenttime = currenttime;
         this.timePassPerSecond = timePassPerSecond;
     }
 
-    public ClientBoundSolarSystemTimeUpdate(FriendlyByteBuf friendlyByteBuf) {
+    public ClientboundSolarSystemTimeUpdate(FriendlyByteBuf friendlyByteBuf) {
         this.currenttime = friendlyByteBuf.readDouble();
         this.timePassPerSecond = friendlyByteBuf.readDouble();
     }

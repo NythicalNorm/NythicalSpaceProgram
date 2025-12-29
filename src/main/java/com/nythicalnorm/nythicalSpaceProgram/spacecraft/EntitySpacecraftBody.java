@@ -1,15 +1,27 @@
 package com.nythicalnorm.nythicalSpaceProgram.spacecraft;
 
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics.PhysicsContext;
+import net.minecraft.network.FriendlyByteBuf;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
-public abstract class AbstractEntitySpacecraftBody extends Orbit {
+public class EntitySpacecraftBody extends Orbit {
     protected Vector3f angularVelocity;
     protected boolean velocityChangedLastFrame;
     private static final float tolerance = 1e-8f;
+
+    public EntitySpacecraftBody() {
+        this.absoluteOrbitalPos = new Vector3d();
+        this.relativeOrbitalPos = new Vector3d();
+        this.relativeVelocity = new Vector3d();
+        this.rotation = new Quaternionf();
+        this.angularVelocity = new Vector3f();
+        this.orbitalElements = new OrbitalElements(0f,0f, 0f, 0f, 0f, 0f);
+    }
+
     public void simulatePropagate(double TimeElapsed, Vector3d parentPos, double mass) {
         if (!velocityChangedLastFrame) {
             Vector3d[] stateVectors = orbitalElements.ToCartesian(TimeElapsed);
@@ -41,7 +53,28 @@ public abstract class AbstractEntitySpacecraftBody extends Orbit {
         velocityChangedLastFrame = true;
     }
 
-    public abstract void processMovement(SpacecraftControlState state);
+    public void processMovement(SpacecraftControlState state) {
+        this.relativeOrbitalPos = state.relativePos;
+        this.relativeVelocity = state.relativeVelocity;
+        this.angularVelocity = state.angularVelocity;
+        this.rotation = state.rotation;
+        velocityChangedLastFrame = true;
+    }
 
-    public abstract PhysicsContext getPhysicsContext();
+    // don't use this use the Overrides
+    public PhysicsContext getPhysicsContext() {
+        return null;
+    }
+
+    @Override
+    public void encode(FriendlyByteBuf buffer) {
+        super.encode(buffer);
+        buffer.writeVector3f(angularVelocity);
+    }
+
+    @Override
+    public void decode(FriendlyByteBuf buffer) {
+        super.decode(buffer);
+        angularVelocity = buffer.readVector3f();
+    }
 }

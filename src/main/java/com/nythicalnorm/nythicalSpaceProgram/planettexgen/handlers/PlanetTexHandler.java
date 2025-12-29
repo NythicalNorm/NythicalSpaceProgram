@@ -1,7 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.planettexgen.handlers;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.network.ClientBoundPlanetTexturePacket;
+import com.nythicalnorm.nythicalSpaceProgram.network.ClientboundPlanetTexturePacket;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.planettexgen.GradientSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
@@ -77,6 +77,6 @@ public class PlanetTexHandler {
     }
 
     private void sendToPlayer(ServerPlayer player, String planetName, byte[] texture) {
-        PacketHandler.sendToPlayer(new ClientBoundPlanetTexturePacket(planetName, texture), player);
+        PacketHandler.sendToPlayer(new ClientboundPlanetTexturePacket(planetName, texture), player);
     }
 }

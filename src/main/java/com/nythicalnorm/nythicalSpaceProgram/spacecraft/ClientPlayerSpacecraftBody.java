@@ -1,11 +1,11 @@
 package com.nythicalnorm.nythicalSpaceProgram.spacecraft;
 
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
+import com.nythicalnorm.nythicalSpaceProgram.network.ServerboundSpacecraftMove;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics.PhysicsContext;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
 import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -18,21 +18,21 @@ import org.joml.Vector3f;
 public class ClientPlayerSpacecraftBody extends AbstractPlayerSpacecraftBody {
     private float sunAngle = 0f;
 
-    public ClientPlayerSpacecraftBody() {
-        absoluteOrbitalPos = new Vector3d();
-        relativeOrbitalPos = new Vector3d();
-        rotation = new Quaternionf();
-        angularVelocity = new Vector3f();
-        orbitalElements = new OrbitalElements(0f,0f, 0f, 0f, 0f, 0f);
-        this.player = Minecraft.getInstance().player;
+    public ClientPlayerSpacecraftBody(Player player) {
+        super();
+        this.player = player;
+        this.id = player.getStringUUID();
     }
 
-    public ClientPlayerSpacecraftBody(AbstractEntitySpacecraftBody playerData) {
+    public ClientPlayerSpacecraftBody(EntitySpacecraftBody playerData, Player player) {
+        this(player);
+
         absoluteOrbitalPos = playerData.getAbsolutePos();
         relativeOrbitalPos = playerData.getRelativePos();
+        relativeVelocity = playerData.getRelativeVelocity();
         rotation = playerData.getRotation();
         orbitalElements = playerData.getOrbitalElements();
-        this.player = Minecraft.getInstance().player;
+        angularVelocity = playerData.getAngularVelocity();
     }
 
     public void updatePlayerPosRot(Player player, PlanetaryBody currentPlanetOn) {
@@ -79,7 +79,11 @@ public class ClientPlayerSpacecraftBody extends AbstractPlayerSpacecraftBody {
             angularAcceleration.mul((JetpackRotationalForce));
             accelerationZ = inputShiftCTRL;
         }
-        currentContext.applyAcceleration(accelerationX, accelerationY, accelerationZ, angularAcceleration);
+
+        if (currentContext.applyAcceleration(accelerationX, accelerationY, accelerationZ, angularAcceleration)) {
+            SpacecraftControlState controlState = new SpacecraftControlState(throttle, SAS, RCS, inDockingMode, this.relativeOrbitalPos, this.relativeVelocity, this.rotation, this.angularVelocity);
+            PacketHandler.sendToServer(new ServerboundSpacecraftMove(this.getAddress() ,controlState));
+        }
     }
 
     public float getSunAngle() {

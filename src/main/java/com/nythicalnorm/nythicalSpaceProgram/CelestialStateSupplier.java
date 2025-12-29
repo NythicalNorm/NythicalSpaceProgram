@@ -2,7 +2,7 @@ package com.nythicalnorm.nythicalSpaceProgram;
 
 import com.nythicalnorm.nythicalSpaceProgram.gui.ModScreenManager;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
-import com.nythicalnorm.nythicalSpaceProgram.network.ServerBoundTimeWarpChange;
+import com.nythicalnorm.nythicalSpaceProgram.network.ServerboundTimeWarpChange;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
@@ -11,7 +11,7 @@ import com.nythicalnorm.nythicalSpaceProgram.planetshine.textures.PlanetTexManag
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.SpaceObjRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.ClientPlayerSpacecraftBody;
-import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import net.minecraft.client.Minecraft;
 
 import java.util.Optional;
@@ -26,14 +26,14 @@ public class CelestialStateSupplier {
     private PlanetaryBody currentPlanetOn;
     private ClientPlayerSpacecraftBody controllingBody;
 
-    private final PlanetsProvider planets;
+    private final PlanetsProvider planetProvider;
     private final ModScreenManager screenManager;
     private final PlanetTexManager planetTexManager;
 
-    public CelestialStateSupplier(AbstractEntitySpacecraftBody playerDataFromServer, PlanetsProvider planets) {
-        playerOrbit = new ClientPlayerSpacecraftBody(playerDataFromServer);
-        this.planets = planets;
-        SpaceObjRenderer.PopulateRenderPlanets(planets);
+    public CelestialStateSupplier(EntitySpacecraftBody playerDataFromServer, PlanetsProvider planetProvider) {
+        playerOrbit = new ClientPlayerSpacecraftBody(playerDataFromServer, Minecraft.getInstance().player);
+        this.planetProvider = planetProvider;
+        SpaceObjRenderer.PopulateRenderPlanets(planetProvider);
         this.screenManager = new ModScreenManager();
         this.planetTexManager = new PlanetTexManager();
     }
@@ -46,15 +46,15 @@ public class CelestialStateSupplier {
 
     public void UpdateOrbitalBodies(float partialTick) {
         //clientSideTickTime = currentTime;
-        planets.UpdatePlanets(ClientTimeHandler.calculateCurrentTime(partialTick));
+        planetProvider.UpdatePlanets(ClientTimeHandler.calculateCurrentTime(partialTick));
 
         if (!weInSpaceDim()) {
             playerOrbit.setParent(null);
         }
 
-        String planetName = planets.getDimensionPlanet(Minecraft.getInstance().level.dimension());
-        if (planets.getAllPlanetNames().contains(planetName)) {
-            currentPlanetOn = planets.getPlanet(planetName);
+        String planetName = planetProvider.getDimensionPlanet(Minecraft.getInstance().level.dimension());
+        if (planetProvider.getAllPlanetNames().contains(planetName)) {
+            currentPlanetOn = planetProvider.getPlanet(planetName);
             playerOrbit.updatePlayerPosRot(Minecraft.getInstance().player, currentPlanetOn);
         } else {
             currentPlanetOn = null;
@@ -70,7 +70,7 @@ public class CelestialStateSupplier {
         propesedSetIndex = doInc ? ++propesedSetIndex : --propesedSetIndex;
 
         if (propesedSetIndex >= 0 && propesedSetIndex < timeWarpSettings.length) {
-            PacketHandler.sendToServer(new ServerBoundTimeWarpChange(timeWarpSettings[propesedSetIndex]));
+            PacketHandler.sendToServer(new ServerboundTimeWarpChange(timeWarpSettings[propesedSetIndex]));
         }
     }
 
@@ -95,10 +95,10 @@ public class CelestialStateSupplier {
         if (Minecraft.getInstance().player.getId() == shipID) {
             if (oldAddress == null) {
                 playerOrbit.setOrbitalElements(orbitalElements);
-                planets.playerJoinedOrbital(Minecraft.getInstance().player.getStringUUID(), newAddress, playerOrbit);
+                planetProvider.playerJoinedOrbital(Minecraft.getInstance().player.getStringUUID(), newAddress, playerOrbit);
             }
             else {
-                planets.playerChangeOrbitalSOIs(Minecraft.getInstance().player.getStringUUID(), oldAddress, newAddress, orbitalElements);
+                planetProvider.playerChangeOrbitalSOIs(Minecraft.getInstance().player.getStringUUID(), planetProvider.getOrbit(oldAddress), newAddress, orbitalElements);
             }
         }
     }
@@ -108,7 +108,7 @@ public class CelestialStateSupplier {
         if (mc.level == null) {
             return false;
         }
-        return planets.isDimensionPlanet(mc.level.dimension()) || planets.isDimensionSpace(mc.level.dimension());
+        return planetProvider.isDimensionPlanet(mc.level.dimension()) || planetProvider.isDimensionSpace(mc.level.dimension());
     }
 
     public Optional<PlanetaryBody> getCurrentPlanet() {
@@ -148,11 +148,11 @@ public class CelestialStateSupplier {
     }
 
     public PlanetsProvider getPlanetsProvider() {
-        return planets;
+        return planetProvider;
     }
 
     public boolean weInSpaceDim() {
-        return planets.isDimensionSpace(Minecraft.getInstance().level.dimension());
+        return planetProvider.isDimensionSpace(Minecraft.getInstance().level.dimension());
     }
 
     public ModScreenManager getScreenManager() {

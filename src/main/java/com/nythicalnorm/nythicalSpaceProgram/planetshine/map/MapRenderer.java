@@ -9,7 +9,7 @@ import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderTypes.*;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.AtmosphereRenderer;
-import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -105,7 +105,7 @@ public class MapRenderer {
 
                 if (childBody instanceof PlanetaryBody planetaryBody) {
                     renderInMap = new MapRenderablePlanet(planetaryBody, mapState, parentBody);
-                } else if (childBody instanceof AbstractEntitySpacecraftBody clientBody) {
+                } else if (childBody instanceof EntitySpacecraftBody clientBody) {
                     ResourceLocation playerHeadTexture = Minecraft.getInstance().player.getSkinTextureLocation();
                     MapRenderableIcon iconMap = new MapRenderableIcon(clientBody, playerHeadTexture, mapState, parentBody);
                     iconsList.add(iconMap);

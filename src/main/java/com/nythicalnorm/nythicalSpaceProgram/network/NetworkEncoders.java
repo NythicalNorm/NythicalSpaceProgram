@@ -2,6 +2,7 @@ package com.nythicalnorm.nythicalSpaceProgram.network;
 
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
 import net.minecraft.network.FriendlyByteBuf;
+import org.joml.Vector3d;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Stack;
@@ -49,5 +50,15 @@ public class NetworkEncoders {
         );
 
         return orbitElements;
+    }
+
+    public static void writeVector3d(FriendlyByteBuf buffer, Vector3d pVector3f) {
+        buffer.writeDouble(pVector3f.x());
+        buffer.writeDouble(pVector3f.y());
+        buffer.writeDouble(pVector3f.z());
+    }
+
+    public static Vector3d readVector3d(FriendlyByteBuf buffer) {
+        return new Vector3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
     }
 }

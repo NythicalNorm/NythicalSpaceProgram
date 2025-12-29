@@ -7,17 +7,17 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ClientBoundTimeWarpUpdate {
+public class ClientboundTimeWarpUpdate {
     private final boolean successfullyChanged;
     private final int setTimeWarpSpeed;
 
-    public ClientBoundTimeWarpUpdate(boolean successfullyChanged, int pSetTimeWarpSpeed)
+    public ClientboundTimeWarpUpdate(boolean successfullyChanged, int pSetTimeWarpSpeed)
     {
         this.successfullyChanged = successfullyChanged;
         this.setTimeWarpSpeed = pSetTimeWarpSpeed;
     }
 
-    public ClientBoundTimeWarpUpdate(FriendlyByteBuf friendlyByteBuf) {
+    public ClientboundTimeWarpUpdate(FriendlyByteBuf friendlyByteBuf) {
         this.successfullyChanged = friendlyByteBuf.readBoolean();
         this.setTimeWarpSpeed = friendlyByteBuf.readInt();
     }

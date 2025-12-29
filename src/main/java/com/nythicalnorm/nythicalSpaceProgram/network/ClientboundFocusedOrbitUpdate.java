@@ -10,13 +10,13 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.Stack;
 import java.util.function.Supplier;
 
-public class ClientBoundTrackedOrbitUpdate {
+public class ClientboundFocusedOrbitUpdate {
     private final int entityId;
     private final Stack<String> oldAddress;
     private final Stack<String> newAddress;
     private final OrbitalElements orbitalElements;
 
-    public ClientBoundTrackedOrbitUpdate(Entity entity, Stack<String> oldAddress, Stack<String> newAddress, OrbitalElements elements) {
+    public ClientboundFocusedOrbitUpdate(Entity entity, Stack<String> oldAddress, Stack<String> newAddress, OrbitalElements elements) {
         this.entityId = entity.getId();
         this.oldAddress = oldAddress;
         this.newAddress = newAddress;
@@ -35,7 +35,7 @@ public class ClientBoundTrackedOrbitUpdate {
         NetworkEncoders.writeOrbitalElements(friendlyByteBuf, orbitalElements);
     }
 
-    public ClientBoundTrackedOrbitUpdate(FriendlyByteBuf friendlyByteBuf) {
+    public ClientboundFocusedOrbitUpdate(FriendlyByteBuf friendlyByteBuf) {
         this.entityId = friendlyByteBuf.readInt();
         if (friendlyByteBuf.readBoolean()) {
             this.oldAddress = NetworkEncoders.readStack(friendlyByteBuf);

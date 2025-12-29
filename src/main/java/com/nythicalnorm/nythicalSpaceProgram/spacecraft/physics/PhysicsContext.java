@@ -1,17 +1,17 @@
 package com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics;
 
-import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
 
 public abstract class PhysicsContext {
     protected final Entity playerEntity;
-    protected final AbstractEntitySpacecraftBody orbitBody;
+    protected final EntitySpacecraftBody orbitBody;
 
-    public PhysicsContext(Entity playerEntity, AbstractEntitySpacecraftBody orbitBody) {
+    public PhysicsContext(Entity playerEntity, EntitySpacecraftBody orbitBody) {
         this.playerEntity = playerEntity;
         this.orbitBody = orbitBody;
     }
 
-    public abstract void applyAcceleration(double accelerationX, double accelerationY, double accelerationZ, Vector3f angularAcceleration);
+    public abstract boolean applyAcceleration(double accelerationX, double accelerationY, double accelerationZ, Vector3f angularAcceleration);
 }

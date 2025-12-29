@@ -1,6 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.solarsystem;
 
 import com.nythicalnorm.nythicalSpaceProgram.network.NetworkEncoders;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import org.joml.Quaternionf;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public abstract class Orbit {
+    protected String id;
     protected Vector3d relativeOrbitalPos;
     protected Vector3d absoluteOrbitalPos;
     protected Vector3d relativeVelocity;
@@ -19,6 +21,10 @@ public abstract class Orbit {
     protected HashMap<String, Orbit> childElements;
     protected Orbit parent;
     protected boolean isStableOrbit;
+
+    public String getId() {
+        return id;
+    }
 
     public Vector3d getRelativePos() {
         return new Vector3d(relativeOrbitalPos);
@@ -44,6 +50,23 @@ public abstract class Orbit {
         return parent;
     }
 
+    public Stack<String> getAddress() {
+        Stack<String> addressStack = new Stack<>();
+        if (this.parent != null) {
+           return addressWalk(addressStack);
+        } else {
+            return addressStack;
+        }
+    }
+
+    private Stack<String> addressWalk(Stack<String> stack) {
+        if (parent != null) {
+            stack.push(id);
+            return this.parent.addressWalk(stack);
+        }
+        return stack;
+    }
+
     public void setRotation(Quaternionf rotation) {
         this.rotation = rotation;
     }
@@ -67,6 +90,15 @@ public abstract class Orbit {
 
     public Orbit getChild(String name) {
         return childElements.get(name) ;
+    }
+
+    public void addChildSpacecraft(String key, EntitySpacecraftBody orbitData) {
+        orbitData.setParent(this);
+        this.childElements.put(key, orbitData);
+    }
+
+    public void removeChild(String oldAddress) {
+        this.childElements.remove(oldAddress);
     }
 
     public Collection<Orbit> getChildren() {
@@ -128,36 +160,20 @@ public abstract class Orbit {
     }
 
     public void encode (FriendlyByteBuf buffer) {
-        buffer.writeDouble(this.absoluteOrbitalPos.x);
-        buffer.writeDouble(this.absoluteOrbitalPos.y);
-        buffer.writeDouble(this.absoluteOrbitalPos.z);
+        NetworkEncoders.writeVector3d(buffer, this.absoluteOrbitalPos);
+        NetworkEncoders.writeVector3d(buffer, this.relativeOrbitalPos);
+        NetworkEncoders.writeVector3d(buffer, this.relativeVelocity);
 
-        buffer.writeDouble(this.relativeOrbitalPos.x);
-        buffer.writeDouble(this.relativeOrbitalPos.y);
-        buffer.writeDouble(this.relativeOrbitalPos.z);
-
-        buffer.writeFloat(this.rotation.x);
-        buffer.writeFloat(this.rotation.y);
-        buffer.writeFloat(this.rotation.z);
-        buffer.writeFloat(this.rotation.w);
-
+        buffer.writeQuaternion(this.rotation);
         NetworkEncoders.writeOrbitalElements(buffer, this.orbitalElements);
     }
 
     public void decode (FriendlyByteBuf buffer) {
-        this.absoluteOrbitalPos.x = buffer.readDouble();
-        this.absoluteOrbitalPos.y = buffer.readDouble();
-        this.absoluteOrbitalPos.z = buffer.readDouble();
+        this.absoluteOrbitalPos = NetworkEncoders.readVector3d(buffer);
+        this.relativeOrbitalPos = NetworkEncoders.readVector3d(buffer);
+        this.relativeVelocity = NetworkEncoders.readVector3d(buffer);
 
-        this.relativeOrbitalPos.x = buffer.readDouble();
-        this.relativeOrbitalPos.y = buffer.readDouble();
-        this.relativeOrbitalPos.z = buffer.readDouble();
-
-        this.rotation.x = buffer.readFloat();
-        this.rotation.y = buffer.readFloat();
-        this.rotation.z = buffer.readFloat();
-        this.rotation.w = buffer.readFloat();
-
+        this.rotation = buffer.readQuaternion();
         this.orbitalElements = NetworkEncoders.readOrbitalElements(buffer);
     }
 }

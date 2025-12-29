@@ -3,6 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram.event;
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
 import com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack.Jetpack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.dimensions.SpaceDimension;
 import com.nythicalnorm.nythicalSpaceProgram.gui.screen.PlayerSpacecraftScreen;
 import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.gui.screen.MapSolarSystemScreen;
@@ -75,9 +76,13 @@ public class ForgeClientEvents {
 
     @SubscribeEvent
     public static void onPlayerCloned(ClientPlayerNetworkEvent.Clone event) {
-        NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
-            if (celestialStateSupplier.getPlayerOrbit() != null) {
-                celestialStateSupplier.getPlayerOrbit().setPlayerEntity(event.getNewPlayer());
+        NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(css -> {
+            if (css.getPlayerOrbit() != null) {
+                css.getPlayerOrbit().setPlayerEntity(event.getNewPlayer());
+            }
+
+            if (event.getNewPlayer().level().dimension() != SpaceDimension.SPACE_LEVEL_KEY) {
+                css.getPlayerOrbit().removeYourself();
             }
         });
     }

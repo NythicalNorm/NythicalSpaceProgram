@@ -6,15 +6,15 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
-public class ServerBoundTimeWarpChange {
+public class ServerboundTimeWarpChange {
     private final int ProposedSetTimeWarpSpeed;
 
-    public ServerBoundTimeWarpChange(int proposedSetTimeWarpSpeed)
+    public ServerboundTimeWarpChange(int proposedSetTimeWarpSpeed)
     {
         this.ProposedSetTimeWarpSpeed = proposedSetTimeWarpSpeed;
     }
 
-    public ServerBoundTimeWarpChange(FriendlyByteBuf friendlyByteBuf) {
+    public ServerboundTimeWarpChange(FriendlyByteBuf friendlyByteBuf) {
         this.ProposedSetTimeWarpSpeed = friendlyByteBuf.readInt();
     }
 

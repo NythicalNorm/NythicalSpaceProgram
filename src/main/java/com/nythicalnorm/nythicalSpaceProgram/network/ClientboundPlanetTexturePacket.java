@@ -8,16 +8,16 @@ import net.minecraftforge.network.NetworkEvent;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
-public class ClientBoundPlanetTexturePacket {
+public class ClientboundPlanetTexturePacket {
     private final String planetName;
     private final byte[] planetTexture;
 
-    public ClientBoundPlanetTexturePacket(String planetname, byte[] planetTex) {
+    public ClientboundPlanetTexturePacket(String planetname, byte[] planetTex) {
         this.planetName = planetname;
         this.planetTexture = planetTex;
     }
 
-    public ClientBoundPlanetTexturePacket(FriendlyByteBuf friendlyByteBuf) {
+    public ClientboundPlanetTexturePacket(FriendlyByteBuf friendlyByteBuf) {
         int stringSize = friendlyByteBuf.readVarInt();
         this.planetName = friendlyByteBuf.readCharSequence(stringSize, StandardCharsets.US_ASCII).toString();
         this.planetTexture = friendlyByteBuf.readByteArray();

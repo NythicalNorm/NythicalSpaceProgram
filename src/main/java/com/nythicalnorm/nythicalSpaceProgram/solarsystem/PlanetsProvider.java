@@ -6,7 +6,7 @@ import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -67,15 +67,15 @@ public class PlanetsProvider {
         return SURIYAN.getOrbit((Stack<String>)address.clone());
     }
 
-    public void playerChangeOrbitalSOIs(String playerUUid, Stack<String> oldAddress, Stack<String> newAddress, OrbitalElements orbitalElementsNew) {
-        PlanetaryBody oldPlanet = null;
+    public void playerChangeOrbitalSOIs(String playerUUid, Orbit playerSpacecraftBody, Stack<String> newAddress, OrbitalElements orbitalElementsNew) {
+        Orbit oldParent = playerSpacecraftBody.getParent();
 
-        if  (oldAddress != null) {//(allPlayerOrbitalAddresses.containsKey(oldAddress.firstElement())) {
+        if  (oldParent instanceof PlanetaryBody oldPlanet) {//(allPlayerOrbitalAddresses.containsKey(oldAddress.firstElement())) {
             //copying the orbit so that new SOI has the same info
-            oldPlanet = (PlanetaryBody) getOrbit(oldAddress);
+
             Orbit newOrbitPlanet = getPlanet(newAddress);
 
-            AbstractEntitySpacecraftBody entitybody = (AbstractEntitySpacecraftBody) oldPlanet.getChild(playerUUid);
+            EntitySpacecraftBody entitybody = (EntitySpacecraftBody) oldPlanet.getChild(playerUUid);
             orbitalElementsNew.setOrbitalPeriod(((PlanetaryBody)newOrbitPlanet).getMass());
             entitybody.setOrbitalElements(orbitalElementsNew);
 
@@ -91,7 +91,7 @@ public class PlanetsProvider {
         }
     }
 
-    public void playerJoinedOrbital(String PlayerUUid, Stack<String> newAddress, AbstractEntitySpacecraftBody OrbitalDataNew) {
+    public void playerJoinedOrbital(String PlayerUUid, Stack<String> newAddress, EntitySpacecraftBody OrbitalDataNew) {
         Orbit newOrbitPlanet = getPlanet(newAddress);
 
         if (newOrbitPlanet instanceof PlanetaryBody plnt) {

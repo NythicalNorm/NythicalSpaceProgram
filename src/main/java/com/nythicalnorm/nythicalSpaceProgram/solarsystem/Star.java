@@ -26,8 +26,8 @@ public class Star extends PlanetaryBody {
     }
 
     public void setChildAddresses(HashMap<String, Stack<String>> allPlanetsAddresses) {
-        this.name = "suriyan";
-        allPlanetsAddresses.put(name, new Stack<>());
+        this.id = "suriyan";
+        allPlanetsAddresses.put(id, new Stack<>());
 
         for (Map.Entry<String, Orbit> orbitBody : childElements.entrySet()) {
             if (orbitBody.getValue() instanceof PlanetaryBody body) {

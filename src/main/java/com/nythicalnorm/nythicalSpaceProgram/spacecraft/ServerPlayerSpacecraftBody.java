@@ -1,31 +1,32 @@
 package com.nythicalnorm.nythicalSpaceProgram.spacecraft;
 
+import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
 import net.minecraft.server.level.ServerPlayer;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
-import java.util.UUID;
 
 public class ServerPlayerSpacecraftBody extends AbstractPlayerSpacecraftBody {
-    private UUID playerUUID;
     private boolean isShipBound;
 
     public ServerPlayerSpacecraftBody(ServerPlayer playerEntity, boolean isStableOrbit, boolean isShipBound, Quaternionf playerRot, OrbitalElements elements) {
+        super();
         this.player = playerEntity;
-        this.playerUUID = playerEntity.getUUID();
+        this.id = playerEntity.getStringUUID();
         this.isStableOrbit = isStableOrbit;
         this.isShipBound = isShipBound;
-        this.orbitalElements = elements;
         this.rotation = playerRot;
-        this.angularVelocity = new Vector3f();
+        this.orbitalElements = elements;
     }
 
     public String getUUid() {
         return player.getStringUUID();
     }
 
-    public boolean isStableOrbit() {
-        return isStableOrbit;
+    @Override
+    public void removeYourself() {
+        NythicalSpaceProgram.getSolarSystem().ifPresent(solarSystem -> {
+            solarSystem.removePlayerFromOrbit(this.id);
+        });
+        super.removeYourself();
     }
 }
