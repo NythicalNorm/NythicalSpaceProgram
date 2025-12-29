@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.gui;
+package com.nythicalnorm.nythicalSpaceProgram.gui.input;
 
 import net.minecraft.client.KeyMapping;
 

@@ -1,7 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui.widgets;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.PlayerSpacecraftScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;

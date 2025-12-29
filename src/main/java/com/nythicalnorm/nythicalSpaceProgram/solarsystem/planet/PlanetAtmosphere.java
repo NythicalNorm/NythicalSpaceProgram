@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.planet;
+package com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet;
 
 public class PlanetAtmosphere {
     private final boolean hasAtmosphere;

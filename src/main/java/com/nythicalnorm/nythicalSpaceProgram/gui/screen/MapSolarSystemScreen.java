@@ -1,17 +1,17 @@
-package com.nythicalnorm.nythicalSpaceProgram.planetshine.map;
+package com.nythicalnorm.nythicalSpaceProgram.gui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.gui.MouseLookScreen;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.AltitudeWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.LeftPanelWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.NavballWidget;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.EntitySpacecraftBody;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.Orbit;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.TimeWarpWidget;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,13 +24,13 @@ import org.lwjgl.glfw.GLFW;
 import java.lang.Math;
 
 @OnlyIn(Dist.CLIENT)
-public class MapSolarSystem extends MouseLookScreen {
+public class MapSolarSystemScreen extends MouseLookScreen {
     private CelestialStateSupplier css;
     private Orbit[] FocusableBodies;
     private int currentFocusedBodyIndex;
     private final boolean isSpacecraftScreenOpen;
 
-    public MapSolarSystem(boolean PisSpacecraftScreenOpen) {
+    public MapSolarSystemScreen(boolean PisSpacecraftScreenOpen) {
         super(Component.empty());
         NythicalSpaceProgram.getCelestialStateSupplier().ifPresent (celestialStateSupplier -> {
             css = celestialStateSupplier;
@@ -135,7 +135,7 @@ public class MapSolarSystem extends MouseLookScreen {
                 }
             }
             radiusZoomLevel = ((PlanetaryBody) FocusableBodies[currentFocusedBodyIndex]).getRadius();
-        } else if (FocusableBodies[currentFocusedBodyIndex] instanceof EntitySpacecraftBody) {
+        } else if (FocusableBodies[currentFocusedBodyIndex] instanceof AbstractEntitySpacecraftBody) {
             radiusZoomLevel = 1000000;
         }
 
@@ -151,8 +151,8 @@ public class MapSolarSystem extends MouseLookScreen {
             currentFocusedBody = css.getPlayerOrbit();
         }
 
-        int totalFocusAmount = css.getPlanets().allPlanetsAddresses.size();
-        if (currentFocusedBody instanceof EntitySpacecraftBody) {
+        int totalFocusAmount = css.getPlanetsProvider().allPlanetsAddresses.size();
+        if (currentFocusedBody instanceof AbstractEntitySpacecraftBody) {
             totalFocusAmount += 1;
         }
 
@@ -163,7 +163,7 @@ public class MapSolarSystem extends MouseLookScreen {
         FocusableBodies[index] = currentFocusedBody;
         currentFocusedBodyIndex = index;
 
-        for (PlanetaryBody plnt : css.getPlanets().getAllPlanetOrbits()) {
+        for (PlanetaryBody plnt : css.getPlanetsProvider().getAllPlanetOrbits()) {
             if (plnt != currentFocusedBody) {
                 index++;
                 FocusableBodies[index] = plnt;

@@ -1,8 +1,8 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui.widgets;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -63,7 +63,7 @@ public class AltitudeWidget extends AbstractWidget {
 
         for (altitudeUnitIndex = 0; altitudeUnitIndex < 4; altitudeUnitIndex++){
             // 6 significant digits required for meter to km but 9 for other unit transitions
-            if (altitudeMeters.length() <= 6 && altitudeUnitIndex == 1) {
+            if (altitudeMeters.length() <= 6 && altitudeUnitIndex == 0) {
                 break;
             } else if (altitudeMeters.length() <= 9 && altitudeUnitIndex > 0) {
                 break;

@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.Item;
 
-import com.nythicalnorm.nythicalSpaceProgram.Item.armor.CreativeJetpack;
+import com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack.CreativeJetpack;
 import com.nythicalnorm.nythicalSpaceProgram.Item.armor.MagneticBoots;
 import com.nythicalnorm.nythicalSpaceProgram.Item.armor.ModArmorMaterial;
 import com.nythicalnorm.nythicalSpaceProgram.Item.custom.HandheldPropellerItem;

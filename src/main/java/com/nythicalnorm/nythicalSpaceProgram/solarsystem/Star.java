@@ -1,6 +1,7 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.solarsystem;
 
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 

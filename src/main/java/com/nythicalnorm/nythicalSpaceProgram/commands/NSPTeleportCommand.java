@@ -3,8 +3,8 @@ package com.nythicalnorm.nythicalSpaceProgram.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.OrbitalElements;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -41,7 +41,7 @@ public class NSPTeleportCommand {
 
     private int TeleportToOrbit(CommandSourceStack pSource, Collection<? extends Entity> pTargets, String body,
                                 double semiMajorAxisInput, double eccentricity, double inclination) {
-        PlanetaryBody planet = NythicalSpaceProgram.getSolarSystem().get().getPlanets().getPlanet(body);
+        PlanetaryBody planet = NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider().getPlanet(body);
 
         for(Entity entity : pTargets) {
             if (entity instanceof ServerPlayer) {

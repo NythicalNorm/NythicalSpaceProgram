@@ -1,13 +1,14 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics;
 
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
 
 public abstract class PhysicsContext {
     protected final Entity playerEntity;
-    protected final EntitySpacecraftBody orbitBody;
+    protected final AbstractEntitySpacecraftBody orbitBody;
 
-    public PhysicsContext(Entity playerEntity, EntitySpacecraftBody orbitBody) {
+    public PhysicsContext(Entity playerEntity, AbstractEntitySpacecraftBody orbitBody) {
         this.playerEntity = playerEntity;
         this.orbitBody = orbitBody;
     }

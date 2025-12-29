@@ -1,11 +1,11 @@
 package com.nythicalnorm.nythicalSpaceProgram.event;
 
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
-import com.nythicalnorm.nythicalSpaceProgram.Item.armor.Jetpack;
+import com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack.Jetpack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.PlayerSpacecraftScreen;
+import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.MapSolarSystemScreen;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -35,7 +35,7 @@ public class ForgeClientEvents {
         } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.consumeClick()) {
             NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
                 if (celestialStateSupplier.doRender()) {
-                    Minecraft.getInstance().setScreen(new MapSolarSystem(false));
+                    Minecraft.getInstance().setScreen(new MapSolarSystemScreen(false));
                 }
             });
         }

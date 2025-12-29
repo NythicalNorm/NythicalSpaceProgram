@@ -4,9 +4,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.commands.NSPTeleportCommand;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelData;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelDataProvider;
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.SolarSystem;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
+import com.nythicalnorm.nythicalSpaceProgram.SolarSystem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -77,8 +77,8 @@ public class ForgeServerEvents {
         if(!event.getObject().getCapability(PlanetLevelDataProvider.PLANET_LEVEL_DATA).isPresent()) {
             if (NythicalSpaceProgram.getSolarSystem().isPresent()) {
                 SolarSystem solarSystem = NythicalSpaceProgram.getSolarSystem().get();
-                if (solarSystem.getPlanets().isDimensionPlanet(event.getObject().dimension())) {
-                    String planetName = solarSystem.getPlanets().getDimensionPlanet(event.getObject().dimension());
+                if (solarSystem.getPlanetsProvider().isDimensionPlanet(event.getObject().dimension())) {
+                    String planetName = solarSystem.getPlanetsProvider().getDimensionPlanet(event.getObject().dimension());
                     PlanetLevelDataProvider planetDataprovider = new PlanetLevelDataProvider(new PlanetLevelData(planetName));
                     event.addCapability(ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "planetleveldata"), planetDataprovider);
                 }

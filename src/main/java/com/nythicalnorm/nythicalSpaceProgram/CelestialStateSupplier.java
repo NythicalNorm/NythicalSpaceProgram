@@ -1,13 +1,17 @@
-package com.nythicalnorm.nythicalSpaceProgram.planetshine;
+package com.nythicalnorm.nythicalSpaceProgram;
 
 import com.nythicalnorm.nythicalSpaceProgram.gui.ModScreenManager;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.*;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.network.ServerBoundTimeWarpChange;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.textures.PlanetTexManager;
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.SpaceObjRenderer;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.ClientPlayerSpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import net.minecraft.client.Minecraft;
 
 import java.util.Optional;
@@ -20,14 +24,13 @@ public class CelestialStateSupplier {
 
     private ClientPlayerSpacecraftBody playerOrbit;
     private PlanetaryBody currentPlanetOn;
-    //private PlanetaryBody currentPlanetSOIin;
     private ClientPlayerSpacecraftBody controllingBody;
 
-    private final Planets planets;
+    private final PlanetsProvider planets;
     private final ModScreenManager screenManager;
     private final PlanetTexManager planetTexManager;
 
-    public CelestialStateSupplier(EntitySpacecraftBody playerDataFromServer, Planets planets) {
+    public CelestialStateSupplier(AbstractEntitySpacecraftBody playerDataFromServer, PlanetsProvider planets) {
         playerOrbit = new ClientPlayerSpacecraftBody(playerDataFromServer);
         this.planets = planets;
         SpaceObjRenderer.PopulateRenderPlanets(planets);
@@ -144,7 +147,7 @@ public class CelestialStateSupplier {
         return currentPlanetOn != null;
     }
 
-    public Planets getPlanets() {
+    public PlanetsProvider getPlanetsProvider() {
         return planets;
     }
 

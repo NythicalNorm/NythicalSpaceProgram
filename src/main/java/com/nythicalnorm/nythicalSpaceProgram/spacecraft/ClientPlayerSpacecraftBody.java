@@ -1,5 +1,8 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.spacecraft;
 
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics.PhysicsContext;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
 import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
 import net.minecraft.client.Minecraft;
@@ -12,7 +15,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
-public class ClientPlayerSpacecraftBody extends PlayerSpacecraftBody {
+public class ClientPlayerSpacecraftBody extends AbstractPlayerSpacecraftBody {
     private float sunAngle = 0f;
 
     public ClientPlayerSpacecraftBody() {
@@ -24,11 +27,11 @@ public class ClientPlayerSpacecraftBody extends PlayerSpacecraftBody {
         this.player = Minecraft.getInstance().player;
     }
 
-    public ClientPlayerSpacecraftBody(EntitySpacecraftBody playerData) {
-        absoluteOrbitalPos = playerData.absoluteOrbitalPos;
-        relativeOrbitalPos = playerData.relativeOrbitalPos;
+    public ClientPlayerSpacecraftBody(AbstractEntitySpacecraftBody playerData) {
+        absoluteOrbitalPos = playerData.getAbsolutePos();
+        relativeOrbitalPos = playerData.getRelativePos();
         rotation = playerData.getRotation();
-        orbitalElements = playerData.orbitalElements;
+        orbitalElements = playerData.getOrbitalElements();
         this.player = Minecraft.getInstance().player;
     }
 

@@ -1,7 +1,9 @@
 
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet;
 
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
@@ -88,7 +90,7 @@ public class PlanetaryBody extends Orbit {
         }
     }
 
-    public void addChildSpacecraft(String key, EntitySpacecraftBody orbitData) {
+    public void addChildSpacecraft(String key, AbstractEntitySpacecraftBody orbitData) {
         orbitData.setParent(this);
         this.childElements.put(key, orbitData);
     }
@@ -145,8 +147,8 @@ public class PlanetaryBody extends Orbit {
         if (childElements != null) {
             for (Orbit orbitBody : childElements.values()) {
                 if (orbitBody instanceof PlanetaryBody body) {
-                    if (orbitBody.orbitalElements != null) {
-                        orbitBody.orbitalElements.setOrbitalPeriod(this.mass);
+                    if (orbitBody.getOrbitalElements() != null) {
+                        orbitBody.getOrbitalElements().setOrbitalPeriod(this.mass);
                     }
                     body.calculateOrbitalPeriod();
                 }

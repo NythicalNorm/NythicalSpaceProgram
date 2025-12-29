@@ -1,13 +1,13 @@
 package com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers;
 
 import com.mojang.blaze3d.vertex.*;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.Star;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Star;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderTypes.SpaceRenderable;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderTypes.RenderablePlanet;
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
+import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ public class SpaceObjRenderer {
     private static final float InWorldPlanetsDistance = 64f;
     private static SpaceRenderable[] renderPlanets;
 
-    public static void PopulateRenderPlanets(Planets planets) {
+    public static void PopulateRenderPlanets(PlanetsProvider planets) {
         Set<String> planetList = planets.getAllPlanetNames();
 
         renderPlanets = new SpaceRenderable[planetList.size()];

@@ -1,7 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui.widgets;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -28,7 +28,7 @@ public class TimeWarpWidget extends AbstractWidget {
         pGuiGraphics.blit(TIME_WARP_TEXTURE, getX(), getY(),0,0,136,34);
 
         NythicalSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
-            Component timeComp = parseTime(ClientTimeHandler.getClientSideSolarSystemTime(), celestialStateSupplier.getPlanets().BUMI);
+            Component timeComp = parseTime(ClientTimeHandler.getClientSideSolarSystemTime(), celestialStateSupplier.getPlanetsProvider().BUMI);
             pGuiGraphics.drawString(Minecraft.getInstance().font, timeComp,13, 6, 0x00ff2b, false);
 
             int timeWarpSettingAmount = celestialStateSupplier.getTimeWarpSetting() + 1;

@@ -1,7 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.util;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
@@ -20,7 +20,6 @@ import java.util.Optional;
 public class DayNightCycleHandler {
 
     //serverside Only Starting from here to
-
     @SubscribeEvent
     public static void OnSleepingTimeCheckEvent(SleepingTimeCheckEvent event) {
         Optional<Boolean> isday = isDay(event.getEntity().blockPosition(), event.getEntity().level());
@@ -42,7 +41,7 @@ public class DayNightCycleHandler {
             return Optional.empty();
         }
 
-        Optional<PlanetaryBody> planet =  NythicalSpaceProgram.getSolarSystem().get().getPlanets().getDimPlanet(level);
+        Optional<PlanetaryBody> planet =  NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider().getDimPlanet(level);
         if (planet.isPresent()) {
             PlanetaryBody plnt = planet.get();
             Vector3d blockPosOnPlanet = Calcs.planetDimPosToNormalizedVector(pos.getCenter(), plnt.getRadius(), plnt.getRotation(), true);
@@ -99,7 +98,7 @@ public class DayNightCycleHandler {
     }
 
 
-    // this will not work when the starting earth rotation at time 0 is different that it is now
+    // this will not work when the starting earth rotation at time 0 is different from it is now
     // reference: https://stackoverflow.com/questions/5188561/signed-angle-between-two-3d-vectors-with-same-origin-within-the-same-plane
     public static Optional<Long> getDayTime(BlockPos pos, PlanetaryBody plnt, double TimeElapsed) {
         Vector3d blockPosOnPlanet = Calcs.planetDimPosToNormalizedVector(pos.getCenter(), plnt.getRadius(), plnt.getRotation(), true);

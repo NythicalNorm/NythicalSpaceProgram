@@ -4,8 +4,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.dimensions.SpaceDimension;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelData;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelDataProvider;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -31,7 +31,7 @@ public class EntityGravityHandler {
         Level level = event.getEntity().level();
 
         level.getCapability(PlanetLevelDataProvider.PLANET_LEVEL_DATA).ifPresent(planetLevelData -> {
-            double planetAcceleration = planetLevelData.getAccelerationDueToGravity(NythicalSpaceProgram.getSolarSystem().get().getPlanets());
+            double planetAcceleration = planetLevelData.getAccelerationDueToGravity(NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider());
 
             if (planetAcceleration <= 0){
                 event.setCanceled(true);
@@ -57,7 +57,7 @@ public class EntityGravityHandler {
             boolean applyGravityModifier = (plntData.resolve().isPresent() && NythicalSpaceProgram.getSolarSystem().isPresent());
 
             if (applyGravityModifier) {
-                tempGravity = plntData.resolve().get().getAccelerationDueToGravity(NythicalSpaceProgram.getSolarSystem().get().getPlanets());
+                tempGravity = plntData.resolve().get().getAccelerationDueToGravity(NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider());
             }
 
             AttributeModifier gravityModifier = new AttributeModifier(gravityUUID, "NythicalSpaceProgram.PlanetGravity",

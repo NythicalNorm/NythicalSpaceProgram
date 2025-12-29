@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.solarsystem;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import net.minecraft.util.Mth;
@@ -79,7 +79,7 @@ public class OrbitalElements {
                     break;
                 }
             }
-        } else {
+        } else if (e != 0) {
             NythicalSpaceProgram.logError("we have an unhandled orbit on our hands");
         }
 

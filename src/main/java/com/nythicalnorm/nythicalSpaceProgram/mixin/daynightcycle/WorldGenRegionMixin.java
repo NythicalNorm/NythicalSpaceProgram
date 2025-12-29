@@ -1,9 +1,9 @@
 package com.nythicalnorm.nythicalSpaceProgram.mixin.daynightcycle;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelData;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelDataProvider;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
 import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
@@ -32,7 +32,7 @@ public class WorldGenRegionMixin {
             LazyOptional<PlanetLevelData> plntData = level.getCapability(PlanetLevelDataProvider.PLANET_LEVEL_DATA);
             Optional<Long> currentTime = Optional.empty();
             if (plntData.resolve().isPresent() && NythicalSpaceProgram.getSolarSystem().isPresent()) {
-                plnt = NythicalSpaceProgram.getSolarSystem().get().getPlanets().getPlanet(plntData.resolve().get().getPlanetName());
+                plnt = NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider().getPlanet(plntData.resolve().get().getPlanetName());
                 currentTime = DayNightCycleHandler.getDayTime(pPos, plnt, NythicalSpaceProgram.getSolarSystem().get().getCurrentTime());
             }
             if (currentTime.isPresent()) {

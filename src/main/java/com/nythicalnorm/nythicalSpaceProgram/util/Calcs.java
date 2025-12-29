@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.util;
 
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.*;
@@ -104,6 +104,10 @@ public class Calcs {
 
         upDir.rotate(rot);
         return upDir;
+    }
+
+    public static Quaterniond quaternionFtoD(Quaternionf quaternionf) {
+        return new Quaterniond(quaternionf.x, quaternionf.y, quaternionf.z, quaternionf.w);
     }
 
 //    public static boolean IsNaN(Quaternionf q) {

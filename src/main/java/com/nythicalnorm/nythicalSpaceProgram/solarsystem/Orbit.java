@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.solarsystem;
 
 import com.nythicalnorm.nythicalSpaceProgram.network.NetworkEncoders;
 import net.minecraft.nbt.CompoundTag;

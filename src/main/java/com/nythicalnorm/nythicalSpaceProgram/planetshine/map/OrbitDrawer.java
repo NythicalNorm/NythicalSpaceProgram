@@ -2,7 +2,9 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine.map;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.*;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
@@ -70,7 +72,7 @@ public class OrbitDrawer {
 
     public static void drawOrbit(Orbit orbitalBody, float scaleFactor, PoseStack poseStack, Matrix4f projectionMatrix) {
         OrbitalElements orbitalElements = orbitalBody.getOrbitalElements();
-        boolean isElliptical = (orbitalElements.Eccentricity > 0 && orbitalElements.Eccentricity < 1);
+        boolean isElliptical = (orbitalElements.Eccentricity >= 0 && orbitalElements.Eccentricity < 1);
 
         VertexBuffer drawBuffer = isElliptical ? circleBuffer : hyperbolaBuffer;
 
@@ -92,7 +94,7 @@ public class OrbitDrawer {
         poseStack.translate(-distanceFromCenterToFoci, 0f, 0f);
         poseStack.scale((float) a,1f,(float) b);
 
-        if (orbitalBody instanceof EntitySpacecraftBody) {
+        if (orbitalBody instanceof AbstractEntitySpacecraftBody) {
             RenderSystem.setShaderColor(0.0f,0.0f,1.0f,1.0f);
         } else {
             RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);

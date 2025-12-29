@@ -1,5 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.orbit;
 
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
 import org.joml.Vector3d;
 import org.junit.jupiter.api.Test;
 

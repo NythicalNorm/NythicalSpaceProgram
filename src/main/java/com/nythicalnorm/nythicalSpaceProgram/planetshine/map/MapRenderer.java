@@ -2,11 +2,14 @@ package com.nythicalnorm.nythicalSpaceProgram.planetshine.map;
 
 import com.mojang.blaze3d.vertex.*;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.*;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.MapSolarSystemScreen;
+import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderTypes.*;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.AtmosphereRenderer;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +26,7 @@ public class MapRenderer {
     public static final float SCALE_FACTOR = 1/1000000000f;
     private static MapRenderable renderTree;
     private static Orbit currentFocusedBody;
-    private static MapSolarSystem currentOpenScreen;
+    private static MapSolarSystemScreen currentOpenScreen;
     private static ArrayList<MapRenderableIcon> iconsList;
     private static MapRenderableIcon homePlanetPlayerDisplay;
 
@@ -53,7 +56,7 @@ public class MapRenderer {
     }
 
     public static void updateMapRenderables(CelestialStateSupplier css, Orbit currentFocusedBody) {
-        PlanetaryBody rootStar = css.getPlanets().SURIYAN;
+        PlanetaryBody rootStar = css.getPlanetsProvider().SURIYAN;
         iconsList = new ArrayList<>();
         MapRelativeState starMapState = MapRelativeState.AbsolutePos;
         if (rootStar.hasChild(currentFocusedBody)) {
@@ -71,7 +74,7 @@ public class MapRenderer {
             iconsList.add(homePlanetPlayerDisplay);
         }
 
-        renderTree = traverseAndPopulateList(css.getPlanets().SURIYAN, currentFocusedBody, starRenderInMap);
+        renderTree = traverseAndPopulateList(css.getPlanetsProvider().SURIYAN, currentFocusedBody, starRenderInMap);
     }
 
     private static MapRenderable traverseAndPopulateList(Orbit parentBody, Orbit currentFocusedBody, MapRenderable parentRenderableInMap) {
@@ -102,7 +105,7 @@ public class MapRenderer {
 
                 if (childBody instanceof PlanetaryBody planetaryBody) {
                     renderInMap = new MapRenderablePlanet(planetaryBody, mapState, parentBody);
-                } else if (childBody instanceof EntitySpacecraftBody clientBody) {
+                } else if (childBody instanceof AbstractEntitySpacecraftBody clientBody) {
                     ResourceLocation playerHeadTexture = Minecraft.getInstance().player.getSkinTextureLocation();
                     MapRenderableIcon iconMap = new MapRenderableIcon(clientBody, playerHeadTexture, mapState, parentBody);
                     iconsList.add(iconMap);
@@ -133,11 +136,11 @@ public class MapRenderer {
         return new Vector3f((float) position.x, (float) position.y, (float) position.z);
     }
 
-    public static MapSolarSystem getCurrentOpenScreen() {
+    public static MapSolarSystemScreen getCurrentOpenScreen() {
         return currentOpenScreen;
     }
 
-    public static void setScreen(MapSolarSystem mapSolarSystem) {
+    public static void setScreen(MapSolarSystemScreen mapSolarSystem) {
         if (mapSolarSystem == null) {
             homePlanetPlayerDisplay = null;
             iconsList = new ArrayList<>();

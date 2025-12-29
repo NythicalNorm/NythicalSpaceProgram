@@ -1,10 +1,7 @@
-package com.nythicalnorm.nythicalSpaceProgram.planet;
+package com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet;
 
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -23,12 +20,11 @@ public class PlanetLevelData {
         return planetName;
     }
 
-    public PlanetaryBody getPlanetaryBody(Planets planets) {
+    public PlanetaryBody getPlanetaryBody(PlanetsProvider planets) {
         return planets.getPlanet(planetName);
     }
 
-    public double getAccelerationDueToGravity(Planets planets) {
-        Optional<Double> levelGravity = Optional.empty();
+    public double getAccelerationDueToGravity(PlanetsProvider planets) {
         PlanetaryBody plnt = planets.getPlanet(this.planetName);
         double g = plnt.getAccelerationDueToGravity();
         double adjustedg = g*0.1d*0.08d;

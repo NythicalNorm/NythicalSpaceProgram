@@ -1,9 +1,9 @@
 package com.nythicalnorm.nythicalSpaceProgram.planetshine.renderTypes;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.Orbit;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderers.PlanetRenderer;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;

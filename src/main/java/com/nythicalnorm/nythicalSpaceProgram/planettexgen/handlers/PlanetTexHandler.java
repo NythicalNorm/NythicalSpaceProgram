@@ -4,7 +4,7 @@ import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.network.ClientBoundPlanetTexturePacket;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.planettexgen.GradientSupplier;
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,7 +28,7 @@ public class PlanetTexHandler {
 
     HashMap<String, CompletableFuture<byte[]>> planetTexturesBytes;
 
-    public void loadOrCreateTex(MinecraftServer server, Planets planets) {
+    public void loadOrCreateTex(MinecraftServer server, PlanetsProvider planets) {
         Path modSubFolder = server.getWorldPath(LevelResource.ROOT).resolve(modSaveDirPath);
         modDir = new File(modSubFolder.toUri());
 

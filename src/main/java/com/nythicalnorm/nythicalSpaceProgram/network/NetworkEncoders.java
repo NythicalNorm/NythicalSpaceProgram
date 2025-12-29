@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.network;
 
-import com.nythicalnorm.nythicalSpaceProgram.orbit.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
 import net.minecraft.network.FriendlyByteBuf;
 
 import java.nio.charset.StandardCharsets;

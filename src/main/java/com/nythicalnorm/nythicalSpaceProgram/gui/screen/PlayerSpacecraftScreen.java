@@ -1,12 +1,13 @@
-package com.nythicalnorm.nythicalSpaceProgram.gui;
+package com.nythicalnorm.nythicalSpaceProgram.gui.screen;
 
+import com.nythicalnorm.nythicalSpaceProgram.gui.input.PlayerInputAxis;
+import com.nythicalnorm.nythicalSpaceProgram.gui.input.PlayerInputDirection;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.AltitudeWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.LeftPanelWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.NavballWidget;
 import com.nythicalnorm.nythicalSpaceProgram.gui.widgets.TimeWarpWidget;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.ClientPlayerSpacecraftBody;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.ClientPlayerSpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
@@ -78,7 +79,7 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
             this.onClose();
             keyPressed = true;
         } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.matches(pKeyCode, pScanCode)) {
-            Minecraft.getInstance().setScreen(new MapSolarSystem(true));
+            Minecraft.getInstance().setScreen(new MapSolarSystemScreen(true));
             keyPressed = true;
         }  else if (KeyBindings.RCS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
             RCS = !RCS;

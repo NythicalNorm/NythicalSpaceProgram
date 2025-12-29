@@ -43,12 +43,12 @@ public class PlanetArgument implements ArgumentType<String> {
         if (reader.canRead()) {
             String planetName = reader.readString();
             if (NythicalSpaceProgram.getCelestialStateSupplier().isPresent()) {
-                if (!planetName.isEmpty() && NythicalSpaceProgram.getCelestialStateSupplier().get().getPlanets().getPlanet(planetName) != null) {
+                if (!planetName.isEmpty() && NythicalSpaceProgram.getCelestialStateSupplier().get().getPlanetsProvider().getPlanet(planetName) != null) {
                     parsedBody = planetName;
                 }
             }
             else if (NythicalSpaceProgram.getSolarSystem().isPresent()) {
-                if (!planetName.isEmpty() && NythicalSpaceProgram.getSolarSystem().get().getPlanets().getPlanet(planetName) != null) {
+                if (!planetName.isEmpty() && NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider().getPlanet(planetName) != null) {
                     parsedBody = planetName;
                 }
             }
@@ -63,7 +63,7 @@ public class PlanetArgument implements ArgumentType<String> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        Iterable<String> planets = NythicalSpaceProgram.getCelestialStateSupplier().get().getPlanets().getAllPlanetNames();
+        Iterable<String> planets = NythicalSpaceProgram.getCelestialStateSupplier().get().getPlanetsProvider().getAllPlanetNames();
         return context.getSource() instanceof SharedSuggestionProvider ? SharedSuggestionProvider.suggest(planets, builder) : Suggestions.empty();
     }
 

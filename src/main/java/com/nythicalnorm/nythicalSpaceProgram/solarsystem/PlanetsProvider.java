@@ -2,10 +2,11 @@ package com.nythicalnorm.nythicalSpaceProgram.solarsystem;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.dimensions.SpaceDimension;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.*;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelData;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelDataProvider;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -14,12 +15,12 @@ import org.joml.Quaternionf;
 
 import java.util.*;
 
-public class Planets {
+public class PlanetsProvider {
     //public HashMap<String, PlanetaryBody> planetaryBodies = new HashMap<>();
     public HashMap<String, Stack<String>> allPlanetsAddresses = new HashMap<>();
     private static final HashMap<ResourceKey<Level>, String> planetDimensions = new HashMap<>(){{put(Level.OVERWORLD, "bumi");}};
 
-    public Planets(boolean isClientSide) {
+    public PlanetsProvider(boolean isClientSide) {
         SURIYAN.setChildAddresses(allPlanetsAddresses);
         SURIYAN.initCalcs();
     }
@@ -74,7 +75,7 @@ public class Planets {
             oldPlanet = (PlanetaryBody) getOrbit(oldAddress);
             Orbit newOrbitPlanet = getPlanet(newAddress);
 
-            EntitySpacecraftBody entitybody = (EntitySpacecraftBody) oldPlanet.getChild(playerUUid);
+            AbstractEntitySpacecraftBody entitybody = (AbstractEntitySpacecraftBody) oldPlanet.getChild(playerUUid);
             orbitalElementsNew.setOrbitalPeriod(((PlanetaryBody)newOrbitPlanet).getMass());
             entitybody.setOrbitalElements(orbitalElementsNew);
 
@@ -90,7 +91,7 @@ public class Planets {
         }
     }
 
-    public void playerJoinedOrbital(String PlayerUUid, Stack<String> newAddress, EntitySpacecraftBody OrbitalDataNew) {
+    public void playerJoinedOrbital(String PlayerUUid, Stack<String> newAddress, AbstractEntitySpacecraftBody OrbitalDataNew) {
         Orbit newOrbitPlanet = getPlanet(newAddress);
 
         if (newOrbitPlanet instanceof PlanetaryBody plnt) {
@@ -142,7 +143,7 @@ public class Planets {
             Level currentLevel = NythicalSpaceProgram.getSolarSystem().get().getServer().getLevel(level);
             if (currentLevel != null) {
                 if (currentLevel.dimensionType() == dim) {
-                    return NythicalSpaceProgram.getSolarSystem().get().getPlanets().getPlanet((planetDimensions.get(level)));
+                    return NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider().getPlanet((planetDimensions.get(level)));
                 }
             }
         }

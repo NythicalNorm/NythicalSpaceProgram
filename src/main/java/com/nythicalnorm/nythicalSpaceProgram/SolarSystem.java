@@ -1,10 +1,15 @@
-package com.nythicalnorm.nythicalSpaceProgram.solarsystem;
+package com.nythicalnorm.nythicalSpaceProgram;
 
 import com.nythicalnorm.nythicalSpaceProgram.dimensions.DimensionTeleporter;
 import com.nythicalnorm.nythicalSpaceProgram.dimensions.SpaceDimension;
 import com.nythicalnorm.nythicalSpaceProgram.network.*;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.*;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.planettexgen.handlers.PlanetTexHandler;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.ClientPlayerSpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.ServerPlayerSpacecraftBody;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
-import org.joml.Vector3d;
+
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -25,10 +30,10 @@ public class SolarSystem {
     //public static double tickTimeStamp;
     private final MinecraftServer server;
     private HashMap<String, Stack<String>> allPlayerOrbitalAddresses;
-    private final Planets planets;
+    private final PlanetsProvider planets;
     private PlanetTexHandler planetTexHandler;
 
-    public SolarSystem(MinecraftServer server, Planets pPlanets) {
+    public SolarSystem(MinecraftServer server, PlanetsProvider pPlanets) {
         timePassPerSecond = 1;
         allPlayerOrbitalAddresses = new HashMap<>();
         this.server = server;
@@ -40,7 +45,7 @@ public class SolarSystem {
         return server;
     }
 
-    public Planets getPlanets() {
+    public PlanetsProvider getPlanetsProvider() {
         return planets;
     }
 
@@ -74,7 +79,7 @@ public class SolarSystem {
         // this is not working check before making a saving system
         if (allPlayerOrbitalAddresses.containsKey(entity.getStringUUID())) {
             PlanetaryBody obt = planets.getPlanet(allPlayerOrbitalAddresses.get(entity.getStringUUID()));
-            EntitySpacecraftBody playerEntity = (EntitySpacecraftBody)obt.getChild(entity.getStringUUID());
+            AbstractEntitySpacecraftBody playerEntity = (AbstractEntitySpacecraftBody)obt.getChild(entity.getStringUUID());
             PacketHandler.sendToPlayer(new ClientBoundLoginSolarSystemState(playerEntity), (ServerPlayer) entity);
         }
         else {

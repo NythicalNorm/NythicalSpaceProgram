@@ -1,5 +1,7 @@
-package com.nythicalnorm.nythicalSpaceProgram.Item.armor;
+package com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack;
 
+import com.nythicalnorm.nythicalSpaceProgram.Item.armor.ModArmorMaterial;
+import com.nythicalnorm.nythicalSpaceProgram.Item.armor.SpacesuitModelModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 

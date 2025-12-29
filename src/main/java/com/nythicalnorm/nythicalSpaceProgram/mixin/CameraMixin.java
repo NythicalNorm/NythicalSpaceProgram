@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.mixin;
 
-import com.nythicalnorm.nythicalSpaceProgram.gui.PlayerSpacecraftScreen;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.PlayerSpacecraftScreen;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;

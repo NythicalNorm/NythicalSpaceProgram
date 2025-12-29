@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.planet;
+package com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

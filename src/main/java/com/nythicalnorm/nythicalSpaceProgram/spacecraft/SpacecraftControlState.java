@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.spacecraft;
 
 import org.joml.Vector3d;
 

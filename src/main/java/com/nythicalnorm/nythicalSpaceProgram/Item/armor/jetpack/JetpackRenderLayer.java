@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.Item.armor;
+package com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;

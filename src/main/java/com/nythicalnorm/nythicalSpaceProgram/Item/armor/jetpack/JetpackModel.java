@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.Item.armor;
+package com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;

@@ -1,5 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.Item.armor;
 
+import com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack.JetpackModel;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;

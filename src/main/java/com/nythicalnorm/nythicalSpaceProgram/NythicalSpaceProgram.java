@@ -5,11 +5,9 @@ import com.nythicalnorm.nythicalSpaceProgram.Item.ModCreativeModeTab;
 import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
 import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
 import com.nythicalnorm.nythicalSpaceProgram.commands.ModArguments;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.EntitySpacecraftBody;
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Planets;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.CelestialStateSupplier;
-import com.nythicalnorm.nythicalSpaceProgram.solarsystem.SolarSystem;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
 import com.nythicalnorm.nythicalSpaceProgram.sound.ModSounds;
 import com.nythicalnorm.nythicalSpaceProgram.util.ModItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
@@ -80,7 +78,7 @@ public class NythicalSpaceProgram
     @SubscribeEvent
     public void onServerAboutToStart(ServerAboutToStartEvent event)
     {
-        Planets planets = new Planets(false);
+        PlanetsProvider planets = new PlanetsProvider(false);
         solarSystem = new SolarSystem(event.getServer(), planets);
     }
 
@@ -104,8 +102,8 @@ public class NythicalSpaceProgram
         }
     }
 
-    public static void startClient(EntitySpacecraftBody playerData) {
-        Planets planets = new Planets(true);
+    public static void startClient(AbstractEntitySpacecraftBody playerData) {
+        PlanetsProvider planets = new PlanetsProvider(true);
         celestialStateSupplier = new CelestialStateSupplier(playerData, planets);
     }
 

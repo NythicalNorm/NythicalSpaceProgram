@@ -1,12 +1,13 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics;
 
+import com.nythicalnorm.nythicalSpaceProgram.spacecraft.AbstractEntitySpacecraftBody;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public class PhysicsPlanet extends PhysicsContext{
-    public PhysicsPlanet(Entity playerEntity, EntitySpacecraftBody orbitBody) {
+public class PlayerPhysicsPlanet extends PhysicsContext{
+    public PlayerPhysicsPlanet(Entity playerEntity, AbstractEntitySpacecraftBody orbitBody) {
         super(playerEntity, orbitBody);
     }
 

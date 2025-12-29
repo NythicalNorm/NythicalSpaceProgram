@@ -5,10 +5,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetAtmosphere;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderTypes.RenderablePlanet;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.renderTypes.SpaceRenderable;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.ModShaders;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -16,7 +14,6 @@ import net.minecraft.util.Mth;
 import org.joml.*;
 
 import java.lang.Math;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public class AtmosphereRenderer {
@@ -26,8 +23,6 @@ public class AtmosphereRenderer {
     private static Uniform AtmoColor;
     private static Uniform OverlayAngle;
     private static Uniform AtmoAngle;
-
-    private static final PlanetAtmosphere EmptySpaceAtmo = new PlanetAtmosphere(false, 0, 0, Double.POSITIVE_INFINITY, 1.0f,0f,0f);
 
     public static void setupShader(VertexBuffer skyBuffer) {
         skyboxShader = ModShaders.getSkyboxShaderInstance();

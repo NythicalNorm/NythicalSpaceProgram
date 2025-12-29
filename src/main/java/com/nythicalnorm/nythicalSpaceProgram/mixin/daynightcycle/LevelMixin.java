@@ -1,9 +1,9 @@
 package com.nythicalnorm.nythicalSpaceProgram.mixin.daynightcycle;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.orbit.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelData;
-import com.nythicalnorm.nythicalSpaceProgram.planet.PlanetLevelDataProvider;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
 import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.DifficultyInstance;
@@ -18,6 +18,8 @@ import java.util.Optional;
 
 @Mixin(Level.class)
 public class LevelMixin {
+    // Still makes no sense why mixining this function affects natural mob spawn as this seems to just
+    // linearly increase difficulty and caps out at 3 days...???
     @Inject(method = "getCurrentDifficultyAt", at= @At(value = "HEAD"),cancellable = true)
     public void getCurrentDifficultyAt(BlockPos pPos, CallbackInfoReturnable<DifficultyInstance> cir) {
         Level level = (Level) (Object)this;
@@ -27,7 +29,7 @@ public class LevelMixin {
             LazyOptional<PlanetLevelData> plntData = level.getCapability(PlanetLevelDataProvider.PLANET_LEVEL_DATA);
             Optional<Long> currentTime = Optional.empty();
             if (plntData.resolve().isPresent() &&  NythicalSpaceProgram.getSolarSystem().isPresent()) {
-                plnt = NythicalSpaceProgram.getSolarSystem().get().getPlanets().getPlanet(plntData.resolve().get().getPlanetName());
+                plnt = NythicalSpaceProgram.getSolarSystem().get().getPlanetsProvider().getPlanet(plntData.resolve().get().getPlanetName());
                 currentTime = DayNightCycleHandler.getDayTime(pPos, plnt, NythicalSpaceProgram.getSolarSystem().get().getCurrentTime());
             }
 

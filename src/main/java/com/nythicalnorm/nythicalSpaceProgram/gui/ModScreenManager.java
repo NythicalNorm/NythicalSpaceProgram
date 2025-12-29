@@ -1,8 +1,9 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.MapSolarSystemScreen;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.PlayerSpacecraftScreen;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapRenderer;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
@@ -25,7 +26,7 @@ public class ModScreenManager {
 
     public boolean doPlanetShineDraw() {
         updateScreenState();
-        return Minecraft.getInstance().screen instanceof MapSolarSystem;
+        return Minecraft.getInstance().screen instanceof MapSolarSystemScreen;
     }
 
     public void updateScreenState() {

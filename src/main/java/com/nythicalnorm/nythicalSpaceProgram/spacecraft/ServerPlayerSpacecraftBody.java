@@ -1,12 +1,13 @@
-package com.nythicalnorm.nythicalSpaceProgram.orbit;
+package com.nythicalnorm.nythicalSpaceProgram.spacecraft;
 
+import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
 import net.minecraft.server.level.ServerPlayer;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.UUID;
 
-public class ServerPlayerSpacecraftBody extends PlayerSpacecraftBody {
+public class ServerPlayerSpacecraftBody extends AbstractPlayerSpacecraftBody {
     private UUID playerUUID;
     private boolean isShipBound;
 

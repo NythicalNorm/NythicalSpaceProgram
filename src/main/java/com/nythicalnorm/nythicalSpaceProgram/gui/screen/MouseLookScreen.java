@@ -1,7 +1,6 @@
-package com.nythicalnorm.nythicalSpaceProgram.gui;
+package com.nythicalnorm.nythicalSpaceProgram.gui.screen;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.map.MapSolarSystem;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
