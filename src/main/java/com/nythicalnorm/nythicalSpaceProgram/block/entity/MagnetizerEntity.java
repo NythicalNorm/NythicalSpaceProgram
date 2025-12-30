@@ -2,7 +2,7 @@ package com.nythicalnorm.nythicalSpaceProgram.block.entity;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.recipe.MagnetizerRecipe;
-import com.nythicalnorm.nythicalSpaceProgram.screen.MagnetizerMenu;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.MagnetizerMenu;
 import com.nythicalnorm.nythicalSpaceProgram.util.CustomEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -66,7 +66,7 @@ public class MagnetizerEntity extends BlockEntity implements MenuProvider {
     private LazyOptional<IItemHandler> lazyOutputItemHandler = LazyOptional.empty();
     private LazyOptional<CustomEnergyStorage> energyStorageLazyOptional = LazyOptional.empty();
 
-    private Direction Facing = Direction.NORTH;
+    private Direction Facing;
     private boolean isCrafting = false;
     protected final ContainerData data;
     private int progress = 0;
@@ -223,7 +223,7 @@ public class MagnetizerEntity extends BlockEntity implements MenuProvider {
     @Override
     public void load(CompoundTag pTag) {
         if (!pTag.contains("inventoryIn") || !pTag.contains("inventoryOut") || !pTag.contains("magnetizer.energyStorage") || !pTag.contains("magnetizer.progress") || !pTag.contains("magnetizer.crafting")) {
-            NythicalSpaceProgram.LOGGER.error("Expected NBT tag is missing.");
+            NythicalSpaceProgram.logError("Expected NBT tag is missing.");
             return;
         }
         this.InputItemHandler.deserializeNBT(pTag.getCompound("inventoryIn"));

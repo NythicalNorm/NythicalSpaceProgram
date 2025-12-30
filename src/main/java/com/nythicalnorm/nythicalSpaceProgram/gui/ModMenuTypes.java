@@ -1,6 +1,8 @@
-package com.nythicalnorm.nythicalSpaceProgram.screen;
+package com.nythicalnorm.nythicalSpaceProgram.gui;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.CryogenicAirSeparatorMenu;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.MagnetizerMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;

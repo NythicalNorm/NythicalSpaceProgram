@@ -1,7 +1,8 @@
-package com.nythicalnorm.nythicalSpaceProgram.screen;
+package com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity;
 
 import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
 import com.nythicalnorm.nythicalSpaceProgram.block.entity.MagnetizerEntity;
+import com.nythicalnorm.nythicalSpaceProgram.gui.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

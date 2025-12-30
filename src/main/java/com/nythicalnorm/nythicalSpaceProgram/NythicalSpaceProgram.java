@@ -7,9 +7,9 @@ import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
 import com.nythicalnorm.nythicalSpaceProgram.block.entity.ModBlockEntities;
 import com.nythicalnorm.nythicalSpaceProgram.fluid.ModFluids;
 import com.nythicalnorm.nythicalSpaceProgram.recipe.ModRecipes;
-import com.nythicalnorm.nythicalSpaceProgram.screen.CryogenicAirSeparatorScreen;
-import com.nythicalnorm.nythicalSpaceProgram.screen.MagnetizerScreen;
-import com.nythicalnorm.nythicalSpaceProgram.screen.ModMenuTypes;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.CryogenicAirSeparatorScreen;
+import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.MagnetizerScreen;
+import com.nythicalnorm.nythicalSpaceProgram.gui.ModMenuTypes;
 import com.nythicalnorm.nythicalSpaceProgram.commands.ModArguments;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
@@ -19,7 +19,6 @@ import com.nythicalnorm.nythicalSpaceProgram.util.ModItemProperties;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -39,7 +38,7 @@ public class NythicalSpaceProgram
     // Define mod id in a common place for everything to reference
     public static final String MODID = "nythicalspaceprogram";
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LogUtils.getLogger();
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     //only use this in the Logical Server side
     private static SolarSystem solarSystem;
