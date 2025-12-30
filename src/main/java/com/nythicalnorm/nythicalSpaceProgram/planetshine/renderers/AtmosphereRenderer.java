@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.ModShaders;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.NSPShaders;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
@@ -25,7 +25,7 @@ public class AtmosphereRenderer {
     private static Uniform AtmoAngle;
 
     public static void setupShader(VertexBuffer skyBuffer) {
-        skyboxShader = ModShaders.getSkyboxShaderInstance();
+        skyboxShader = NSPShaders.getSkyboxShaderInstance();
         skyboxBuffer = skyBuffer;
         if (skyboxShader.get() != null) {
             OverlayColor = skyboxShader.get().getUniform("nspOverlayColor");

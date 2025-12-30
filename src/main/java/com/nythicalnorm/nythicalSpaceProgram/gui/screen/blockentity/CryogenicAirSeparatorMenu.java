@@ -1,8 +1,8 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity;
 
-import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
+import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
 import com.nythicalnorm.nythicalSpaceProgram.block.entity.CryogenicAirSeparatorEntity;
-import com.nythicalnorm.nythicalSpaceProgram.gui.ModMenuTypes;
+import com.nythicalnorm.nythicalSpaceProgram.gui.NSPMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ public class CryogenicAirSeparatorMenu extends AbstractContainerMenu {
     }
 
     public CryogenicAirSeparatorMenu(int pContainerId, Inventory inventory, BlockEntity entity, ContainerData simpleContainerData) {
-        super(ModMenuTypes.CRYOGENIC_AIR_SEPARATOR_MENU.get(), pContainerId);
+        super(NSPMenuTypes.CRYOGENIC_AIR_SEPARATOR_MENU.get(), pContainerId);
         blockEntity = ((CryogenicAirSeparatorEntity) entity);
         this.level = blockEntity.getLevel();
         this.data = simpleContainerData;
@@ -41,7 +41,7 @@ public class CryogenicAirSeparatorMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.CRYOGENIC_AIR_SEPARATOR.get());
+                pPlayer, NSPBlocks.CRYOGENIC_AIR_SEPARATOR.get());
     }
 
     public Fluid getFluidManufacture(int index) {

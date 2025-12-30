@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LeftPanelWidget extends AbstractWidget {
-    private static final ResourceLocation LEFTPANEL_GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+    private static final ResourceLocation LEFTPANEL_GUI_TEXTURE = NythicalSpaceProgram.rl(
             "textures/gui/leftpanelwidget.png");
 
     public LeftPanelWidget(int pX, int pY, int pWidth, int pHeight, Component pMessage) {

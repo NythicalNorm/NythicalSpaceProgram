@@ -10,9 +10,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -20,8 +18,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MagnetizerModels {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "magnetizer_models"), "main");
-    public static final Material TEXTURE_LOCATION = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/magnetizer_rotating_table"));
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(NythicalSpaceProgram.rl( "magnetizer_models"), "main");
+    public static final Material TEXTURE_LOCATION = new Material(InventoryMenu.BLOCK_ATLAS, NythicalSpaceProgram.rl( "block/magnetizer_rotating_table"));
     private final ModelPart magnet_table;
     private final ModelPart magnet;
 

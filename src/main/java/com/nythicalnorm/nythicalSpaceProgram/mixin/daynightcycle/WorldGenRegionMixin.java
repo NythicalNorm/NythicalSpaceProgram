@@ -4,7 +4,7 @@ import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
-import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
+import com.nythicalnorm.nythicalSpaceProgram.util.handlers.DayNightCycleHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.DifficultyInstance;

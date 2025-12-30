@@ -19,15 +19,15 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeServer(), new ModRecipeProvider(packOutput));
-        generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput));
+        generator.addProvider(event.includeServer(), new NSPRecipeProvider(packOutput));
+        generator.addProvider(event.includeServer(), NSPLootTableProvider.create(packOutput));
 
-        generator.addProvider(event.includeClient(), new ModBlockStateProvider(packOutput, existingFileHelper));
-        generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new NSPBlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new NSPItemModelProvider(packOutput, existingFileHelper));
 
-        ModBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
-                new ModBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
+        NSPBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
+                new NSPBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new NSPItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new NSPWorldGenProvider(packOutput, lookupProvider));
     }
 }

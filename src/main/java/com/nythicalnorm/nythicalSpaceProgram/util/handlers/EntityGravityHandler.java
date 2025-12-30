@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.util;
+package com.nythicalnorm.nythicalSpaceProgram.util.handlers;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

@@ -2,10 +2,10 @@ package com.nythicalnorm.nythicalSpaceProgram.fluid;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
+import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
 import com.nythicalnorm.nythicalSpaceProgram.Item.custom.CryogenicBucketItem;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
+import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -44,15 +44,15 @@ public class FluidRegistryContainer {
                                   Supplier<IClientFluidTypeExtensions> clientExtensions, @Nullable AdditionalProperties additionalProperties,
                                   BlockBehaviour.Properties blockProperties, Item.Properties itemProperties, boolean isCryogenic, boolean isGaseous) {
         this.typeProperties = typeProperties;
-        this.type = ModFluids.FLUID_TYPES.register(name, () -> new FluidType(this.typeProperties) {
+        this.type = NSPFluids.FLUID_TYPES.register(name, () -> new FluidType(this.typeProperties) {
             @Override
             public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
                 consumer.accept(clientExtensions.get());
             }
         });
 
-        this.source = ModFluids.FLUIDS.register(name + "_source", () -> new ForgeFlowingFluid.Source(this.properties));
-        this.flowing = ModFluids.FLUIDS.register(name + "_flowing",
+        this.source = NSPFluids.FLUIDS.register(name + "_source", () -> new ForgeFlowingFluid.Source(this.properties));
+        this.flowing = NSPFluids.FLUIDS.register(name + "_flowing",
                 () -> new ForgeFlowingFluid.Flowing(this.properties));
 
         this.properties = new ForgeFlowingFluid.Properties(this.type, this.source, this.flowing);
@@ -64,16 +64,16 @@ public class FluidRegistryContainer {
 
         //LiquidBlock blockType = ;
         if (isCryogenic && !isGaseous) {
-            this.block = ModBlocks.BLOCKS.register(name, () -> new CryogenicFluid(this.source, blockProperties));
-            this.fluidContainer = ModItems.ITEMS.register(name + "_bucket", () -> new CryogenicBucketItem(this.source, itemProperties));
+            this.block = NSPBlocks.BLOCKS.register(name, () -> new CryogenicFluid(this.source, blockProperties));
+            this.fluidContainer = NSPItems.ITEMS.register(name + "_bucket", () -> new CryogenicBucketItem(this.source, itemProperties));
         }
         else if (!isGaseous) {
-            this.block = ModBlocks.BLOCKS.register(name, () -> new LiquidBlock(this.source, blockProperties));
-            this.fluidContainer = ModItems.ITEMS.register(name + "_bucket", () -> new BucketItem(this.source, itemProperties));
+            this.block = NSPBlocks.BLOCKS.register(name, () -> new LiquidBlock(this.source, blockProperties));
+            this.fluidContainer = NSPItems.ITEMS.register(name + "_bucket", () -> new BucketItem(this.source, itemProperties));
         }
         else {
-            this.block = ModBlocks.BLOCKS.register(name, () -> new LiquidBlock(this.source, blockProperties));
-            this.fluidContainer = ModItems.ITEMS.register(name + "_canister", () -> new BucketItem(this.source, itemProperties));
+            this.block = NSPBlocks.BLOCKS.register(name, () -> new LiquidBlock(this.source, blockProperties));
+            this.fluidContainer = NSPItems.ITEMS.register(name + "_canister", () -> new BucketItem(this.source, itemProperties));
         }
         this.properties.block(this.block);
 
@@ -190,7 +190,7 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions flowing(String name, String folder) {
-            this.flowing = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, folder + "/" + name + "_flow");
+            this.flowing = NythicalSpaceProgram.rl( folder + "/" + name + "_flow");
             return this;
         }
 
@@ -204,8 +204,8 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions overlay(String name, String folder) {
-            this.overlay = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, folder + "/" + name + "_overlay");
-            return renderOverlay(ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "textures/" + folder + "/" + name + "_overlay.png"));
+            this.overlay = NythicalSpaceProgram.rl( folder + "/" + name + "_overlay");
+            return renderOverlay(NythicalSpaceProgram.rl( "textures/" + folder + "/" + name + "_overlay.png"));
         }
 
         public ClientExtensions renderOverlay(ResourceLocation path) {
@@ -218,7 +218,7 @@ public class FluidRegistryContainer {
         }
 
         public ClientExtensions still(String name, String folder) {
-            this.still = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, folder + "/" + name + "_still");
+            this.still = NythicalSpaceProgram.rl( folder + "/" + name + "_still");
             return this;
         }
 

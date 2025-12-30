@@ -3,7 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram.block.entity;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.recipe.MagnetizerRecipe;
 import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.MagnetizerMenu;
-import com.nythicalnorm.nythicalSpaceProgram.util.CustomEnergyStorage;
+import com.nythicalnorm.nythicalSpaceProgram.util.caps.CustomEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -76,7 +76,7 @@ public class MagnetizerEntity extends BlockEntity implements MenuProvider {
     private float magnetTableYrot = 0f;
 
     public MagnetizerEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.MAGNETIZER_BE.get(), pPos, pBlockState);
+        super(NSPBlockEntities.MAGNETIZER_BE.get(), pPos, pBlockState);
         Facing = pBlockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
         this.data = new ContainerData() {

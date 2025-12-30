@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MagnetizerScreen extends AbstractContainerScreen<MagnetizerMenu> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+    private static final ResourceLocation TEXTURE = NythicalSpaceProgram.rl(
             "textures/gui/magnetizer.png");
 
     public MagnetizerScreen(MagnetizerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {

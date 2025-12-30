@@ -1,7 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.block.custom;
 
 import com.nythicalnorm.nythicalSpaceProgram.block.entity.CryogenicAirSeparatorEntity;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.ModBlockEntities;
+import com.nythicalnorm.nythicalSpaceProgram.block.entity.NSPBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -63,7 +63,7 @@ public class CryogenicAirSeparator extends BaseEntityBlock {
         if (pLevel.isClientSide) {
             return null;
         }
-        return createTickerHelper(pBlockEntityType, ModBlockEntities.CRYOGENIC_AIR_SEPARATOR_BE.get(),
+        return createTickerHelper(pBlockEntityType, NSPBlockEntities.CRYOGENIC_AIR_SEPARATOR_BE.get(),
                 (pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pPos, pState1));
     }
 }

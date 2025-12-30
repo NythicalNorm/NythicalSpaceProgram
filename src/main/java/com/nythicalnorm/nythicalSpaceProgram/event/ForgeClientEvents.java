@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.event;
 
-import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
+import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
 import com.nythicalnorm.nythicalSpaceProgram.Item.armor.jetpack.Jetpack;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.dimensions.SpaceDimension;
@@ -59,7 +59,7 @@ public class ForgeClientEvents {
     public static void postPlayerRender(RenderPlayerEvent.Pre event) {
         PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
 
-        if (event.getEntity().getSlot(102).get().is(ModItems.CREATIVE_SPACESUIT_CHESTPLATE.get())) {
+        if (event.getEntity().getSlot(102).get().is(NSPItems.CREATIVE_SPACESUIT_CHESTPLATE.get())) {
             playerModel.leftArm.visible = false;
             playerModel.rightArm.visible = false;
             playerModel.leftSleeve.visible = false;

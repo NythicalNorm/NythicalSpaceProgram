@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.block;
 
-import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
+import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.block.custom.CryogenicAirSeparator;
 import com.nythicalnorm.nythicalSpaceProgram.block.custom.FootprintedRegolith;
@@ -18,7 +18,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-public class ModBlocks {
+public class NSPBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NythicalSpaceProgram.MODID);
     public static final RegistryObject<Block> OXYGEN_PROPELLANT_TANK = registerBlock("oxygen_propellant_tank",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.COPPER)));
@@ -45,7 +45,7 @@ public class ModBlocks {
     }
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
-        return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return NSPItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
     public static void register(IEventBus eventBus)

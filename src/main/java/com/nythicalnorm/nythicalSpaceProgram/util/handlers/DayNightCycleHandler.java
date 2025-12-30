@@ -1,7 +1,8 @@
-package com.nythicalnorm.nythicalSpaceProgram.util;
+package com.nythicalnorm.nythicalSpaceProgram.util.handlers;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
+import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;

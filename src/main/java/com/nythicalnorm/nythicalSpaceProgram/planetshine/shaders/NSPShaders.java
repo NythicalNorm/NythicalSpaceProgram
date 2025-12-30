@@ -6,7 +6,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
-public class ModShaders {
+public class NSPShaders {
     private static ShaderInstance PLANETSHADER;
     private static ShaderInstance SKYBOXSHADER;
 

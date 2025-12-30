@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = NythicalSpaceProgram.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ModModelLayers {
+public class NSPModelLayers {
     public static ModelLayerLocation JETPACK_LAYER = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player"), "nsp_spacesuit");
 
     @SubscribeEvent

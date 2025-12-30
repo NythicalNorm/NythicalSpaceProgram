@@ -78,7 +78,7 @@ public class ForgeServerEvents {
                 if (solarSystem.getPlanetsProvider().isDimensionPlanet(event.getObject().dimension())) {
                     String planetName = solarSystem.getPlanetsProvider().getDimensionPlanet(event.getObject().dimension());
                     PlanetLevelDataProvider planetDataprovider = new PlanetLevelDataProvider(new PlanetLevelData(planetName));
-                    event.addCapability(ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "planetleveldata"), planetDataprovider);
+                    event.addCapability(NythicalSpaceProgram.rl( "planetleveldata"), planetDataprovider);
                 }
             }
         }

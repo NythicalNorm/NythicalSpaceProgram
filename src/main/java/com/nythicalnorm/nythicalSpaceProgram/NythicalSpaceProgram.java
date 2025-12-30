@@ -1,22 +1,23 @@
 package com.nythicalnorm.nythicalSpaceProgram;
 
 import com.mojang.logging.LogUtils;
-import com.nythicalnorm.nythicalSpaceProgram.Item.ModCreativeModeTab;
-import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
-import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.ModBlockEntities;
-import com.nythicalnorm.nythicalSpaceProgram.fluid.ModFluids;
-import com.nythicalnorm.nythicalSpaceProgram.recipe.ModRecipes;
+import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
+import com.nythicalnorm.nythicalSpaceProgram.sound.NSPSounds;
+import com.nythicalnorm.nythicalSpaceProgram.util.NSPCreativeModeTab;
+import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
+import com.nythicalnorm.nythicalSpaceProgram.block.entity.NSPBlockEntities;
+import com.nythicalnorm.nythicalSpaceProgram.fluid.NSPFluids;
+import com.nythicalnorm.nythicalSpaceProgram.recipe.NSPRecipes;
 import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.CryogenicAirSeparatorScreen;
 import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.MagnetizerScreen;
-import com.nythicalnorm.nythicalSpaceProgram.gui.ModMenuTypes;
-import com.nythicalnorm.nythicalSpaceProgram.commands.ModArguments;
+import com.nythicalnorm.nythicalSpaceProgram.gui.NSPMenuTypes;
+import com.nythicalnorm.nythicalSpaceProgram.commands.NSPArguments;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
-import com.nythicalnorm.nythicalSpaceProgram.sound.ModSounds;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
-import com.nythicalnorm.nythicalSpaceProgram.util.ModItemProperties;
+import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItemProperties;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
@@ -48,20 +49,20 @@ public class NythicalSpaceProgram
     {
         IEventBus modEventBus = context.getModEventBus();
 
-        ModItems.register(modEventBus);
-        ModBlocks.register(modEventBus);
-        ModSounds.register(modEventBus);
-        ModBlockEntities.register(modEventBus);
-        ModMenuTypes.register(modEventBus);
-        ModRecipes.register(modEventBus);
-        ModFluids.FLUID_TYPES.register(modEventBus);
-        ModFluids.FLUIDS.register(modEventBus);
-        ModArguments.register(modEventBus);
+        NSPItems.register(modEventBus);
+        NSPBlocks.register(modEventBus);
+        NSPSounds.register(modEventBus);
+        NSPBlockEntities.register(modEventBus);
+        NSPMenuTypes.register(modEventBus);
+        NSPRecipes.register(modEventBus);
+        NSPFluids.FLUID_TYPES.register(modEventBus);
+        NSPFluids.FLUIDS.register(modEventBus);
+        NSPArguments.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 
         modEventBus.addListener(this::commonSetup);
-        ModCreativeModeTab.register(modEventBus);
+        NSPCreativeModeTab.register(modEventBus);
         //modEventBus.addListener(this::addCreative);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
@@ -72,6 +73,10 @@ public class NythicalSpaceProgram
     {
         // Some common setup code
         event.enqueueWork(PacketHandler::register);
+    }
+
+    public static ResourceLocation rl(String location) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, location);
     }
 
     public static void log(String msg){
@@ -109,10 +114,10 @@ public class NythicalSpaceProgram
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             // Some client setup code
-            ModItemProperties.addCustomItemProperties();
+            NSPItemProperties.addCustomItemProperties();
 
-            MenuScreens.register(ModMenuTypes.MAGNETIZER_MENU.get(), MagnetizerScreen::new);
-            MenuScreens.register(ModMenuTypes.CRYOGENIC_AIR_SEPARATOR_MENU.get(), CryogenicAirSeparatorScreen::new);
+            MenuScreens.register(NSPMenuTypes.MAGNETIZER_MENU.get(), MagnetizerScreen::new);
+            MenuScreens.register(NSPMenuTypes.CRYOGENIC_AIR_SEPARATOR_MENU.get(), CryogenicAirSeparatorScreen::new);
         }
     }
 

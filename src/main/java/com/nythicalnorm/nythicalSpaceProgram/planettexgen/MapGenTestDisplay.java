@@ -12,7 +12,7 @@ import java.util.Random;
 public class MapGenTestDisplay {
     private static JLabel imageLabel;
 
-    public static void main(String[] args) {
+    public static void mainDisplay(String[] args) {
         JFrame frame = new JFrame("Map Window");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1500, 750);

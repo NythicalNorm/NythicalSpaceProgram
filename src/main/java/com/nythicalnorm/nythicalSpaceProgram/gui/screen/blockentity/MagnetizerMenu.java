@@ -1,8 +1,8 @@
 package com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity;
 
-import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
+import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
 import com.nythicalnorm.nythicalSpaceProgram.block.entity.MagnetizerEntity;
-import com.nythicalnorm.nythicalSpaceProgram.gui.ModMenuTypes;
+import com.nythicalnorm.nythicalSpaceProgram.gui.NSPMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +24,7 @@ public class MagnetizerMenu extends AbstractContainerMenu {
         this(pContainerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
     }
     public MagnetizerMenu(int pContainerId, Inventory inventory, BlockEntity entity, ContainerData simpleContainerData) {
-        super(ModMenuTypes.MAGNETIZER_MENU.get(), pContainerId);
+        super(NSPMenuTypes.MAGNETIZER_MENU.get(), pContainerId);
         checkContainerSize(inventory, 2);
         blockEntity = ((MagnetizerEntity) entity);
         this.level = inventory.player.level();
@@ -127,7 +127,7 @@ public class MagnetizerMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(@NotNull Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.MAGNETIZER.get());
+                pPlayer, NSPBlocks.MAGNETIZER.get());
     }
 
     public void addPlayerInventory(Inventory playerInventory) {

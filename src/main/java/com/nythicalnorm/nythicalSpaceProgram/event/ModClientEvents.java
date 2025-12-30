@@ -2,25 +2,22 @@ package com.nythicalnorm.nythicalSpaceProgram.event;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.ModBlockEntities;
+import com.nythicalnorm.nythicalSpaceProgram.block.entity.NSPBlockEntities;
 import com.nythicalnorm.nythicalSpaceProgram.block.entity.models.MagnetizerModels;
 import com.nythicalnorm.nythicalSpaceProgram.block.entity.renderer.MagnetizerBlockEntityRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.generators.QuadSphereModelGenerator;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.ModShaders;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.NSPShaders;
 import com.nythicalnorm.nythicalSpaceProgram.util.KeyBindings;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
@@ -30,7 +27,7 @@ import java.io.IOException;
 public class ModClientEvents {
     @SubscribeEvent
     public static void RegisterBER(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlockEntities.MAGNETIZER_BE.get(), MagnetizerBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(NSPBlockEntities.MAGNETIZER_BE.get(), MagnetizerBlockEntityRenderer::new);
     }
 
     @SubscribeEvent
@@ -68,10 +65,10 @@ public class ModClientEvents {
     public static void shaderRegistry(RegisterShadersEvent event) throws IOException
     {
         // Adds a shader to the list, the callback runs when loading is complete.
-        event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
-                "nythicalspaceprogram_planet"), DefaultVertexFormat.POSITION_TEX), ModShaders::setPlanetShaderInstance);
+        event.registerShader(new ShaderInstance(event.getResourceProvider(), NythicalSpaceProgram.rl(
+                "nythicalspaceprogram_planet"), DefaultVertexFormat.POSITION_TEX), NSPShaders::setPlanetShaderInstance);
 
-        event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
-                "nythicalspaceprogram_skybox"), DefaultVertexFormat.POSITION_COLOR), ModShaders::setSkyboxShaderInstance);
+        event.registerShader(new ShaderInstance(event.getResourceProvider(), NythicalSpaceProgram.rl(
+                "nythicalspaceprogram_skybox"), DefaultVertexFormat.POSITION_COLOR), NSPShaders::setSkyboxShaderInstance);
     }
 }

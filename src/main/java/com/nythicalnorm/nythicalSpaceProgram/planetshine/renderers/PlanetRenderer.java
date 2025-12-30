@@ -10,7 +10,7 @@ import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetAtmosphere
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Star;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.generators.QuadSphereModelGenerator;
-import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.ModShaders;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.NSPShaders;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -34,7 +34,7 @@ public class PlanetRenderer {
     private static Uniform AtmoFilterColorUniform;
 
     public static void setupShader() {
-        planetShader = ModShaders.getPlanetShaderInstance();
+        planetShader = NSPShaders.getPlanetShaderInstance();
         if (planetShader.get() != null) {
             sunDirUniform = planetShader.get().getUniform("SunDirection");
             AtmoFilterColorUniform = planetShader.get().getUniform("AtmoFilterColor");

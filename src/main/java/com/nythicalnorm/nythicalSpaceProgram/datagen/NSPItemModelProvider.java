@@ -1,5 +1,5 @@
 package com.nythicalnorm.nythicalSpaceProgram.datagen;
-import com.nythicalnorm.nythicalSpaceProgram.Item.ModItems;
+import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -9,36 +9,36 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
-public class ModItemModelProvider extends ItemModelProvider {
-    public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+public class NSPItemModelProvider extends ItemModelProvider {
+    public NSPItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, NythicalSpaceProgram.MODID, existingFileHelper);
     }
 
     @Override
     protected void registerModels() {
-        item3dOnlyinHand(ModItems.HANDHELD_PROPELLER);
-        simpleItem(ModItems.MAGNET_BOOTS);
-        simpleItem(ModItems.MAGNETIZED_IRON_INGOT);
+        item3dOnlyinHand(NSPItems.HANDHELD_PROPELLER);
+        simpleItem(NSPItems.MAGNET_BOOTS);
+        simpleItem(NSPItems.MAGNETIZED_IRON_INGOT);
 
-        simpleItem(ModItems.SPACESUIT_HELMET);
-        simpleItem(ModItems.CREATIVE_SPACESUIT_CHESTPLATE);
-        simpleItem(ModItems.SPACESUIT_LEGGINGS);
-        simpleItem(ModItems.SPACESUIT_BOOTS);
+        simpleItem(NSPItems.SPACESUIT_HELMET);
+        simpleItem(NSPItems.CREATIVE_SPACESUIT_CHESTPLATE);
+        simpleItem(NSPItems.SPACESUIT_LEGGINGS);
+        simpleItem(NSPItems.SPACESUIT_BOOTS);
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         assert item.getId() != null;
         return  withExistingParent(item.getId().getPath(),
                 ResourceLocation.parse("item/generated")).texture("layer0",
-                ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "item/" + item.getId().getPath()));
+                NythicalSpaceProgram.rl( "item/" + item.getId().getPath()));
     }
 
     private void item3dOnlyinHand(RegistryObject<Item> item) {
         withExistingParent(item.getId().getPath() + "_2d",
                 ResourceLocation.parse("item/handheld")).texture("layer0",
-                ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "item/" + item.getId().getPath()));
+                NythicalSpaceProgram.rl( "item/" + item.getId().getPath()));
 
-//        ModelFile.ExistingModelFile val = getExistingFile(ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "item/" + item.getId().getPath() + "_3d"));
+//        ModelFile.ExistingModelFile val = getExistingFile(NythicalSpaceProgram.rl( "item/" + item.getId().getPath() + "_3d"));
 //
 //        withExistingParent(item.getId().getPath(), ResourceLocation.parse("item/handheld"))
 //                .customLoader(SeparateTransformsModelBuilder::begin)

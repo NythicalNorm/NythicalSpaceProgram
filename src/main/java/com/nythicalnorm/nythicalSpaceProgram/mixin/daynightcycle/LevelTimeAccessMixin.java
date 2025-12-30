@@ -3,7 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram.mixin.daynightcycle;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
-import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
+import com.nythicalnorm.nythicalSpaceProgram.util.handlers.DayNightCycleHandler;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LevelTimeAccess;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,5 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.Item.armor;
 
+import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -10,9 +11,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Supplier;
 
-public enum ModArmorMaterial implements ArmorMaterial {
+public enum NSPArmorMaterial implements ArmorMaterial {
     MAGNETIC("magnet", 18, new int[]{2,5,6,2}, 10, SoundEvents.ARMOR_EQUIP_IRON,
-            0.2f, 0.5f, () -> Ingredient.of(Items.IRON_INGOT)),
+            0.2f, 0.5f, () -> Ingredient.of(NSPItems.MAGNETIZED_IRON_INGOT.get())),
 
     SPACESUIT("spacesuit", 18, new int[]{2,5,6,2}, 10, SoundEvents.ARMOR_EQUIP_GOLD,
             0.2f, 0.0f, () -> Ingredient.of(Items.GOLD_INGOT));
@@ -28,7 +29,7 @@ public enum ModArmorMaterial implements ArmorMaterial {
 
     private static final int[] BASE_DURABILITY = {11, 16, 15, 13};
 
-    ModArmorMaterial(String name, int durabilityMultiplier, int[] protectionAmount, int enchantmentValue, SoundEvent equipSound,
+    NSPArmorMaterial(String name, int durabilityMultiplier, int[] protectionAmount, int enchantmentValue, SoundEvent equipSound,
                      float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;

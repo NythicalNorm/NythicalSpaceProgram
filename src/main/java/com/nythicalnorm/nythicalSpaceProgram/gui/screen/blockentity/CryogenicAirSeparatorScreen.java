@@ -15,7 +15,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class CryogenicAirSeparatorScreen extends AbstractContainerScreen<CryogenicAirSeparatorMenu> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+    private static final ResourceLocation TEXTURE = NythicalSpaceProgram.rl(
             "textures/gui/cryogenic_air_separator.png");
 
     public CryogenicAirSeparatorScreen(CryogenicAirSeparatorMenu pMenu, Inventory pPlayerInventory, Component pTitle) {

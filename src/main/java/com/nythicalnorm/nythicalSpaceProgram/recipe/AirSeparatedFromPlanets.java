@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram.recipe;
 
-import com.nythicalnorm.nythicalSpaceProgram.fluid.ModFluids;
+import com.nythicalnorm.nythicalSpaceProgram.fluid.NSPFluids;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.material.Fluid;
@@ -25,7 +25,7 @@ public class AirSeparatedFromPlanets {
     private static final ManufacturingFluid[] OVERWORLD_FLUIDS = new ManufacturingFluid[]{
             new ManufacturingFluid(Fluids.LAVA, 0, 20000, 10),
             new ManufacturingFluid(Fluids.WATER, 10, 10000, 25),
-            new ManufacturingFluid(ModFluids.LIQUID_OXYGEN.source.get(), 20, 5000, 5)
+            new ManufacturingFluid(NSPFluids.LIQUID_OXYGEN.source.get(), 20, 5000, 5)
     };
 
     public static ManufacturingFluid[] getRecipe(Level level) {

@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 
 @OnlyIn(Dist.CLIENT)
 public class TimeWarpWidget extends AbstractWidget {
-    private static final ResourceLocation TIME_WARP_TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+    private static final ResourceLocation TIME_WARP_TEXTURE = NythicalSpaceProgram.rl(
             "textures/gui/timewarpwidget.png");
 
     public TimeWarpWidget(int pX, int pY, int pWidth, int pHeight, Component pMessage) {

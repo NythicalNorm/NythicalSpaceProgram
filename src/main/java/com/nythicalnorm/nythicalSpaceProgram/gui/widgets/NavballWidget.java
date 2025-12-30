@@ -24,10 +24,10 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class NavballWidget extends AbstractWidget {
-    private static final ResourceLocation NAVBALL_GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+    private static final ResourceLocation NAVBALL_GUI_TEXTURE = NythicalSpaceProgram.rl(
             "textures/gui/navballwidget.png");
 
-    private static final ResourceLocation NAVBALL_TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+    private static final ResourceLocation NAVBALL_TEXTURE = NythicalSpaceProgram.rl(
             "textures/gui/navball.png");
 
     public NavballWidget(int pX, int pY, int pWidth, int pHeight, Component pMessage) {

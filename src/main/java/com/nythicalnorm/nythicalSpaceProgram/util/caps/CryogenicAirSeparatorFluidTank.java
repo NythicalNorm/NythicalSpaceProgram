@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.util;
+package com.nythicalnorm.nythicalSpaceProgram.util.caps;
 
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;

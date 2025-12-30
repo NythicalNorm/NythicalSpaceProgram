@@ -2,8 +2,8 @@ package com.nythicalnorm.nythicalSpaceProgram.block.entity;
 
 import com.nythicalnorm.nythicalSpaceProgram.recipe.AirSeparatedFromPlanets;
 import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.CryogenicAirSeparatorMenu;
-import com.nythicalnorm.nythicalSpaceProgram.util.CryogenicAirSeparatorFluidTank;
-import com.nythicalnorm.nythicalSpaceProgram.util.CustomEnergyStorage;
+import com.nythicalnorm.nythicalSpaceProgram.util.caps.CryogenicAirSeparatorFluidTank;
+import com.nythicalnorm.nythicalSpaceProgram.util.caps.CustomEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -48,7 +48,7 @@ public class CryogenicAirSeparatorEntity extends BlockEntity implements MenuProv
     private AirSeparatedFromPlanets.ManufacturingFluid[] manufacturingFluids = new AirSeparatedFromPlanets.ManufacturingFluid[3];
 
     public CryogenicAirSeparatorEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.CRYOGENIC_AIR_SEPARATOR_BE.get(), pPos, pBlockState);
+        super(NSPBlockEntities.CRYOGENIC_AIR_SEPARATOR_BE.get(), pPos, pBlockState);
 
         this.data = new ContainerData() {
             @Override

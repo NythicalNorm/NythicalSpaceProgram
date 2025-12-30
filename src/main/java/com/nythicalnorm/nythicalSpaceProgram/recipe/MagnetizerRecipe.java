@@ -77,7 +77,7 @@ public class MagnetizerRecipe implements Recipe<SimpleContainer> {
 
     public static class Serializer implements RecipeSerializer<MagnetizerRecipe> {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "magnetizer");
+        public static final ResourceLocation ID = NythicalSpaceProgram.rl( "magnetizer");
 
         @Override
         public MagnetizerRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {

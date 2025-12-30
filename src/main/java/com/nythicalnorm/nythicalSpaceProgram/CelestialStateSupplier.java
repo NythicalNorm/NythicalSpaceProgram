@@ -1,6 +1,6 @@
 package com.nythicalnorm.nythicalSpaceProgram;
 
-import com.nythicalnorm.nythicalSpaceProgram.gui.ModScreenManager;
+import com.nythicalnorm.nythicalSpaceProgram.gui.NSPScreenManager;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.network.ServerboundTimeWarpChange;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
@@ -27,14 +27,14 @@ public class CelestialStateSupplier {
     private ClientPlayerSpacecraftBody controllingBody;
 
     private final PlanetsProvider planetProvider;
-    private final ModScreenManager screenManager;
+    private final NSPScreenManager screenManager;
     private final PlanetTexManager planetTexManager;
 
     public CelestialStateSupplier(EntitySpacecraftBody playerDataFromServer, PlanetsProvider planetProvider) {
         playerOrbit = new ClientPlayerSpacecraftBody(playerDataFromServer, Minecraft.getInstance().player);
         this.planetProvider = planetProvider;
         SpaceObjRenderer.PopulateRenderPlanets(planetProvider);
-        this.screenManager = new ModScreenManager();
+        this.screenManager = new NSPScreenManager();
         this.planetTexManager = new PlanetTexManager();
     }
 
@@ -155,7 +155,7 @@ public class CelestialStateSupplier {
         return planetProvider.isDimensionSpace(Minecraft.getInstance().level.dimension());
     }
 
-    public ModScreenManager getScreenManager() {
+    public NSPScreenManager getScreenManager() {
         return screenManager;
     }
 

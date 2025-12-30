@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class AltitudeWidget extends AbstractWidget {
-    private static final ResourceLocation Altitude_GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID,
+    private static final ResourceLocation Altitude_GUI_TEXTURE = NythicalSpaceProgram.rl(
             "textures/gui/altitudewidget.png");
 
     ScrollingNumber[] scrollingNumbers;

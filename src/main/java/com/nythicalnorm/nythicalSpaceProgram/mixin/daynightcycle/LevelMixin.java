@@ -4,7 +4,7 @@ import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelData;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetLevelDataProvider;
-import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
+import com.nythicalnorm.nythicalSpaceProgram.util.handlers.DayNightCycleHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.Level;
@@ -21,7 +21,7 @@ public class LevelMixin {
     // Still makes no sense why mixining this function affects natural mob spawn as this seems to just
     // linearly increase difficulty and caps out at 3 days...???
     @Inject(method = "getCurrentDifficultyAt", at= @At(value = "HEAD"),cancellable = true)
-    public void getCurrentDifficultyAt(BlockPos pPos, CallbackInfoReturnable<DifficultyInstance> cir) {
+    public void getDifficultyAt(BlockPos pPos, CallbackInfoReturnable<DifficultyInstance> cir) {
         Level level = (Level) (Object)this;
 
         if (!level.isClientSide()) {

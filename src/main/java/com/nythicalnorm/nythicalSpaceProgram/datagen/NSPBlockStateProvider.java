@@ -1,9 +1,9 @@
 package com.nythicalnorm.nythicalSpaceProgram.datagen;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.block.ModBlocks;
-import com.nythicalnorm.nythicalSpaceProgram.fluid.ModFluids;
-import com.nythicalnorm.nythicalSpaceProgram.util.FootprintedType;
+import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
+import com.nythicalnorm.nythicalSpaceProgram.fluid.NSPFluids;
+import com.nythicalnorm.nythicalSpaceProgram.block.custom.FootprintedType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -18,27 +18,27 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.nythicalnorm.nythicalSpaceProgram.block.custom.FootprintedRegolith.FOOTPRINTTYPE;
 
-public class ModBlockStateProvider extends BlockStateProvider {
-    public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+public class NSPBlockStateProvider extends BlockStateProvider {
+    public NSPBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, NythicalSpaceProgram.MODID, exFileHelper);
     }
 
     @Override
     protected void registerStatesAndModels() {
 
-        simpleBlockWithItem(ModBlocks.OXYGEN_PROPELLANT_TANK.get(), getColumnCubeModel(ModBlocks.OXYGEN_PROPELLANT_TANK,
-                ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/oxygen_propellant_tank_side"),
-                ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/oxygen_propellant_tank_end")));
+        simpleBlockWithItem(NSPBlocks.OXYGEN_PROPELLANT_TANK.get(), getColumnCubeModel(NSPBlocks.OXYGEN_PROPELLANT_TANK,
+                NythicalSpaceProgram.rl( "block/oxygen_propellant_tank_side"),
+                NythicalSpaceProgram.rl( "block/oxygen_propellant_tank_end")));
 
-        simpleBlockWithItem(ModBlocks.MAGNETIZED_IRON_BLOCK.get(), cubeAll(ModBlocks.MAGNETIZED_IRON_BLOCK.get()));
-        SetFootprintBlockState(ModBlocks.LUNAR_REGOLITH);
-        simpleBlockWithItem(ModBlocks.CRYOGENIC_AIR_SEPARATOR.get(), cubeAll(ModBlocks.CRYOGENIC_AIR_SEPARATOR.get()));
-        modelBlockWithItem(ModBlocks.MAGNETIZER.get(), new ModelFile.UncheckedModelFile(
-                ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/magnetizer")));
+        simpleBlockWithItem(NSPBlocks.MAGNETIZED_IRON_BLOCK.get(), cubeAll(NSPBlocks.MAGNETIZED_IRON_BLOCK.get()));
+        SetFootprintBlockState(NSPBlocks.LUNAR_REGOLITH);
+        simpleBlockWithItem(NSPBlocks.CRYOGENIC_AIR_SEPARATOR.get(), cubeAll(NSPBlocks.CRYOGENIC_AIR_SEPARATOR.get()));
+        modelBlockWithItem(NSPBlocks.MAGNETIZER.get(), new ModelFile.UncheckedModelFile(
+                NythicalSpaceProgram.rl( "block/magnetizer")));
 
-        fluidBlock(ModFluids.LIQUID_OXYGEN.block);
-        //simpleBlockWithItem(ModBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get(), models().getExistingFile(ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/cryogenic_air_separator_part")));
-        connectedBlock(ModBlocks.CRYOGENIC_AIR_SEPARATOR_PART);
+        fluidBlock(NSPFluids.LIQUID_OXYGEN.block);
+        //simpleBlockWithItem(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get(), models().getExistingFile(NythicalSpaceProgram.rl( "block/cryogenic_air_separator_part")));
+        connectedBlock(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART);
     }
 
     protected void modelBlockWithItem(Block block, ModelFile model) {
@@ -51,13 +51,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
             FootprintedType myEnumval = state.getValue(FOOTPRINTTYPE);
             if (myEnumval == FootprintedType.NOFOOTPRINTS) {
                return new ConfiguredModel[]{new ConfiguredModel(models().cubeAll("lunar_regolith",
-                       ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/lunar_regolith")))};
+                       NythicalSpaceProgram.rl( "block/lunar_regolith")))};
            }
 
            else {
                 return new ConfiguredModel[]{new ConfiguredModel(models().cubeTop("lunar_regolith_" + state.getValue(FOOTPRINTTYPE),
-                        ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/lunar_regolith"),
-                        ResourceLocation.fromNamespaceAndPath(NythicalSpaceProgram.MODID, "block/lunar_regolith_" + state.getValue(FOOTPRINTTYPE))
+                        NythicalSpaceProgram.rl( "block/lunar_regolith"),
+                        NythicalSpaceProgram.rl( "block/lunar_regolith_" + state.getValue(FOOTPRINTTYPE))
                 ))};
            }
         });

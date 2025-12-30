@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class ModArguments {
+public class NSPArguments {
     public static final DeferredRegister<ArgumentTypeInfo<?, ?>> ARGUMENT_TYPES = DeferredRegister.create(ForgeRegistries.COMMAND_ARGUMENT_TYPES, NythicalSpaceProgram.MODID);
     public static final RegistryObject<ArgumentTypeInfo<PlanetArgument, ?>> PLANET_ARGUMENT_TYPE = ARGUMENT_TYPES.register("planets", () -> ArgumentTypeInfos.registerByClass(PlanetArgument.class, new PlanetArgument.Info()));
 

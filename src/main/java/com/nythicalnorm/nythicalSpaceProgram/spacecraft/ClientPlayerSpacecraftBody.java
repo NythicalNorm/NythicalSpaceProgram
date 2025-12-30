@@ -5,7 +5,7 @@ import com.nythicalnorm.nythicalSpaceProgram.network.ServerboundSpacecraftMove;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.physics.PhysicsContext;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet.PlanetaryBody;
 import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
-import com.nythicalnorm.nythicalSpaceProgram.util.DayNightCycleHandler;
+import com.nythicalnorm.nythicalSpaceProgram.util.handlers.DayNightCycleHandler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
