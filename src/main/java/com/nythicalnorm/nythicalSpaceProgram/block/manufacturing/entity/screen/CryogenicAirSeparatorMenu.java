@@ -1,7 +1,7 @@
-package com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.screen;
 
 import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.CryogenicAirSeparatorEntity;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.CryogenicAirSeparatorEntity;
 import com.nythicalnorm.nythicalSpaceProgram.gui.NSPMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

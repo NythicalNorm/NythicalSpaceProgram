@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.custom;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing;
 
 import net.minecraft.world.level.block.Block;
 

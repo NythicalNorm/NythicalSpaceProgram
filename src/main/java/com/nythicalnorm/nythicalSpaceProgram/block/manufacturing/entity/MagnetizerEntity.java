@@ -1,8 +1,8 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.entity;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.recipe.MagnetizerRecipe;
-import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.MagnetizerMenu;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.screen.MagnetizerMenu;
 import com.nythicalnorm.nythicalSpaceProgram.util.caps.CustomEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

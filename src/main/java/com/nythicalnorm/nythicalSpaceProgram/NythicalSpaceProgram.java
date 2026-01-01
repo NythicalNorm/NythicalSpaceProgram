@@ -5,18 +5,15 @@ import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
 import com.nythicalnorm.nythicalSpaceProgram.sound.NSPSounds;
 import com.nythicalnorm.nythicalSpaceProgram.util.NSPCreativeModeTab;
 import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.NSPBlockEntities;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.NSPBlockEntities;
 import com.nythicalnorm.nythicalSpaceProgram.fluid.NSPFluids;
 import com.nythicalnorm.nythicalSpaceProgram.recipe.NSPRecipes;
-import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.CryogenicAirSeparatorScreen;
-import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.MagnetizerScreen;
 import com.nythicalnorm.nythicalSpaceProgram.gui.NSPMenuTypes;
 import com.nythicalnorm.nythicalSpaceProgram.commands.NSPArguments;
 import com.nythicalnorm.nythicalSpaceProgram.network.PacketHandler;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItemProperties;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -115,9 +112,7 @@ public class NythicalSpaceProgram
         {
             // Some client setup code
             NSPItemProperties.addCustomItemProperties();
-
-            MenuScreens.register(NSPMenuTypes.MAGNETIZER_MENU.get(), MagnetizerScreen::new);
-            MenuScreens.register(NSPMenuTypes.CRYOGENIC_AIR_SEPARATOR_MENU.get(), CryogenicAirSeparatorScreen::new);
+            NSPMenuTypes.registerMenus();
         }
     }
 

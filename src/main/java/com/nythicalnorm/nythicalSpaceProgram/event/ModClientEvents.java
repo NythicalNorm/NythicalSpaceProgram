@@ -2,9 +2,9 @@ package com.nythicalnorm.nythicalSpaceProgram.event;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.NSPBlockEntities;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.models.MagnetizerModels;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.renderer.MagnetizerBlockEntityRenderer;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.NSPBlockEntities;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.models.MagnetizerModels;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.renderer.MagnetizerBlockEntityRenderer;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.generators.QuadSphereModelGenerator;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.shaders.NSPShaders;

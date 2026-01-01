@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;

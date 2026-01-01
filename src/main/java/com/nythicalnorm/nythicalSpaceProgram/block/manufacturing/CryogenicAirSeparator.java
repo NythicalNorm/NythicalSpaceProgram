@@ -1,7 +1,7 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.custom;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing;
 
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.CryogenicAirSeparatorEntity;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.NSPBlockEntities;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.CryogenicAirSeparatorEntity;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.NSPBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

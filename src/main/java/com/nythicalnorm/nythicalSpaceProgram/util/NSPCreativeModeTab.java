@@ -35,6 +35,10 @@ public class NSPCreativeModeTab {
                         output.accept(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get());
                         output.accept(NSPBlocks.MAGNETIZER.get());
 
+                        output.accept(NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get());
+                        output.accept(NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get());
+                        output.accept(NSPBlocks.VEHICLE_ASSEMBLER.get());
+
                         output.accept(NSPFluids.LIQUID_OXYGEN.fluidContainer.get());
                     })
                     .build());

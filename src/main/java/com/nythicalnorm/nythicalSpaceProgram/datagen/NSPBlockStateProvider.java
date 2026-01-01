@@ -3,7 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram.datagen;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.block.NSPBlocks;
 import com.nythicalnorm.nythicalSpaceProgram.fluid.NSPFluids;
-import com.nythicalnorm.nythicalSpaceProgram.block.custom.FootprintedType;
+import com.nythicalnorm.nythicalSpaceProgram.block.world.FootprintedType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +16,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
-import static com.nythicalnorm.nythicalSpaceProgram.block.custom.FootprintedRegolith.FOOTPRINTTYPE;
+import static com.nythicalnorm.nythicalSpaceProgram.block.world.FootprintedRegolith.FOOTPRINTTYPE;
 
 public class NSPBlockStateProvider extends BlockStateProvider {
     public NSPBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -35,6 +35,10 @@ public class NSPBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(NSPBlocks.CRYOGENIC_AIR_SEPARATOR.get(), cubeAll(NSPBlocks.CRYOGENIC_AIR_SEPARATOR.get()));
         modelBlockWithItem(NSPBlocks.MAGNETIZER.get(), new ModelFile.UncheckedModelFile(
                 NythicalSpaceProgram.rl( "block/magnetizer")));
+
+        simpleBlockWithItem(NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get(), cubeAll(NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get()));
+        simpleBlockWithItem(NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get(), cubeAll(NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get()));
+        simpleBlockWithItem(NSPBlocks.VEHICLE_ASSEMBLER.get(), cubeAll(NSPBlocks.VEHICLE_ASSEMBLER.get()));
 
         fluidBlock(NSPFluids.LIQUID_OXYGEN.block);
         //simpleBlockWithItem(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get(), models().getExistingFile(NythicalSpaceProgram.rl( "block/cryogenic_air_separator_part")));

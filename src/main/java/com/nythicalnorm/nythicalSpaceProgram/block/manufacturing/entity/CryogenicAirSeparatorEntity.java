@@ -1,7 +1,7 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.entity;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity;
 
 import com.nythicalnorm.nythicalSpaceProgram.recipe.AirSeparatedFromPlanets;
-import com.nythicalnorm.nythicalSpaceProgram.gui.screen.blockentity.CryogenicAirSeparatorMenu;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.screen.CryogenicAirSeparatorMenu;
 import com.nythicalnorm.nythicalSpaceProgram.util.caps.CryogenicAirSeparatorFluidTank;
 import com.nythicalnorm.nythicalSpaceProgram.util.caps.CustomEnergyStorage;
 import net.minecraft.core.BlockPos;

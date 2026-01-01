@@ -24,6 +24,10 @@ public class NSPBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(NSPBlocks.MAGNETIZER.get());
         this.dropOther(NSPFluids.LIQUID_OXYGEN.block.get(), Blocks.AIR);
         this.dropSelf(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get());
+
+        this.dropSelf(NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get());
+        this.dropSelf(NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get());
+        this.dropSelf(NSPBlocks.VEHICLE_ASSEMBLER.get());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.entity.models;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

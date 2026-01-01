@@ -24,8 +24,10 @@ public class NSPBlockTagGenerator extends BlockTagsProvider {
         this.tag(NSPTags.Blocks.MAGNETIC_METALS).add(Blocks.IRON_BLOCK, Blocks.COPPER_BLOCK, Blocks.GOLD_BLOCK, Blocks.REDSTONE_BLOCK);
 
         this.tag(BlockTags.NEEDS_STONE_TOOL).add(NSPBlocks.CRYOGENIC_AIR_SEPARATOR.get(), NSPBlocks.MAGNETIZER.get(),
-                NSPBlocks.MAGNETIZED_IRON_BLOCK.get(), NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get());
-        this.tag(BlockTags.NEEDS_IRON_TOOL).add(NSPBlocks.OXYGEN_PROPELLANT_TANK.get(), NSPBlocks.LUNAR_REGOLITH.get());
+                NSPBlocks.MAGNETIZED_IRON_BLOCK.get(), NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get(), NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get(),
+                NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get());
+
+        this.tag(BlockTags.NEEDS_IRON_TOOL).add(NSPBlocks.OXYGEN_PROPELLANT_TANK.get(), NSPBlocks.LUNAR_REGOLITH.get(), NSPBlocks.VEHICLE_ASSEMBLER.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(NSPBlocks.OXYGEN_PROPELLANT_TANK.get())
@@ -33,7 +35,10 @@ public class NSPBlockTagGenerator extends BlockTagsProvider {
                 .add(NSPBlocks.CRYOGENIC_AIR_SEPARATOR.get())
                 .add(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get())
                 .add(NSPBlocks.MAGNETIZER.get())
-                .add(NSPBlocks.MAGNETIZED_IRON_BLOCK.get());
+                .add(NSPBlocks.MAGNETIZED_IRON_BLOCK.get())
+                .add(NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get())
+                .add(NSPBlocks.VEHICLE_ASSEMBLER.get())
+                .add(NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get());
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(NSPBlocks.LUNAR_REGOLITH.get());
     }

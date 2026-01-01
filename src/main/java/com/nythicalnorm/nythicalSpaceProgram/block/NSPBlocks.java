@@ -2,14 +2,14 @@ package com.nythicalnorm.nythicalSpaceProgram.block;
 
 import com.nythicalnorm.nythicalSpaceProgram.Item.NSPItems;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
-import com.nythicalnorm.nythicalSpaceProgram.block.custom.CryogenicAirSeparator;
-import com.nythicalnorm.nythicalSpaceProgram.block.custom.FootprintedRegolith;
-import com.nythicalnorm.nythicalSpaceProgram.block.custom.Magnetizer;
+import com.nythicalnorm.nythicalSpaceProgram.block.gse.VehicleAssembler;
+import com.nythicalnorm.nythicalSpaceProgram.block.gse.PlatformAssembly;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.CryogenicAirSeparator;
+import com.nythicalnorm.nythicalSpaceProgram.block.world.FootprintedRegolith;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.Magnetizer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 public class NSPBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NythicalSpaceProgram.MODID);
+
     public static final RegistryObject<Block> OXYGEN_PROPELLANT_TANK = registerBlock("oxygen_propellant_tank",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.COPPER)));
 
@@ -29,6 +30,8 @@ public class NSPBlocks {
     public static final RegistryObject<Block> LUNAR_REGOLITH = registerBlock("lunar_regolith",
             () -> new FootprintedRegolith(BlockBehaviour.Properties.copy(Blocks.NETHERRACK).sound(SoundType.POWDER_SNOW).destroyTime(2f)));
 
+
+    //Manufacturing Blocks
     public static final RegistryObject<Block> CRYOGENIC_AIR_SEPARATOR = registerBlock("cryogenic_air_separator",
             () -> new CryogenicAirSeparator(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.COPPER).noOcclusion()));
 
@@ -37,6 +40,18 @@ public class NSPBlocks {
 
     public static final RegistryObject<Block> MAGNETIZER = registerBlock("magnetizer",
             () -> new Magnetizer(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.COPPER).noOcclusion()));
+
+    // Ground Service Equipment (GSE) blocks
+    public static final RegistryObject<Block> VEHICLE_ASSEMBLY_PLATFORM = registerBlock("vehicle_assembly_platform",
+            () -> new PlatformAssembly(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.COPPER).destroyTime(2f).explosionResistance(10f)));
+
+    public static final RegistryObject<Block> VEHICLE_ASSEMBLY_SCAFFOLD = registerBlock("vehicle_assembly_scaffold",
+            () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).sound(SoundType.COPPER).destroyTime(2f)
+                    .explosionResistance(10f).noOcclusion()));
+
+    public static final RegistryObject<Block> VEHICLE_ASSEMBLER = registerBlock("vehicle_assembler",
+            () -> new VehicleAssembler(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.COPPER).noOcclusion()));
+
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name,block);

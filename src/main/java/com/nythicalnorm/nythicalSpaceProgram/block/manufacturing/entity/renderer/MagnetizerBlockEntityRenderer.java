@@ -1,9 +1,9 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.entity.renderer;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.renderer;
 
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.MagnetizerEntity;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.models.MagnetizerModels;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.MagnetizerEntity;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.models.MagnetizerModels;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.*;

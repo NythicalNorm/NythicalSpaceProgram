@@ -1,4 +1,4 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.custom;
+package com.nythicalnorm.nythicalSpaceProgram.block.world;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

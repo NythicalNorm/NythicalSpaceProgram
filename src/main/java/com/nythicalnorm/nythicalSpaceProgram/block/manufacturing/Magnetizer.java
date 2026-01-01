@@ -1,7 +1,7 @@
-package com.nythicalnorm.nythicalSpaceProgram.block.custom;
+package com.nythicalnorm.nythicalSpaceProgram.block.manufacturing;
 
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.MagnetizerEntity;
-import com.nythicalnorm.nythicalSpaceProgram.block.entity.NSPBlockEntities;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.MagnetizerEntity;
+import com.nythicalnorm.nythicalSpaceProgram.block.manufacturing.entity.NSPBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;

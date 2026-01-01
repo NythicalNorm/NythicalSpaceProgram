@@ -17,6 +17,10 @@
   "block.nythicalspaceprogram.magnetizer": "Magnetizer",
   "block.nythicalspaceprogram.magnetized_iron_block": "Block of Magnetized Iron",
 
+  "block.nythicalspaceprogram.vehicle_assembly_platform": "Vehicle Assembly Platform",
+  "block.nythicalspaceprogram.vehicle_assembly_scaffold": "Vehicle Assembly Scaffold",
+  "block.nythicalspaceprogram.vehicle_assembler": "Vehicle Assembler",
+
   "fluid_type.nythicalspaceprogram.liquid_oxygen_fluid": "Liquid Oxygen",
 
   "sounds.nythicalspaceprogram.propeller_start": "The Handheld Propeller clatters on.",
