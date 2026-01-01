@@ -71,7 +71,7 @@ public abstract class Orbit {
         this.rotation = rotation;
     }
 
-    public abstract void simulatePropagate(double TimeElapsed, Vector3d parentPos, double parentMass);
+    public abstract void simulatePropagate(long TimeElapsed, Vector3d parentPos, double parentMass);
 
 
     public Orbit getOrbit(Stack<String> stack) {

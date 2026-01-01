@@ -13,7 +13,7 @@ public class Star extends PlanetaryBody {
         super(null, effects, childBody, radius, mass, 0f, 0, 0);
     }
 
-    public void simulatePlanets(double currentTime) {
+    public void simulatePlanets(long currentTime) {
         this.simulatePropagate(currentTime, new Vector3d(0d, 0d, 0d), this.getMass());
     }
 

@@ -36,7 +36,7 @@ public class NetworkEncoders {
 
         friendlyByteBuf.writeDouble(orbitalElements.ArgumentOfPeriapsis);
         friendlyByteBuf.writeDouble(orbitalElements.LongitudeOfAscendingNode);
-        friendlyByteBuf.writeDouble(orbitalElements.periapsisTime);
+        friendlyByteBuf.writeLong(orbitalElements.periapsisTime);
     }
 
     public static OrbitalElements readOrbitalElements(FriendlyByteBuf friendlyByteBuf) {
@@ -46,7 +46,7 @@ public class NetworkEncoders {
                 friendlyByteBuf.readDouble(),
                 friendlyByteBuf.readDouble(),
                 friendlyByteBuf.readDouble(),
-                friendlyByteBuf.readDouble()
+                friendlyByteBuf.readLong()
         );
 
         return orbitElements;

@@ -19,10 +19,10 @@ public class EntitySpacecraftBody extends Orbit {
         this.relativeVelocity = new Vector3d();
         this.rotation = new Quaternionf();
         this.angularVelocity = new Vector3f();
-        this.orbitalElements = new OrbitalElements(0f,0f, 0f, 0f, 0f, 0f);
+        this.orbitalElements = new OrbitalElements(0f,0f, 0f, 0f, 0f, 0L);
     }
 
-    public void simulatePropagate(double TimeElapsed, Vector3d parentPos, double mass) {
+    public void simulatePropagate(long TimeElapsed, Vector3d parentPos, double mass) {
         if (!velocityChangedLastFrame) {
             Vector3d[] stateVectors = orbitalElements.ToCartesian(TimeElapsed);
             this.relativeOrbitalPos = stateVectors[0];

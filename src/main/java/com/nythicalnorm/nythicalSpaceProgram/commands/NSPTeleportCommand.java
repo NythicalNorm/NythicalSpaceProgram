@@ -51,7 +51,7 @@ public class NSPTeleportCommand {
                         semiMajorAxis = (semiMajorAxisInput*1000d) - planet.getRadius();
                         //return 0;
                     }
-                    double startingAnamoly = NythicalSpaceProgram.getSolarSystem().get().getCurrentTime();
+                    long startingAnamoly = NythicalSpaceProgram.getSolarSystem().get().getCurrentTime();
                     OrbitalElements orbitalElement = new OrbitalElements(semiMajorAxis, inclination, eccentricity, 0d, 0d, startingAnamoly);
                     NythicalSpaceProgram.getSolarSystem().get().playerJoinOrbit(body, (ServerPlayer) entity, orbitalElement);
                 }

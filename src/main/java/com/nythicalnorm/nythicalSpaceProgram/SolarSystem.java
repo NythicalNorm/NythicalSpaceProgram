@@ -10,6 +10,7 @@ import com.nythicalnorm.nythicalSpaceProgram.solarsystem.PlanetsProvider;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.EntitySpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.ServerPlayerSpacecraftBody;
 import com.nythicalnorm.nythicalSpaceProgram.spacecraft.SpacecraftControlState;
+import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -25,8 +26,8 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class SolarSystem {
-    public double currentTime; // time passed since start in seconds
-    public double timePassPerSecond;
+    public long currentTime; // time passed since start in 1000 times currentTick, in milliTicks if you will.
+    public long timePassPerTick;
     //public static double tickTimeStamp;
     private final MinecraftServer server;
     private HashMap<String, ServerPlayerSpacecraftBody> allPlayerOrbitalAddresses;
@@ -34,11 +35,10 @@ public class SolarSystem {
     private PlanetTexHandler planetTexHandler;
 
     public SolarSystem(MinecraftServer server, PlanetsProvider pPlanets) {
-        timePassPerSecond = 1;
+        timePassPerTick = 1000;
         allPlayerOrbitalAddresses = new HashMap<>();
         this.server = server;
         this.planetsProvider = pPlanets;
-
     }
 
     public MinecraftServer getServer() {
@@ -50,10 +50,10 @@ public class SolarSystem {
     }
 
     public void OnTick() {
-        currentTime = currentTime + (timePassPerSecond/20);
+        currentTime = currentTime + timePassPerTick;
         planetsProvider.UpdatePlanets(currentTime);
 
-        PacketHandler.sendToAllClients(new ClientboundSolarSystemTimeUpdate(currentTime,timePassPerSecond));
+        PacketHandler.sendToAllClients(new ClientboundSolarSystemTimeUpdate(currentTime, timePassPerTick));
     }
 
     public void serverStarted() {
@@ -61,7 +61,7 @@ public class SolarSystem {
         server.execute(() -> planetTexHandler.loadOrCreateTex(server, this.planetsProvider));
     }
 
-    public double getCurrentTime() {
+    public long getCurrentTime() {
         return currentTime;
     }
 
@@ -69,7 +69,8 @@ public class SolarSystem {
         if (player == null) {
             return;
         }
-        timePassPerSecond = (double) Mth.clamp(proposedSetTimeWarpSpeed, 0, 5000000);
+        long timePassPerSec = Mth.clamp(proposedSetTimeWarpSpeed, 0, 5000000);
+        timePassPerTick = Calcs.TimePerSecToTimePerTick(timePassPerSec);
         server.getPlayerList().broadcastSystemMessage(Component.translatable("nythicalspaceprogram.state.settimewarp",
                 proposedSetTimeWarpSpeed), true);
         PacketHandler.sendToAllClients(new ClientboundTimeWarpUpdate(true, proposedSetTimeWarpSpeed));

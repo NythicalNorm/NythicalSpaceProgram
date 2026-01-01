@@ -11,22 +11,22 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class ClientboundSolarSystemTimeUpdate {
-    private final double currenttime;
-    private final double timePassPerSecond;
+    private final long currenttime;
+    private final long timePassPerSecond;
 
-    public ClientboundSolarSystemTimeUpdate(double currenttime, double timePassPerSecond) {
+    public ClientboundSolarSystemTimeUpdate(long currenttime, long timePassPerSecond) {
         this.currenttime = currenttime;
         this.timePassPerSecond = timePassPerSecond;
     }
 
     public ClientboundSolarSystemTimeUpdate(FriendlyByteBuf friendlyByteBuf) {
-        this.currenttime = friendlyByteBuf.readDouble();
-        this.timePassPerSecond = friendlyByteBuf.readDouble();
+        this.currenttime = friendlyByteBuf.readLong();
+        this.timePassPerSecond = friendlyByteBuf.readLong();
     }
 
     public void encode(FriendlyByteBuf friendlyByteBuf) {
-        friendlyByteBuf.writeDouble(this.currenttime);
-        friendlyByteBuf.writeDouble(this.timePassPerSecond);
+        friendlyByteBuf.writeLong(this.currenttime);
+        friendlyByteBuf.writeLong(this.timePassPerSecond);
     }
 
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {

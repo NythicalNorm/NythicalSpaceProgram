@@ -15,6 +15,7 @@
     "daynightcycle.LevelMixin",
     "daynightcycle.LevelReaderMixin",
     "daynightcycle.LevelTimeAccessMixin",
-    "daynightcycle.WorldGenRegionMixin"
+    "daynightcycle.WorldGenRegionMixin",
+    "daynightcycle.isDay.MobMixin"
   ]
 }

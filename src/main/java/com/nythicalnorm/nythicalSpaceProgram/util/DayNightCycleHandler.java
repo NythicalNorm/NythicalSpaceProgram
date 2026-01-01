@@ -100,7 +100,7 @@ public class DayNightCycleHandler {
 
     // this will not work when the starting earth rotation at time 0 is different from it is now
     // reference: https://stackoverflow.com/questions/5188561/signed-angle-between-two-3d-vectors-with-same-origin-within-the-same-plane
-    public static Optional<Long> getDayTime(BlockPos pos, PlanetaryBody plnt, double TimeElapsed) {
+    public static Optional<Long> getDayTime(BlockPos pos, PlanetaryBody plnt, long TimeElapsed) {
         Vector3d blockPosOnPlanet = Calcs.planetDimPosToNormalizedVector(pos.getCenter(), plnt.getRadius(), plnt.getRotation(), true);
         blockPosOnPlanet.normalize();
         Vector3d planetAbsolutePos = plnt.getAbsolutePos().add(blockPosOnPlanet);
@@ -126,7 +126,7 @@ public class DayNightCycleHandler {
 //            timeNormalized = timeNormalized + 24000d;
 //        }
         double extraTime = TimeElapsed/plnt.getRotationPeriod();
-        float normalTime = 6000f + ((signedAngle*2)*12000f) + (float) Math.floor(extraTime)*24000f;
+        float normalTime = 6000f + (signedAngle*24000f) + (float) Math.floor(extraTime)*24000f;
         return Optional.of((long) normalTime);
     }
 }

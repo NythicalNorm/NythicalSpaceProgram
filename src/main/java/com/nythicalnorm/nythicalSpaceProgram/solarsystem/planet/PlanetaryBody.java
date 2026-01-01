@@ -3,6 +3,7 @@ package com.nythicalnorm.nythicalSpaceProgram.solarsystem.planet;
 
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.Orbit;
 import com.nythicalnorm.nythicalSpaceProgram.solarsystem.OrbitalElements;
+import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
@@ -24,7 +25,7 @@ public class PlanetaryBody extends Orbit {
                           double radius, double mass, float inclinationAngle, float startingRot, float rotationPeriod) {
         this.orbitalElements = orbitalElements;
         this.radius = radius;
-        this.RotationPeriod = rotationPeriod;
+        this.RotationPeriod = Calcs.timeDoubleToLong(rotationPeriod);
         this.atmoshpericEffects = effects;
         this.childElements = childBodies;
         this.mass = mass;
@@ -37,7 +38,7 @@ public class PlanetaryBody extends Orbit {
         rotation = new Quaternionf();
     }
 
-    private void simulate(double TimeElapsed, Vector3d parentPos) {
+    private void simulate(long TimeElapsed, Vector3d parentPos) {
         if (orbitalElements != null) {
             Vector3d[] stateVectors = orbitalElements.ToCartesian(TimeElapsed);
             this.relativeOrbitalPos = stateVectors[0];
@@ -46,14 +47,14 @@ public class PlanetaryBody extends Orbit {
             Vector3d newAbs = new Vector3d(parentPos);
             this.absoluteOrbitalPos = newAbs.add(relativeOrbitalPos);
 
-            float rotationAngle = NorthPoleDir.angle + (float)((2*Math.PI/RotationPeriod)*TimeElapsed);
+            float rotationAngle = NorthPoleDir.angle + (float)((2*Math.PI/RotationPeriod) * TimeElapsed);
             this.rotation = new Quaternionf().rotationTo(NorthPoleDir.x,NorthPoleDir.y,NorthPoleDir.z, 0f, 1f, 0f);
             Quaternionf rotated = new Quaternionf(new AxisAngle4f(rotationAngle, 0f, 1f, 0f));
             this.rotation.mul(rotated);
         }
     }
 
-    public void simulatePropagate(double TimeElapsed, Vector3d parentPos, double mass) {
+    public void simulatePropagate(long TimeElapsed, Vector3d parentPos, double mass) {
         simulate(TimeElapsed, parentPos);
 
         if (childElements != null) {

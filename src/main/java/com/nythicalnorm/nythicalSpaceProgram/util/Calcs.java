@@ -110,6 +110,22 @@ public class Calcs {
         return new Quaterniond(quaternionf.x, quaternionf.y, quaternionf.z, quaternionf.w);
     }
 
+    public static long TimePerSecToTimePerTick(long timePassPerSec) {
+        return timePassPerSec * 1000;
+    }
+
+    public static long TimePerSecToTimePerTick(double timePassPerSec) {
+        return (long) (timePassPerSec * 1000);
+    }
+
+    public static double timeLongToDouble(long diff) {
+       return (double) diff / 20000;
+    }
+
+    public static long timeDoubleToLong(double diff) {
+        return (long) (diff * 20000);
+    }
+
 //    public static boolean IsNaN(Quaternionf q) {
 //        return Double.isNaN(q.w()) ||
 //                Double.isNaN(q.x()) ||

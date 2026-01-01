@@ -1,6 +1,7 @@
 package com.nythicalnorm.nythicalSpaceProgram.solarsystem;
 
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
+import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
 import net.minecraft.util.Mth;
 import org.joml.Vector3d;
 
@@ -12,14 +13,14 @@ public class OrbitalElements {
 
     public double ArgumentOfPeriapsis;
     public double LongitudeOfAscendingNode;
-    public double periapsisTime;
+    public long periapsisTime;
     public double MeanAngularMotion;
 
     private double Mu;
     private static final double twoPI = 2 * Math.PI;
 
     public OrbitalElements(double semimajoraxis, double inclination, double eccentricity,
-                           double argumentOfperiapsis, double longitudeOfAscendingNode, double startinganamoly) {
+                           double argumentOfperiapsis, double longitudeOfAscendingNode, long startinganamoly) {
         this.SemiMajorAxis = semimajoraxis;
         this.Inclination = inclination;
         this.Eccentricity = eccentricity;
@@ -30,13 +31,13 @@ public class OrbitalElements {
         this.MeanAngularMotion = 0; //2*(2*Math.PI)/orbitalperiod; //temp fix *2 because orbits are faster than expected
     }
 
-    public OrbitalElements(Vector3d posOG, Vector3d velOG, double TimeElapsed, double parentMass) {
+    public OrbitalElements(Vector3d posOG, Vector3d velOG, long TimeElapsed, double parentMass) {
         Mu = UniversalGravitationalConstant * parentMass;
         fromCartesian(posOG, velOG, TimeElapsed);
     }
 
     // Reference: https://space.stackexchange.com/questions/8911/determining-orbital-position-at-a-future-point-in-time
-    public Vector3d[] ToCartesian(double timeElapsed) {
+    public Vector3d[] ToCartesian(long timeElapsed) {
         Vector3d[] stateVectors = new Vector3d[2];
 
         double a = this.SemiMajorAxis;
@@ -48,7 +49,9 @@ public class OrbitalElements {
         }
 
         // Calculating Mean Anamoly, M = n(t - t0)
-        double M = this.MeanAngularMotion*(timeElapsed - this.periapsisTime);
+        long diff = timeElapsed - this.periapsisTime;
+
+        double M = this.MeanAngularMotion*(Calcs.timeLongToDouble(diff));
 
         //Eccentric anomaly also this works for circular orbits I think
         double Anomaly = M;
@@ -112,22 +115,6 @@ public class OrbitalElements {
         return stateVectors;
     }
 
-//    private Vector3d perifocalToEquatorialOld(double P, double Q, double w, double i, double W) {
-//        // rotate by argument of periapsis
-//        double x = Math.cos(w) * P - Math.sin(w) * Q;
-//        double y = Math.sin(w) * P + Math.cos(w) * Q;
-//
-//        // rotate by inclination
-//        double z = Math.sin(i) * y;
-//        y = Math.cos(i) * y;
-//        // rotate by longitude of ascending node
-//        double xtemp = x;
-//        x = Math.cos(W) * xtemp - Math.sin(W) * y;
-//        y = Math.sin(W) * xtemp + Math.cos(W) * y;
-//
-//        return new Vector3d(x,z,y);
-//    }
-
     private Vector3d perifocalToEquatorial(double P, double Q, double w, double i, double W) {
         // rotate by argument of periapsis
         double sinw = Math.sin(w);
@@ -155,7 +142,7 @@ public class OrbitalElements {
 
     // reference: https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
     // https://space.stackexchange.com/questions/65465/orbit-determination-from-position-and-velocity
-    public void fromCartesian(Vector3d posOG, Vector3d velOG, double TimeElapsed) {
+    public void fromCartesian(Vector3d posOG, Vector3d velOG, long TimeElapsed) {
         Vector3d position = new Vector3d(posOG.x, posOG.z, posOG.y);
         Vector3d velocity = new Vector3d(velOG.x, velOG.z, velOG.y);
         double VelMagnitude = velocity.length();
@@ -204,13 +191,16 @@ public class OrbitalElements {
             double E = 2*Math.atan2( Math.tan(trueAnomoly*0.5d), Math.sqrt((1+Eccentricity)/(1-Eccentricity)) );
 
             this.MeanAngularMotion = Math.sqrt(Mu/(SemiMajorAxis * SemiMajorAxis * SemiMajorAxis));
-            this.periapsisTime = TimeElapsed - (E - Eccentricity*Math.sin(E))/this.MeanAngularMotion;
+            double timeDiffTerm = (E - Eccentricity*Math.sin(E))/this.MeanAngularMotion;
+            this.periapsisTime = TimeElapsed - Calcs.timeDoubleToLong(timeDiffTerm);
         } else {
             double cosTrueAnomoly = Math.cos(trueAnomoly);
             double H = invCosh((Eccentricity + cosTrueAnomoly) / (1+Eccentricity*cosTrueAnomoly) );
 
             this.MeanAngularMotion = Math.sqrt(Mu/-(SemiMajorAxis * SemiMajorAxis * SemiMajorAxis));
-            this.periapsisTime = TimeElapsed - (Eccentricity*Math.sinh(H) - H)/this.MeanAngularMotion;
+
+            double timeDiffTerm = (Eccentricity*Math.sinh(H) - H)/this.MeanAngularMotion;
+            this.periapsisTime = TimeElapsed - Calcs.timeDoubleToLong(timeDiffTerm);
         }
     }
 

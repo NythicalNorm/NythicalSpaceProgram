@@ -46,7 +46,7 @@ public class CelestialStateSupplier {
 
     public void UpdateOrbitalBodies(float partialTick) {
         //clientSideTickTime = currentTime;
-        planetProvider.UpdatePlanets(ClientTimeHandler.calculateCurrentTime(partialTick));
+        planetProvider.UpdatePlanets(ClientTimeHandler.calculateCurrentTime());
 
         if (!weInSpaceDim()) {
             playerOrbit.setParent(null);
