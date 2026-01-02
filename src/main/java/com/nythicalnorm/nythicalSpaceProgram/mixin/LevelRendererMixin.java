@@ -5,6 +5,8 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.nythicalnorm.nythicalSpaceProgram.NythicalSpaceProgram;
 import com.nythicalnorm.nythicalSpaceProgram.CelestialStateSupplier;
 import com.nythicalnorm.nythicalSpaceProgram.planetshine.PlanetShine;
+import com.nythicalnorm.nythicalSpaceProgram.planetshine.networking.ClientTimeHandler;
+import com.nythicalnorm.nythicalSpaceProgram.util.Calcs;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -16,17 +18,19 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(LevelRenderer.class)
-public class LevelRendererMixin {
+public abstract class LevelRendererMixin {
     @Shadow
     private VertexBuffer skyBuffer;
 
-    boolean doesMobEffectBlockSky(Camera pCamera) {
+    @Shadow
+    private boolean doesMobEffectBlockSky(Camera pCamera) {
         return false;
     }
 
@@ -52,5 +56,17 @@ public class LevelRendererMixin {
         }
         //long diff = Util.getNanos() - beforeTimes;
         //NythicalSpaceProgram.log("PlanetShine Time: " + diff);
+    }
+
+    @ModifyVariable(method = "renderClouds", at = @At("LOAD"), ordinal = 0)
+    private double changeCloudSpeed(double value) {
+        Optional<CelestialStateSupplier> css = NythicalSpaceProgram.getCelestialStateSupplier();
+        if (!css.isEmpty()) {
+            if (css.get().doRender()) {
+                return Calcs.TimePerMilliTickToTick(ClientTimeHandler.getClientSideSolarSystemTime()) * 0.03F;
+            }
+        }
+
+        return value;
     }
 }
