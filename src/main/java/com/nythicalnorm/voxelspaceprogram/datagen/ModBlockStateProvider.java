@@ -1,0 +1,60 @@
+package com.nythicalnorm.voxelspaceprogram.datagen;
+
+import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
+import com.nythicalnorm.voxelspaceprogram.block.ModBlocks;
+import com.nythicalnorm.voxelspaceprogram.util.FootprintedType;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
+
+import static com.nythicalnorm.voxelspaceprogram.block.custom.FootprintedRegolith.FOOTPRINTTYPE;
+
+public class ModBlockStateProvider extends BlockStateProvider {
+    public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+        super(output, VoxelSpaceProgram.MODID, exFileHelper);
+    }
+
+    @Override
+    protected void registerStatesAndModels() {
+
+        simpleBlockWithItem(ModBlocks.OXYGEN_PROPELLANT_TANK.get(), getColumnCubeModel(ModBlocks.OXYGEN_PROPELLANT_TANK,
+                ResourceLocation.fromNamespaceAndPath(VoxelSpaceProgram.MODID, "block/oxygen_propellant_tank_side"),
+                ResourceLocation.fromNamespaceAndPath(VoxelSpaceProgram.MODID, "block/oxygen_propellant_tank_end")));
+
+        SetFootprintBlockState(ModBlocks.LUNAR_REGOLITH);
+    }
+
+
+    protected void SetFootprintBlockState (RegistryObject<Block> block) {
+        getVariantBuilder(block.get()).forAllStates(state -> {
+            FootprintedType myEnumval = state.getValue(FOOTPRINTTYPE);
+            if (myEnumval == FootprintedType.NOFOOTPRINTS) {
+               return new ConfiguredModel[]{new ConfiguredModel(models().cubeAll("lunar_regolith",
+                       ResourceLocation.fromNamespaceAndPath(VoxelSpaceProgram.MODID, "block/lunar_regolith")))};
+           }
+
+           else {
+                return new ConfiguredModel[]{new ConfiguredModel(models().cubeTop("lunar_regolith_" + state.getValue(FOOTPRINTTYPE),
+                        ResourceLocation.fromNamespaceAndPath(VoxelSpaceProgram.MODID, "block/lunar_regolith"),
+                        ResourceLocation.fromNamespaceAndPath(VoxelSpaceProgram.MODID, "block/lunar_regolith_" + state.getValue(FOOTPRINTTYPE))
+                ))};
+           }
+        });
+
+        simpleBlockItem(block.get(), cubeAll(block.get()));
+    }
+
+    protected ModelFile getColumnCubeModel(@NotNull RegistryObject<Block> block, ResourceLocation side, ResourceLocation end) {
+        assert block.getId() != null;
+        return models().withExistingParent(block.getId().getPath(), ModelProvider.BLOCK_FOLDER + "/cube_column_horizontal")
+                .texture("side", side)
+                .texture("end", end);
+    }
+}
