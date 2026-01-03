@@ -19,34 +19,34 @@ import java.util.*;
 public class PlanetsProvider {
     //public HashMap<String, PlanetaryBody> planetaryBodies = new HashMap<>();
     public HashMap<String, Stack<String>> allPlanetsAddresses = new HashMap<>();
-    private static final HashMap<ResourceKey<Level>, String> planetDimensions = new HashMap<>(){{put(Level.OVERWORLD, "bumi");}};
+    private static final HashMap<ResourceKey<Level>, String> planetDimensions = new HashMap<>(){{put(Level.OVERWORLD, "EARTH");}};
 
     public PlanetsProvider(boolean isClientSide) {
-        SURIYAN.setChildAddresses(allPlanetsAddresses);
-        SURIYAN.initCalcs();
+        SUN.setChildAddresses(allPlanetsAddresses);
+        SUN.initCalcs();
     }
 
-    public PlanetaryBody NILA =  new PlanetaryBody(new OrbitalElements(
+    public PlanetaryBody MOON =  new PlanetaryBody(new OrbitalElements(
             382599226,0.091470106618193394721,6.476694128611285E-02,
             5.4073390958703955178,2.162973108375887854, Calcs.TimePerSecToTimePerTick(2.7140591915324141503)),
             //2358720),
             new PlanetAtmosphere(false, 0, 0, 0, 0.0f, 1.0f, 0.005f),
             new HashMap<>(),1737400, 7.34767309E22,  0f, 0, 2358720);
 
-    public PlanetaryBody BUMI = new PlanetaryBody(new OrbitalElements(
+    public PlanetaryBody EARTH = new PlanetaryBody(new OrbitalElements(
             149653496273.0d,4.657951002584728917e-6,1.704239718110438E-02,
             5.1970176873649567284,2.8619013937171278172,Calcs.TimePerSecToTimePerTick(6.2504793475201942954)),
              // 31557600),
              new PlanetAtmosphere(true, 0x5ba3e6, 0x0077ff,
                      100000, 0.25f,1.0f, 0.5f),
-                    new HashMap<>() {{put("nila", NILA);}},6371000, 5.97219E24, 0.408407f , 0, 86400);
+                    new HashMap<>() {{put("MOON", MOON);}},6371000, 5.97219E24, 0.408407f , 0, 86400);
 
-    public Star SURIYAN = new Star(new PlanetAtmosphere(true, 0xffffa8, 0xFFE742, 250000000, 0.5f,1.0f, 1.0f),
-            new HashMap<>() {{put("bumi", BUMI);}},696340000, 1.989E30);
+    public Star SUN = new Star(new PlanetAtmosphere(true, 0xffffa8, 0xFFE742, 250000000, 0.5f,1.0f, 1.0f),
+            new HashMap<>() {{put("EARTH", EARTH);}},696340000, 1.989E30);
 
 
     public void UpdatePlanets(long currentTime) {
-        SURIYAN.simulatePlanets(currentTime);
+        SUN.simulatePlanets(currentTime);
     }
 
     public PlanetaryBody getPlanet(String key) {
@@ -56,7 +56,7 @@ public class PlanetsProvider {
 
     public PlanetaryBody getPlanet(Stack<String> address) {
         if (address != null) {
-            Orbit orb = SURIYAN.getOrbit((Stack<String>)address.clone());
+            Orbit orb = SUN.getOrbit((Stack<String>)address.clone());
             if (orb instanceof PlanetaryBody) {
                 return (PlanetaryBody) orb;
             }
@@ -65,7 +65,7 @@ public class PlanetsProvider {
     }
 
     public Orbit getOrbit(Stack<String> address) {
-        return SURIYAN.getOrbit((Stack<String>)address.clone());
+        return SUN.getOrbit((Stack<String>)address.clone());
     }
 
     public void playerChangeOrbitalSOIs(String playerUUid, Orbit playerSpacecraftBody, Stack<String> newAddress, OrbitalElements orbitalElementsNew) {
