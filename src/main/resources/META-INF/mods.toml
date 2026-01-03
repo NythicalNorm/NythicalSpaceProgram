@@ -45,14 +45,14 @@ authors="${mod_authors}" #optional
 description ='''${mod_description}'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 
-[[dependencies.nythicalspaceprogram]]
+[[dependencies.voxelspaceprogram]]
     modId="fusion"
     mandatory=true
     versionRange="[1.2.2,)"
     ordering="AFTER"
     side="CLIENT"
 
-[[dependencies.nythicalspaceprogram]]
+[[dependencies.voxelspaceprogram]]
 modId="valkyrienskies"
 mandatory=true
 versionRange="[2.4.3,)"

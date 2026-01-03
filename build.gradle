@@ -245,8 +245,8 @@ tasks.named('jar', Jar).configure {
 
 mixin {
     // MixinGradle Settings
-    add sourceSets.main, 'mixins.nythicalspaceprogram.refmap.json'
-    config 'mixins.nythicalspaceprogram.json'
+    add sourceSets.main, 'mixins.voxelspaceprogram.refmap.json'
+    config 'mixins.voxelspaceprogram.json'
 
     //debug.verbose = true
     //debug.export = true
