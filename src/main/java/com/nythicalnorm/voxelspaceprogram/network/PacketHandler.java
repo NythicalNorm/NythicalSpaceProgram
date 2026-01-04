@@ -1,6 +1,7 @@
 package com.nythicalnorm.voxelspaceprogram.network;
 
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
+import com.nythicalnorm.voxelspaceprogram.network.assembler.AssemblerButtonPress;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -58,6 +59,12 @@ public class PacketHandler {
                 .encoder(ServerboundTimeWarpChange::encode)
                 .decoder(ServerboundTimeWarpChange::new)
                 .consumerMainThread(ServerboundTimeWarpChange::handle)
+                .add();
+
+        INSTANCE.messageBuilder(AssemblerButtonPress.class, ++id)
+                .encoder(AssemblerButtonPress::encode)
+                .decoder(AssemblerButtonPress::new)
+                .consumerMainThread(AssemblerButtonPress::handle)
                 .add();
     }
 

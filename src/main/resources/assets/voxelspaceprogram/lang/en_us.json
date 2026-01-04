@@ -20,8 +20,10 @@
   "block.voxelspaceprogram.vehicle_assembly_scaffold": "Vehicle Assembly Scaffold",
   "block.voxelspaceprogram.vehicle_assembler": "Vehicle Assembler",
 
-  "fluid_type.voxelspaceprogram.liquid_oxygen_fluid": "Liquid Oxygen",
+  "voxelspaceprogram.vehicle_assembler.create_assembly_area": "Prepare Vehicle Assembly Area",
 
+
+  "fluid_type.voxelspaceprogram.liquid_oxygen_fluid": "Liquid Oxygen",
   "sounds.voxelspaceprogram.propeller_start": "The Handheld Propeller clatters on.",
 
   "voxelspaceprogram.state.settimewarp": "Setting Time Warp to: %1$sx",

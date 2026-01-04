@@ -2,10 +2,12 @@ package com.nythicalnorm.voxelspaceprogram.block.gse.entity;
 
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
 import com.nythicalnorm.voxelspaceprogram.block.BlockFindingStorage;
+import com.nythicalnorm.voxelspaceprogram.block.gse.AssemblerState;
 import com.nythicalnorm.voxelspaceprogram.block.gse.AssemblerUtil;
 import com.nythicalnorm.voxelspaceprogram.block.NSPBlocks;
 import com.nythicalnorm.voxelspaceprogram.block.gse.screen.VehicleAssemblerMenu;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.entity.NSPBlockEntities;
+import com.nythicalnorm.voxelspaceprogram.network.assembler.ServerboundAssemblerGUI;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,23 +17,24 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class VehicleAssemblerEntity extends BlockEntity implements MenuProvider {
     public static final int MaxPlatformSize = 64;
     public static final int MaxPlatformHeight = 128;
 
-    private boolean recalculateBox = false;
-    BoundingBox assemblyBoundingBox = null;
+    private AssemblerState state = AssemblerState.JUST_PLACED;
 
-    int lastYIndexBlockPositions;
-    BlockState[][][] alreadySeearchedblockPos;
-    private boolean ongoingSearch = false;
-    private boolean blockPosFinished = false;
+    BoundingBox assemblyBoundingBox = null;
 
     public VehicleAssemblerEntity( BlockPos pPos, BlockState pBlockState) {
         super(NSPBlockEntities.VEHICLE_ASSEMBLER_BE.get(), pPos, pBlockState);
@@ -44,16 +47,11 @@ public class VehicleAssemblerEntity extends BlockEntity implements MenuProvider 
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        if(recalculateBox) {
-            recalculateBoundingBox();
-            recalculateBox = false;
-        }
-        if (assemblyBoundingBox != null && !blockPosFinished) {
-            startBoundingBoxSearch();
-            //long diff = Util.getNanos() - beforeTimes;
-            //VoxelSpaceProgram.log("All Block Search Time: " + diff);
-        }
         return new VehicleAssemblerMenu(pContainerId,this);
+    }
+
+    public AssemblerState getState() {
+        return state;
     }
 
     @Override
@@ -63,9 +61,6 @@ public class VehicleAssemblerEntity extends BlockEntity implements MenuProvider 
             if (!this.level.isClientSide()) {
                 BlockFindingStorage.makeBlockEntityFindable(getBlockPos(), level);
             }
-        }
-        if (assemblyBoundingBox == null) {
-            recalculateBoundingBox();
         }
     }
 
@@ -81,24 +76,21 @@ public class VehicleAssemblerEntity extends BlockEntity implements MenuProvider 
 
     public void tick(Level pLevel, BlockPos pPos, BlockState state) {
         if (pLevel.getGameTime() % 2L == 0L) {
-            if (ongoingSearch) {
-                if (lazyGetAllBlocks(lastYIndexBlockPositions)) {
-                    ongoingSearch = false;
-                    blockPosFinished = true;
-                    double mass = AssemblerUtil.getTotalMass(alreadySeearchedblockPos);
-
-                    level.getServer().getPlayerList().broadcastSystemMessage(Component.literal("Total Mass is").append(" " + mass), true);
-                    // do stuff here
+            if (this.state == AssemblerState.ASSEMBLY_AREA_SEARCHING) {
+                if (assemblyBoundingBox == null) {
+                    calculateBoundingBox();
+                    long time = Util.getNanos();
+                    if (chackIfBoundingBoxIsAir()) {
+                        this.state = AssemblerState.ASSEMBLY_AREA_READY;
+                    }
+                    long diff = Util.getNanos() - time;
+                    VoxelSpaceProgram.log("is this faster, Nano: " + diff);
                 }
             }
         }
     }
 
-    public void setRecalculateBox() {
-        recalculateBox = true;
-    }
-
-    public void recalculateBoundingBox() {
+    public void calculateBoundingBox() {
         if (getLevel().isClientSide()) {
             return;
         }
@@ -114,64 +106,62 @@ public class VehicleAssemblerEntity extends BlockEntity implements MenuProvider 
         }
     }
 
+    private boolean chackIfBoundingBoxIsAir() {
+        Stream<BlockState> blockStateStream = level.getBlockStatesIfLoaded(new AABB(assemblyBoundingBox.minX(), assemblyBoundingBox.minY(), assemblyBoundingBox.minZ()
+                ,assemblyBoundingBox.maxX(), assemblyBoundingBox.maxY(), assemblyBoundingBox.maxZ()));
+        return blockStateStream.allMatch(Predicate.isEqual(Blocks.AIR.defaultBlockState()));
+    }
+
     @Override
     protected void saveAdditional(CompoundTag pTag) {
-        pTag.putInt("nsp.bounding_box_min_x", this.assemblyBoundingBox.minX());
-        pTag.putInt("nsp.bounding_box_min_y", this.assemblyBoundingBox.minY());
-        pTag.putInt("nsp.bounding_box_min_z", this.assemblyBoundingBox.minZ());
-        pTag.putInt("nsp.bounding_box_max_x", this.assemblyBoundingBox.maxX());
-        pTag.putInt("nsp.bounding_box_max_y", this.assemblyBoundingBox.maxY());
-        pTag.putInt("nsp.bounding_box_max_z", this.assemblyBoundingBox.maxZ());
+        pTag.putString("vsp.assembler_state", this.state.getSerializedName());
+
+        if (assemblyBoundingBox != null) {
+            pTag.putInt("vsp.bounding_box_min_x", this.assemblyBoundingBox.minX());
+            pTag.putInt("vsp.bounding_box_min_y", this.assemblyBoundingBox.minY());
+            pTag.putInt("vsp.bounding_box_min_z", this.assemblyBoundingBox.minZ());
+            pTag.putInt("vsp.bounding_box_max_x", this.assemblyBoundingBox.maxX());
+            pTag.putInt("vsp.bounding_box_max_y", this.assemblyBoundingBox.maxY());
+            pTag.putInt("vsp.bounding_box_max_z", this.assemblyBoundingBox.maxZ());
+        }
+
         super.saveAdditional(pTag);
     }
 
     @Override
     public void load(CompoundTag pTag) {
-        if (pTag.contains("nsp.bounding_box_min_x")) {
+        if (pTag.contains("vsp.bounding_box_min_x")) {
             this.assemblyBoundingBox = new BoundingBox(
-                    pTag.getInt("nsp.bounding_box_min_x"),
-                    pTag.getInt("nsp.bounding_box_min_y"),
-                    pTag.getInt("nsp.bounding_box_min_z"),
-                    pTag.getInt("nsp.bounding_box_max_x"),
-                    pTag.getInt("nsp.bounding_box_max_y"),
-                    pTag.getInt("nsp.bounding_box_max_z")
+                    pTag.getInt("vsp.bounding_box_min_x"),
+                    pTag.getInt("vsp.bounding_box_min_y"),
+                    pTag.getInt("vsp.bounding_box_min_z"),
+                    pTag.getInt("vsp.bounding_box_max_x"),
+                    pTag.getInt("vsp.bounding_box_max_y"),
+                    pTag.getInt("vsp.bounding_box_max_z")
             );
         }
+
+        if (pTag.contains("vsp.assembler_state")) {
+           this.state = AssemblerState.getByValue(pTag.getString("vsp.assembler_state"));
+        }
+
         super.load(pTag);
     }
 
-    private void startBoundingBoxSearch() {
-        this.alreadySeearchedblockPos = new BlockState[assemblyBoundingBox.getXSpan()][assemblyBoundingBox.getYSpan()][assemblyBoundingBox.getZSpan()];
-        ongoingSearch = true;
-        lazyGetAllBlocks(assemblyBoundingBox.minY());
+    public void startAssemblyAreaSearch() {
+        assemblyBoundingBox = null;
+        this.state = AssemblerState.ASSEMBLY_AREA_SEARCHING;
     }
 
-    public boolean lazyGetAllBlocks(int startYIndex) {
-        long startTime = Util.getNanos();
-
-        for (int y = startYIndex; y <= assemblyBoundingBox.maxY(); y++) {
-            for (int x = assemblyBoundingBox.minX(); x <= assemblyBoundingBox.maxX(); x++) {
-                for (int z = assemblyBoundingBox.minZ(); z <= assemblyBoundingBox.maxZ(); z++) {
-                    int xIndex = x - assemblyBoundingBox.minX();
-                    int yIndex = y - assemblyBoundingBox.minY();
-                    int zIndex = z - assemblyBoundingBox.minZ();
-                    if (alreadySeearchedblockPos[xIndex][yIndex][zIndex] == null) {
-                        alreadySeearchedblockPos[xIndex][yIndex][zIndex] =
-                        getLevel().getBlockState(new BlockPos(x, y, z));
-                        if (Util.getNanos() - startTime > 80000) {
-                            this.lastYIndexBlockPositions = y;
-                            VoxelSpaceProgram.log("Next");
-                            return false;
-                        }
-                    }
-                }
+    public void buttonPress(ServerboundAssemblerGUI.ButtonType buttonType) {
+        if (buttonType.equals(ServerboundAssemblerGUI.ButtonType.CREATE_ASSEMBLY_AREA)) {
+            if (this.state == AssemblerState.JUST_PLACED) {
+                startAssemblyAreaSearch();
             }
         }
-        return true;
     }
 
-//           org.valkyrienskies.mod.common.config.MassDatapackResolver resolver = MassDatapackResolver.INSTANCE;
-//           if (resolver != null) {
-//            //level.getServer().getPlayerList().broadcastSystemMessage(Component.literal("mass of __ is").append(" " + resolver.getBlockStateMass(blockState)), true);
-//           }
+    public void platformChanged() {
+
+    }
 }

@@ -1,7 +1,12 @@
 package com.nythicalnorm.voxelspaceprogram.block.gse.screen;
 
 import com.nythicalnorm.voxelspaceprogram.block.NSPBlocks;
+import com.nythicalnorm.voxelspaceprogram.block.gse.entity.VehicleAssemblerEntity;
 import com.nythicalnorm.voxelspaceprogram.gui.NSPMenuTypes;
+import com.nythicalnorm.voxelspaceprogram.network.PacketHandler;
+import com.nythicalnorm.voxelspaceprogram.network.assembler.AssemblerButtonPress;
+import com.nythicalnorm.voxelspaceprogram.network.assembler.ServerboundAssemblerGUI;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class VehicleAssemblerMenu extends AbstractContainerMenu {
-    private final BlockEntity vehicleAssemblerBE;
+    private final VehicleAssemblerEntity vehicleAssemblerBE;
 
     public VehicleAssemblerMenu(int pContainerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(pContainerId, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
@@ -19,8 +24,15 @@ public class VehicleAssemblerMenu extends AbstractContainerMenu {
 
     public VehicleAssemblerMenu(int pContainerId, BlockEntity blockEntity) {
         super(NSPMenuTypes.VEHICLE_ASSEMBLER_MENU.get(), pContainerId);
+        if (blockEntity instanceof VehicleAssemblerEntity vehicleAssembler) {
+            vehicleAssemblerBE = vehicleAssembler;
+        } else {
+            vehicleAssemblerBE = null;
+        }
+    }
 
-        vehicleAssemblerBE = blockEntity;
+    public VehicleAssemblerEntity getVehicleAssemblerBE() {
+        return vehicleAssemblerBE;
     }
 
     @Override
@@ -35,5 +47,12 @@ public class VehicleAssemblerMenu extends AbstractContainerMenu {
                     pPlayer, NSPBlocks.VEHICLE_ASSEMBLER.get());
         }
         return false;
+    }
+
+    protected void createBoundingBoxButtonPress() {
+        if (vehicleAssemblerBE != null) {
+            BlockPos pos = vehicleAssemblerBE.getBlockPos();
+            PacketHandler.sendToServer(new AssemblerButtonPress(ServerboundAssemblerGUI.ButtonType.CREATE_ASSEMBLY_AREA, pos));
+        }
     }
 }
