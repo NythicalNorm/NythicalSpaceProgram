@@ -1,6 +1,6 @@
 package com.nythicalnorm.voxelspaceprogram.block;
 
-import com.nythicalnorm.voxelspaceprogram.block.gse.entity.VehicleAssemblerEntity;
+import com.nythicalnorm.voxelspaceprogram.block.gse.AssemblerUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
@@ -33,7 +33,7 @@ public class BlockFindingStorage {
 
     public static Optional<BlockPos> findAssemblerBlockInRange(BlockPos pos, Level pLevel) {
         Optional<BlockPos> assemblerBlockPos = Optional.empty();
-        int MaxDistanceToSearch = VehicleAssemblerEntity.MaxPlatformSize;
+        int MaxDistanceToSearch = AssemblerUtil.MaxPlatformSize;
 
         for (BlockEntityLoc loc : assemblerBlockLocation) {
             if (loc.dimensionKey == pLevel.dimension()) {

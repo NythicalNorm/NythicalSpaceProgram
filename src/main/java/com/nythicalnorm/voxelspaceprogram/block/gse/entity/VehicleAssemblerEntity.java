@@ -33,9 +33,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class VehicleAssemblerEntity extends BlockEntity implements MenuProvider {
-    public static final int MaxPlatformSize = 64;
-    public static final int MaxPlatformHeight = 128;
-
     private AssemblerState state = AssemblerState.JUST_PLACED;
     private ProblemsMgr problemsMgr;
     private Player menuOpenedPlayer;
@@ -128,15 +125,19 @@ public class VehicleAssemblerEntity extends BlockEntity implements MenuProvider 
         if (getLevel().isClientSide()) {
             return;
         }
+        problemsMgr.clearProblems();
         BlockPos startingPos = AssemblerUtil.getBlockAroundMeHorizontal(getBlockPos(), NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get(), level);
         if (startingPos != null) {
             long beforeTimes = Util.getNanos();
+            problemsMgr.setProblem(ProblemsStorage.Prepare_No_Platform, false);
 
             BlockState blockState = level.getBlockState(startingPos);
-            this.assemblyBoundingBox = AssemblerUtil.calculateBoundingBox(blockState.getBlock(), NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get(), startingPos, MaxPlatformSize, getLevel(), this.problemsMgr);
+            this.assemblyBoundingBox = AssemblerUtil.calculateBoundingBox(blockState.getBlock(), NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get(), startingPos, getLevel(), this.problemsMgr);
 
             long diff = Util.getNanos() - beforeTimes;
             VoxelSpaceProgram.log("flood fill time: " + diff);
+        } else {
+            problemsMgr.setProblem(ProblemsStorage.Prepare_No_Platform, true);
         }
     }
 

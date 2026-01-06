@@ -51,6 +51,9 @@
   "voxelspaceprogram.screen.orbital_speed": "%1$s b/s",
 
   "voxelspaceprogram.vehicle_assembler.create_assembly_area": "Prepare Vehicle Assembly Area",
+
+  "assembler_warnings.voxelspaceprogram.no_platform": "No Vehicle Assembly Platform blocks are found placed next to the Vehicle Assembler.",
+  "assembler_warnings.voxelspaceprogram.small_platform": "Vehicle Assembly Platform is Smaller than the minimum size allowed",
   "assembler_warnings.voxelspaceprogram.platform_not_square": "The Vehicle Assembly Platform blocks are not placed in a perfect square formation.",
   "assembler_warnings.voxelspaceprogram.scaffold_uneven": "The heights of the Scaffold Blocks are uneven. Make sure that they are of equal height.",
   "assembler_warnings.voxelspaceprogram.scaffold_missing": "Vehicle Assembly Scaffold Blocks at the four corners of the Platform indicating height are required to prepare assembly area.",

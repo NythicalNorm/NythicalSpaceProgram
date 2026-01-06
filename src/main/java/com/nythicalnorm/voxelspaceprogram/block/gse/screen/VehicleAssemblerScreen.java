@@ -3,13 +3,15 @@ package com.nythicalnorm.voxelspaceprogram.block.gse.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
 import com.nythicalnorm.voxelspaceprogram.block.gse.AssemblerState;
+import com.nythicalnorm.voxelspaceprogram.gui.widgets.TextureButton;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 
 public class VehicleAssemblerScreen extends AbstractContainerScreen<VehicleAssemblerMenu> {
@@ -22,17 +24,18 @@ public class VehicleAssemblerScreen extends AbstractContainerScreen<VehicleAssem
     private static final ResourceLocation ERROR_DISPLAY = VoxelSpaceProgram.rl(
             "textures/gui/vehicleassembler/error_display.png");
 
-
     private static final int texWidth = 384;
     private static final int texHeight = 248;
     private int xPos = 0;
     private int yPos = 0;
+    private Font font;
 
     @Override
     protected void init() {
         super.init();
         this.inventoryLabelX = 10000;
         this.titleLabelY = 10000;
+        this.font = Minecraft.getInstance().font;
     }
 
     public VehicleAssemblerScreen(VehicleAssemblerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -52,11 +55,15 @@ public class VehicleAssemblerScreen extends AbstractContainerScreen<VehicleAssem
         ResourceLocation currentBG;
         switch (state) {
             case JUST_PLACED:
-                addRenderableWidget(Button.builder(CommonComponents.GUI_PROCEED, (button) -> {
+                this.renderables.clear();
+                AbstractWidget prepareButton = new TextureButton(INFO_PANEL,192, 114, 114, 16,
+                        136, 104, 136,176, () -> {
                     this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, 0);
-                }).bounds(xPos, yPos + 60, 150, 20).build());
+                });
+                this.addRenderableWidget(prepareButton);
                 break;
             case ASSEMBLY_AREA_READY:
+                this.renderables.clear();
                 break;
             default:
         }
@@ -89,9 +96,16 @@ public class VehicleAssemblerScreen extends AbstractContainerScreen<VehicleAssem
     }
 
     private void renderProblems(GuiGraphics pGuiGraphics, Component[] components) {
-        for (int i = 0; i < components.length; i++) {
-            Component comp = components[i];
-            pGuiGraphics.drawString(Minecraft.getInstance().font, comp, xPos + 14, yPos + 162 + (i*50), comp.getStyle().getColor().getValue());
+        int currentYHeight = 0;
+        int xProb = xPos + 14;
+        int yProb = yPos + 162;
+
+        for (Component currentComp : components) {
+            for (FormattedCharSequence formattedcharsequence : font.split(currentComp, 365)) {
+                pGuiGraphics.drawString(font, formattedcharsequence, xProb, yProb + currentYHeight, currentComp.getStyle().getColor().getValue());
+                currentYHeight += 9;
+            }
+            currentYHeight += 4;
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.nythicalnorm.voxelspaceprogram.block.gse;
 
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
-import com.nythicalnorm.voxelspaceprogram.block.gse.entity.VehicleAssemblerEntity;
 import com.nythicalnorm.voxelspaceprogram.block.gse.warnings.ProblemsMgr;
 import com.nythicalnorm.voxelspaceprogram.block.gse.warnings.ProblemsStorage;
 import net.minecraft.core.BlockPos;
@@ -15,6 +14,10 @@ import java.util.List;
 import java.util.Stack;
 
 public class AssemblerUtil {
+    public static final int MinPlatformSize = 5;
+    public static final int MaxPlatformSize = 64;
+    public static final int MaxPlatformHeight = 128;
+
     public static BlockPos getBlockAroundMeHorizontal(BlockPos pos, Block blockType, Level level) {
         for (int x = -1; x <= 1; x ++) {
             for (int z = -1; z <= 1; z ++) {
@@ -29,17 +32,17 @@ public class AssemblerUtil {
     }
 
 
-    public static BoundingBox calculateBoundingBox(Block platformBlock, Block scaffoldBlock, BlockPos startingPos, int maxDistance, Level level, ProblemsMgr problemsMgr) {
+    public static BoundingBox calculateBoundingBox(Block platformBlock, Block scaffoldBlock, BlockPos startingPos, Level level, ProblemsMgr problemsMgr) {
         int yHeight = startingPos.getY();
 
         Stack<int[]> fillStack = new Stack<>();
         fillStack.push(new int[]{startingPos.getX(), startingPos.getZ()});
 
-        int MaxX = startingPos.getX() + maxDistance;
-        int MinX = startingPos.getX() - maxDistance;
+        int MaxX = startingPos.getX() + MaxPlatformSize;
+        int MinX = startingPos.getX() - MaxPlatformSize;
 
-        int MaxZ = startingPos.getZ() + maxDistance;
-        int MinZ = startingPos.getZ() - maxDistance;
+        int MaxZ = startingPos.getZ() + MaxPlatformSize;
+        int MinZ = startingPos.getZ() - MaxPlatformSize;
 
         int MaxXFound = startingPos.getX();
         int MinXFound = startingPos.getX();
@@ -103,6 +106,9 @@ public class AssemblerUtil {
 
         if (xDiff == zDiff && (xDiff*zDiff == listOfTraversedPoints.size())) {
             problemsMgr.setProblem(ProblemsStorage.Prepare_Not_Square, false);
+            boolean isLessThanMinSize = xDiff < MinPlatformSize;
+            problemsMgr.setProblem(ProblemsStorage.Prepare_Small_Platform, isLessThanMinSize);
+
         } else {
             problemsMgr.setProblem(ProblemsStorage.Prepare_Not_Square, true);
             return null;
@@ -135,7 +141,7 @@ public class AssemblerUtil {
     }
 
     private static int getScaffoldHeight(int x, int z, int yStartPoint, Block scaffoldBlock, Level pLevel) {
-        for (int i = 0; i < VehicleAssemblerEntity.MaxPlatformHeight; i++) {
+        for (int i = 0; i < MaxPlatformHeight; i++) {
             BlockPos candidatePos = new BlockPos(x, yStartPoint + i, z);
             BlockState candidateBlockState = pLevel.getBlockState(candidatePos);
 

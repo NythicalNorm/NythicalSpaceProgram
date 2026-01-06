@@ -2,6 +2,8 @@ package com.nythicalnorm.voxelspaceprogram.block.gse.warnings;
 
 public class ProblemsStorage {
     // Preparation Problems
+    public static AssemblyProblem Prepare_No_Platform = new AssemblyProblem("no_platform", true, false);
+    public static AssemblyProblem Prepare_Small_Platform = new AssemblyProblem("small_platform", true, false);
     public static AssemblyProblem Prepare_Not_Square = new AssemblyProblem("platform_not_square", true, false);
     public static AssemblyProblem Scaffold_Uneven = new AssemblyProblem("scaffold_uneven", true, false);
     public static AssemblyProblem Scaffold_Missing = new AssemblyProblem("scaffold_missing", true, false);

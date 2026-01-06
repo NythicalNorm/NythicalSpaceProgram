@@ -66,9 +66,8 @@ public class ProblemsMgr {
 
     public void sendPacketIfUpdated(Player menuOpenedPlayer) {
         if (updated) {
-            Component[] assemblerProblems = getAssemblerProblems();
             if (menuOpenedPlayer instanceof ServerPlayer plr) {
-                PacketHandler.sendToPlayer(new ClientboundAssemblerProblems(assemblerProblems), plr);
+                PacketHandler.sendToPlayer(new ClientboundAssemblerProblems(getAssemblerProblems()), plr);
                 updated = false;
             }
         }
