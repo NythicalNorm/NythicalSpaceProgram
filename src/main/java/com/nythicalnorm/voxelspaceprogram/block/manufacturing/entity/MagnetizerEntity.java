@@ -66,7 +66,7 @@ public class MagnetizerEntity extends BlockEntity implements MenuProvider {
     private LazyOptional<IItemHandler> lazyOutputItemHandler = LazyOptional.empty();
     private LazyOptional<CustomEnergyStorage> energyStorageLazyOptional = LazyOptional.empty();
 
-    private Direction Facing;
+    private final Direction Facing;
     private boolean isCrafting = false;
     protected final ContainerData data;
     private int progress = 0;
@@ -137,7 +137,6 @@ public class MagnetizerEntity extends BlockEntity implements MenuProvider {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
         }
     }
-
 
     public float getMagnetTableYrot() {
         return magnetTableYrot;

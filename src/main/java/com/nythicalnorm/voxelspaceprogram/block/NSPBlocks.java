@@ -1,10 +1,13 @@
 package com.nythicalnorm.voxelspaceprogram.block;
 
 import com.nythicalnorm.voxelspaceprogram.Item.NSPItems;
+import com.nythicalnorm.voxelspaceprogram.Item.RocketryBlockItem;
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
 import com.nythicalnorm.voxelspaceprogram.block.gse.VehicleAssembler;
 import com.nythicalnorm.voxelspaceprogram.block.gse.PlatformAssembly;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.CryogenicAirSeparator;
+import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.BoundingBlock;
+import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.Engine;
 import com.nythicalnorm.voxelspaceprogram.block.terrain.FootprintedRegolith;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.Magnetizer;
 import net.minecraft.world.item.BlockItem;
@@ -52,15 +55,32 @@ public class NSPBlocks {
     public static final RegistryObject<Block> VEHICLE_ASSEMBLER = registerBlock("vehicle_assembler",
             () -> new VehicleAssembler(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.COPPER).noOcclusion()));
 
+    // Engines
+    public static final RegistryObject<Block> THREE_KEROLOX = registerRocketryBlock("three_kerolox",
+            () -> new Engine(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).sound(SoundType.NETHERITE_BLOCK).noOcclusion()));
+
+    public static final RegistryObject<Block> BOUNDING_BLOCK = registerBlockOnly("bounding_block",
+            () -> new BoundingBlock(BlockBehaviour.Properties.copy(THREE_KEROLOX.get())));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
-        RegistryObject<T> toReturn = BLOCKS.register(name,block);
+        RegistryObject<T> toReturn = registerBlockOnly(name,block);
         registerBlockItem(name, toReturn);
         return toReturn;
     }
 
+    private static <T extends Block> RegistryObject<T> registerBlockOnly(String name, Supplier<T> block) {
+        return BLOCKS.register(name,block);
+    }
+
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
         return NSPItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    }
+
+    private static <T extends Block> RegistryObject<T> registerRocketryBlock(String name, Supplier<T> block) {
+        RegistryObject<T> toReturn = registerBlockOnly(name,block);
+        NSPItems.ITEMS.register(name, () -> new RocketryBlockItem(toReturn.get(), new Item.Properties()));
+
+        return toReturn;
     }
 
     public static void register(IEventBus eventBus)

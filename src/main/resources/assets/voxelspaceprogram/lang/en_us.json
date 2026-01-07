@@ -20,6 +20,8 @@
   "block.voxelspaceprogram.vehicle_assembly_scaffold": "Vehicle Assembly Scaffold",
   "block.voxelspaceprogram.vehicle_assembler": "Vehicle Assembler",
 
+  "block.voxelspaceprogram.three_kerolox": "F1 Engine",
+
   "fluid_type.voxelspaceprogram.liquid_oxygen_fluid": "Liquid Oxygen",
   "sounds.voxelspaceprogram.propeller_start": "The Handheld Propeller clatters on.",
 

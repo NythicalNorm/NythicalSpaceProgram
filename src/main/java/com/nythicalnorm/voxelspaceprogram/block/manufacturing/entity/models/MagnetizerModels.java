@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MagnetizerModels {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(VoxelSpaceProgram.rl( "magnetizer_models"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(VoxelSpaceProgram.rl( "magnetizer_model"), "main");
     public static final Material TEXTURE_LOCATION = new Material(InventoryMenu.BLOCK_ATLAS, VoxelSpaceProgram.rl( "block/magnetizer_rotating_table"));
     private final ModelPart magnet_table;
     private final ModelPart magnet;

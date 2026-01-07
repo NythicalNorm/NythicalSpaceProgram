@@ -5,6 +5,8 @@ import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.entity.NSPBlockEntities;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.entity.models.MagnetizerModels;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.entity.renderer.MagnetizerBlockEntityRenderer;
+import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.entity.models.EngineModels;
+import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.renderer.EngineEntityRenderer;
 import com.nythicalnorm.voxelspaceprogram.planetshine.generators.QuadSphereModelGenerator;
 import com.nythicalnorm.voxelspaceprogram.planetshine.PlanetShine;
 import com.nythicalnorm.voxelspaceprogram.planetshine.shaders.NSPShaders;
@@ -28,11 +30,13 @@ public class ModClientEvents {
     @SubscribeEvent
     public static void RegisterBER(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(NSPBlockEntities.MAGNETIZER_BE.get(), MagnetizerBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(NSPBlockEntities.ENGINE_BE.get(), EngineEntityRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MagnetizerModels.LAYER_LOCATION, MagnetizerModels::createBodyLayer);
+        event.registerLayerDefinition(EngineModels.ThreeKeroloxLayerLoc, EngineModels::createThreeKeroloxModel);
     }
 
     @SubscribeEvent

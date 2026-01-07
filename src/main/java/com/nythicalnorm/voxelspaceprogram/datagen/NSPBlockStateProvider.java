@@ -43,6 +43,9 @@ public class NSPBlockStateProvider extends BlockStateProvider {
         fluidBlock(NSPFluids.LIQUID_OXYGEN.block);
         //simpleBlockWithItem(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART.get(), models().getExistingFile(VoxelSpaceProgram.rl( "block/cryogenic_air_separator_part")));
         connectedBlock(NSPBlocks.CRYOGENIC_AIR_SEPARATOR_PART);
+
+//        modelBlockWithItem(NSPBlocks.THREE_KEROLOX.get(), new ModelFile.UncheckedModelFile(
+//                VoxelSpaceProgram.rl( "block/three_kerolox")));
     }
 
     protected void modelBlockWithItem(Block block, ModelFile model) {

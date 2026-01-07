@@ -28,6 +28,9 @@ public class NSPBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(NSPBlocks.VEHICLE_ASSEMBLY_PLATFORM.get());
         this.dropSelf(NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get());
         this.dropSelf(NSPBlocks.VEHICLE_ASSEMBLER.get());
+
+        this.dropSelf(NSPBlocks.THREE_KEROLOX.get());
+        this.dropOther(NSPBlocks.BOUNDING_BLOCK.get(), Blocks.AIR);
     }
 
     @Override

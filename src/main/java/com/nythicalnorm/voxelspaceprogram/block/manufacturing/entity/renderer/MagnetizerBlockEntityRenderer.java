@@ -23,7 +23,6 @@ import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
 public class MagnetizerBlockEntityRenderer implements BlockEntityRenderer<MagnetizerEntity> {
-
     private static MagnetizerModels magnetizerModels;
 
     public MagnetizerBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
