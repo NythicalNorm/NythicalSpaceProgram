@@ -5,6 +5,7 @@ import com.nythicalnorm.voxelspaceprogram.block.manufacturing.entity.NSPBlockEnt
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -84,12 +85,23 @@ public class BoundingBlockEntity extends BlockEntity {
     public CompoundTag getUpdateTag() {
         return saveWithoutMetadata();
     }
+
+    //handler during chunk load.
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        super.handleUpdateTag(tag);
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        super.onDataPacket(net, pkt);
+    }
+
     public void updateBlock(){
-        if (level == null){
-            return;
-        }
-        else if (!level.isClientSide()) {
-            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        if (level != null) {
+            if (!level.isClientSide()) {
+                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 0b111);
+            }
         }
     }
 }

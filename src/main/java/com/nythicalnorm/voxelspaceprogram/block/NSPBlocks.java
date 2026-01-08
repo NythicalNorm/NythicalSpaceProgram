@@ -59,7 +59,7 @@ public class NSPBlocks {
     public static final RegistryObject<Block> THREE_KEROLOX = registerRocketryBlock("three_kerolox",
             () -> new Engine(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).sound(SoundType.NETHERITE_BLOCK).noOcclusion()));
 
-    public static final RegistryObject<Block> BOUNDING_BLOCK = registerBlockOnly("bounding_block",
+    public static final RegistryObject<Block> BOUNDING_BLOCK = registerBlockOnly("engine_bounding_block",
             () -> new BoundingBlock(BlockBehaviour.Properties.copy(THREE_KEROLOX.get())));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

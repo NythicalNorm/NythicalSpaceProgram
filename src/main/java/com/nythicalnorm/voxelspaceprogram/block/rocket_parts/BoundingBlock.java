@@ -1,6 +1,7 @@
 package com.nythicalnorm.voxelspaceprogram.block.rocket_parts;
 
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
+import com.nythicalnorm.voxelspaceprogram.block.VSPClientBlockExtensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -13,7 +14,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -22,13 +26,20 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.client.extensions.common.IClientBlockExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+
 // Got this class mostly off of mekanism so thanks to the devs of mekanism.
 public class BoundingBlock extends BaseEntityBlock {
+    public static final BooleanProperty PLACE_BY_MAIN = BooleanProperty.create("place_by_main");
+
     public BoundingBlock(Properties pProperties) {
-        super(pProperties);
+        super(pProperties.requiresCorrectToolForDrops().dynamicShape().noOcclusion()
+                .isViewBlocking((state, world, pos) -> false).pushReaction(PushReaction.BLOCK).forceSolidOn());
+        this.registerDefaultState(this.stateDefinition.any().setValue(PLACE_BY_MAIN, false));
     }
 
     @Nullable
@@ -42,10 +53,16 @@ public class BoundingBlock extends BaseEntityBlock {
         return null;
     }
 
-//    @Override
-//    public void initializeClient(Consumer<IClientBlockExtensions> consumer) {
-//        //consumer.accept(RenderPropertiesProvider.boundingParticles());
-//    }
+    @Override
+    public void initializeClient(Consumer<IClientBlockExtensions> consumer) {
+        consumer.accept(VSPClientBlockExtensions.INSTANCE);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(PLACE_BY_MAIN);
+        super.createBlockStateDefinition(pBuilder);
+    }
 
     @Override
     @Deprecated
@@ -173,7 +190,6 @@ public class BoundingBlock extends BaseEntityBlock {
         return RenderShape.INVISIBLE;
     }
 
-
     @NotNull
     @Override
     @Deprecated
@@ -221,7 +237,14 @@ public class BoundingBlock extends BaseEntityBlock {
         BlockPos mainPos = getMainBlockPos(world, pos);
         if (mainPos == null) {
             //If we don't have a main pos, then act as if the block is empty so that we can move into it properly
-            return Shapes.empty();
+            BlockState boundingBoxState = world.getBlockState(pos);
+            if (boundingBoxState.is(this)) {
+                if (boundingBoxState.getValue(PLACE_BY_MAIN)) {
+                    return Shapes.empty();
+                }
+            } else {
+                return Shapes.block();
+            }
         }
         BlockState mainState;
         try {

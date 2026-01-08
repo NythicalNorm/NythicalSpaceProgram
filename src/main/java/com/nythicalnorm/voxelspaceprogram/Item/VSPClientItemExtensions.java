@@ -1,13 +1,16 @@
 package com.nythicalnorm.voxelspaceprogram.Item;
 
 import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.BEItemRenderer;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-public class VSPClientExtensions implements IClientItemExtensions {
+public class VSPClientItemExtensions implements IClientItemExtensions {
+    public static VSPClientItemExtensions INSTANCE = new VSPClientItemExtensions();
+
     private final BEItemRenderer myBEWLR = new BEItemRenderer();
 
     @Override
-    public BEItemRenderer getCustomRenderer() {
+    public BlockEntityWithoutLevelRenderer getCustomRenderer() {
         return myBEWLR;
     }
 }

@@ -1,7 +1,6 @@
 package com.nythicalnorm.voxelspaceprogram.block.rocket_parts;
 
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,8 +22,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaterniond;
 import org.joml.Vector3d;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class MultiblockRocketry extends BaseEntityBlock {
@@ -151,7 +148,7 @@ public abstract class MultiblockRocketry extends BaseEntityBlock {
     public void placeBoundingBlocks(Level level, BlockPos orig, BlockState state) {
         getPositions(orig, state).forEach(boundingLocation -> {
                 Block boundingBlock = getBoundingBlock();
-                BlockState newState = boundingBlock.defaultBlockState();
+                BlockState newState = boundingBlock.defaultBlockState().setValue(BoundingBlock.PLACE_BY_MAIN, true);
                 level.setBlock(boundingLocation, newState, Block.UPDATE_ALL);
                 if (!level.isClientSide()) {
                     BlockEntity blockEntity = level.getBlockEntity(boundingLocation);
@@ -199,7 +196,22 @@ public abstract class MultiblockRocketry extends BaseEntityBlock {
 
     @Override
     protected void spawnDestroyParticles(Level pLevel, Player pPlayer, BlockPos pPos, BlockState pState) {
-        super.spawnDestroyParticles(pLevel, pPlayer, pPos, pState);
+        int minBlockPos = -(blockSize - 1) / 2;
+        int maxBlockPos = blockSize / 2;
+        BlockPos correctedBlockPos = new BlockPos(pPos.getX() + maxBlockPos, pPos.getY() + maxBlockPos, pPos.getZ() + maxBlockPos);
+
+        for (int x = minBlockPos; x <= maxBlockPos; x++) {
+            for (int y = minBlockPos; y <= maxBlockPos; y++) {
+                for (int z = minBlockPos; z <= maxBlockPos; z++) {
+                    BlockPos newPos = new BlockPos(correctedBlockPos.getX() + x, correctedBlockPos.getY()+y, correctedBlockPos.getZ() + z);
+                    super.spawnDestroyParticles(pLevel, pPlayer, newPos, pState);
+                }
+            }
+        }
+
+//        getPositions(pPos, pState).forEach(boundingLocation -> {
+//            super.spawnDestroyParticles(pLevel, pPlayer, boundingLocation, pState);
+//        });
     }
 
     public abstract Block getBoundingBlock();
