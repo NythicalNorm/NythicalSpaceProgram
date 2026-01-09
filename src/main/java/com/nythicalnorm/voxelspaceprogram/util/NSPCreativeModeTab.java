@@ -42,6 +42,7 @@ public class NSPCreativeModeTab {
                         output.accept(NSPFluids.LIQUID_OXYGEN.fluidContainer.get());
 
                         output.accept(NSPBlocks.THREE_KEROLOX.get());
+                        output.accept(NSPBlocks.TWO_KEROLOX.get());
                     })
                     .build());
 

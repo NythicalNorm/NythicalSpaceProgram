@@ -2,15 +2,19 @@ package com.nythicalnorm.voxelspaceprogram.block.rocket_parts;
 
 import com.nythicalnorm.voxelspaceprogram.block.NSPBlocks;
 import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.entity.EngineEntity;
+import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.entity.EngineProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class Engine extends MultiblockRocketry {
-    public Engine(Properties pProperties) {
-        super(pProperties, 3, 48, 38);
+public class EngineBlock extends MultiblockRocketry {
+    private EngineProperties engineProperties;
+
+    public EngineBlock(Properties pProperties, EngineProperties pEngineProperties) {
+        super(pProperties, pEngineProperties.getBlockSize(), pEngineProperties.getPixelHeight(), pEngineProperties.getPixelWidth());
+        this.engineProperties = pEngineProperties;
     }
 
     @Override

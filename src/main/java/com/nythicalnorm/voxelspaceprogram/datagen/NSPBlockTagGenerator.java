@@ -28,7 +28,7 @@ public class NSPBlockTagGenerator extends BlockTagsProvider {
                 NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get());
 
         this.tag(BlockTags.NEEDS_IRON_TOOL).add(NSPBlocks.OXYGEN_PROPELLANT_TANK.get(), NSPBlocks.LUNAR_REGOLITH.get(), NSPBlocks.VEHICLE_ASSEMBLER.get(),
-                NSPBlocks.THREE_KEROLOX.get(), NSPBlocks.BOUNDING_BLOCK.get());
+                NSPBlocks.THREE_KEROLOX.get(), NSPBlocks.TWO_KEROLOX.get(), NSPBlocks.BOUNDING_BLOCK.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(NSPBlocks.OXYGEN_PROPELLANT_TANK.get())
@@ -41,6 +41,7 @@ public class NSPBlockTagGenerator extends BlockTagsProvider {
                 .add(NSPBlocks.VEHICLE_ASSEMBLER.get())
                 .add(NSPBlocks.VEHICLE_ASSEMBLY_SCAFFOLD.get())
                 .add(NSPBlocks.THREE_KEROLOX.get())
+                .add(NSPBlocks.TWO_KEROLOX.get())
                 .add(NSPBlocks.BOUNDING_BLOCK.get());
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(NSPBlocks.LUNAR_REGOLITH.get());

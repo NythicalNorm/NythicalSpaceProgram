@@ -7,7 +7,8 @@ import com.nythicalnorm.voxelspaceprogram.block.gse.VehicleAssembler;
 import com.nythicalnorm.voxelspaceprogram.block.gse.PlatformAssembly;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.CryogenicAirSeparator;
 import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.BoundingBlock;
-import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.Engine;
+import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.EngineBlock;
+import com.nythicalnorm.voxelspaceprogram.block.rocket_parts.entity.EngineProperties;
 import com.nythicalnorm.voxelspaceprogram.block.terrain.FootprintedRegolith;
 import com.nythicalnorm.voxelspaceprogram.block.manufacturing.Magnetizer;
 import net.minecraft.world.item.BlockItem;
@@ -57,7 +58,20 @@ public class NSPBlocks {
 
     // Engines
     public static final RegistryObject<Block> THREE_KEROLOX = registerRocketryBlock("three_kerolox",
-            () -> new Engine(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).sound(SoundType.NETHERITE_BLOCK).noOcclusion()));
+            () -> new EngineBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).sound(SoundType.NETHERITE_BLOCK).noOcclusion(),
+                    new EngineProperties.Builder()
+                            .BlockSize(3)
+                            .PixelHeight(48)
+                            .PixelWidth(38)
+                            .build()));
+
+    public static final RegistryObject<Block> TWO_KEROLOX = registerRocketryBlock("two_kerolox",
+            () -> new EngineBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).sound(SoundType.NETHERITE_BLOCK).noOcclusion(),
+            new EngineProperties.Builder()
+                    .BlockSize(2)
+                    .PixelHeight(32)
+                    .PixelWidth(24)
+                    .build()));
 
     public static final RegistryObject<Block> BOUNDING_BLOCK = registerBlockOnly("engine_bounding_block",
             () -> new BoundingBlock(BlockBehaviour.Properties.copy(THREE_KEROLOX.get())));

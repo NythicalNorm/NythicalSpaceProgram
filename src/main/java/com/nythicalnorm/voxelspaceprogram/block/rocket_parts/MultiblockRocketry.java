@@ -90,24 +90,10 @@ public abstract class MultiblockRocketry extends BaseEntityBlock {
     }
 
     protected boolean checkCanBePlaced(BlockPlaceContext pContext, Direction placeDir) {
-        BlockPos cubeCenter = pContext.getClickedPos().offset(placeDir.getNormal());
-        int minBlockSearch = -(blockSize - 1) / 2;
-        int maxBlockSearch = blockSize / 2;
-        boolean canPlace = true;
-
-        for (int x = minBlockSearch; x <= maxBlockSearch; x++) {
-            for (int y = minBlockSearch; y <= maxBlockSearch; y++) {
-                for (int z = minBlockSearch; z <= maxBlockSearch; z++) {
-                    BlockPos searchPos = new BlockPos(cubeCenter.getX() + x,cubeCenter.getY() + y, cubeCenter.getZ() + z);
-                    BlockState state = pContext.getLevel().getBlockState(searchPos);
-                    if (!state.canBeReplaced(pContext)) {
-                        canPlace = false;
-                    }
-                }
-            }
-        }
-
-        return canPlace;
+        return getPositions(pContext.getClickedPos(), placeDir).allMatch(searchPos -> {
+            BlockState state = pContext.getLevel().getBlockState(searchPos);
+            return state.canBeReplaced(pContext);
+        });
     }
 
     private BlockState getAnyPlacementDirection(BlockPlaceContext pContext, Direction[] directions) {
@@ -132,7 +118,7 @@ public abstract class MultiblockRocketry extends BaseEntityBlock {
     }
 
     public void removeBoundingBlocks(Level level, BlockPos pos, BlockState state) {
-        getPositions(pos, state).forEach(p -> {
+        getPositions(pos, state.getValue(FACING)).forEach(p -> {
             BlockState boundingState = level.getBlockState(p);
             if (!boundingState.isAir()) {
                 //The state might be air if we broke a bounding block first
@@ -146,7 +132,7 @@ public abstract class MultiblockRocketry extends BaseEntityBlock {
     }
 
     public void placeBoundingBlocks(Level level, BlockPos orig, BlockState state) {
-        getPositions(orig, state).forEach(boundingLocation -> {
+        getPositions(orig, state.getValue(FACING)).forEach(boundingLocation -> {
                 Block boundingBlock = getBoundingBlock();
                 BlockState newState = boundingBlock.defaultBlockState().setValue(BoundingBlock.PLACE_BY_MAIN, true);
                 level.setBlock(boundingLocation, newState, Block.UPDATE_ALL);
@@ -161,10 +147,8 @@ public abstract class MultiblockRocketry extends BaseEntityBlock {
         });
     }
 
-    public Stream<BlockPos> getPositions(BlockPos pPos, BlockState pState) {
+    public Stream<BlockPos> getPositions(BlockPos pPos,  Direction placeDir) {
         Stream.Builder<BlockPos> builder = Stream.builder();
-
-        Direction placeDir = pState.getValue(FACING);
         BlockPos cubeCenter = pPos.offset(placeDir.getNormal());
         int minBlockSearch = -(blockSize - 1) / 2;
         int maxBlockSearch = blockSize / 2;

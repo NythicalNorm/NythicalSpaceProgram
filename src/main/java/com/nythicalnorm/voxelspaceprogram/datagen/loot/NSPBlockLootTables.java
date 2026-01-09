@@ -30,6 +30,7 @@ public class NSPBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(NSPBlocks.VEHICLE_ASSEMBLER.get());
 
         this.dropSelf(NSPBlocks.THREE_KEROLOX.get());
+        this.dropSelf(NSPBlocks.TWO_KEROLOX.get());
         this.dropOther(NSPBlocks.BOUNDING_BLOCK.get(), Blocks.AIR);
     }
 

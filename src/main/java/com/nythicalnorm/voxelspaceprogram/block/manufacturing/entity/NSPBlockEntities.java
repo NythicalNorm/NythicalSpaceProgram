@@ -30,7 +30,7 @@ public class NSPBlockEntities {
                     BlockEntityType.Builder.of(VehicleAssemblerEntity::new, NSPBlocks.VEHICLE_ASSEMBLER.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<EngineEntity>> ENGINE_BE =
-            BLOCK_ENTITIES.register("engine_be", () -> BlockEntityType.Builder.of(EngineEntity::new, NSPBlocks.THREE_KEROLOX.get()).build(null));
+            BLOCK_ENTITIES.register("engine_be", () -> BlockEntityType.Builder.of(EngineEntity::new, NSPBlocks.THREE_KEROLOX.get(), NSPBlocks.TWO_KEROLOX.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<BoundingBlockEntity>> BOUNDING_BLOCK_BE =
             BLOCK_ENTITIES.register("bounding_block_be", () -> BlockEntityType.Builder.of(BoundingBlockEntity::new, NSPBlocks.BOUNDING_BLOCK.get()).build(null));
