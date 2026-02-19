@@ -26,16 +26,6 @@
   "fluid_type.voxelspaceprogram.liquid_oxygen_fluid": "Liquid Oxygen",
   "sounds.voxelspaceprogram.propeller_start": "The Handheld Propeller clatters on.",
 
-  "voxelspaceprogram.state.settimewarp": "Setting Time Warp to: %1$sx",
-  "voxelspaceprogram.state.planetgen_start": "Starting Planet texture generation...",
-  "voxelspaceprogram.state.planetgen_end": "planet %1$s's texture generation complete",
-
-  "key.category.voxelspaceprogram.main": "Voxel Space Program",
-  "key.voxelspaceprogram.increase_time_warp": "Increase Time Warp Speed",
-  "key.voxelspaceprogram.decrease_time_warp": "Decrease Time Warp Speed",
-  "key.voxelspaceprogram.open_solar_system_map": "Open Solar System Map",
-  "key.voxelspaceprogram.use_player_jetpack_key": "Use your Spacesuit's jetpack",
-
   "key.category.voxelspaceprogram.spacecraft_control": "VSP Spacecraft Controls",
   "key.voxelspaceprogram.increase_throttle":  "Increase Engine Throttle",
   "key.voxelspaceprogram.decrease_throttle":  "Decrease Engine Throttle",
@@ -46,12 +36,6 @@
   "key.voxelspaceprogram.docking_mode_toggle":  "Toggle between the control Modes",
   "key.voxelspaceprogram.clockwise_spin":  "Increase the Roll (Spinning Clockwise)",
   "key.voxelspaceprogram.anti_clockwise_spin":  "Decrease the Roll (Spinning Anti-Clockwise)",
-
-  "voxelspaceprogram.commands.dimTeleport": "Teleported to the Space Dimension",
-  "voxelspaceprogram.commands.planet_invalid": "Invalid Planet at: ",
-
-  "voxelspaceprogram.screen.time": "Year %1$s, Day %2$s, %3$s:%4$s",
-  "voxelspaceprogram.screen.orbital_speed": "%1$s b/s",
 
   "voxelspaceprogram.vehicle_assembler.create_assembly_area": "Prepare Vehicle Assembly Area",
 

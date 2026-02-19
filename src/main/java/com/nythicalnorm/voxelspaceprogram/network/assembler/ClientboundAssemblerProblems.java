@@ -1,8 +1,10 @@
 package com.nythicalnorm.voxelspaceprogram.network.assembler;
 
-import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
+import com.nythicalnorm.voxelspaceprogram.network.VSPClientPacketHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -29,17 +31,11 @@ public class ClientboundAssemblerProblems {
         }
     }
 
-    public Component[] getProblemComponents() {
-        return problemComponents;
-    }
-
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            VoxelSpaceProgram.getCelestialStateSupplier().ifPresent(css -> {
-                css.getScreenManager().handleMenuPacket(this);
-            });
-        });
+        context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                VSPClientPacketHandler.handleMenuPacket(problemComponents)));
+
         context.setPacketHandled(true);
     }
 }

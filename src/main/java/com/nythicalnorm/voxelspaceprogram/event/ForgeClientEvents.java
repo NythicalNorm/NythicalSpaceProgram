@@ -1,13 +1,11 @@
 package com.nythicalnorm.voxelspaceprogram.event;
 
+import com.nythicalnorm.planetshine.PSClient;
+import com.nythicalnorm.planetshine.util.PSKeyBinds;
 import com.nythicalnorm.voxelspaceprogram.Item.NSPItems;
 import com.nythicalnorm.voxelspaceprogram.Item.armor.jetpack.Jetpack;
 import com.nythicalnorm.voxelspaceprogram.VoxelSpaceProgram;
-import com.nythicalnorm.voxelspaceprogram.dimensions.SpaceDimension;
 import com.nythicalnorm.voxelspaceprogram.gui.screen.PlayerSpacecraftScreen;
-import com.nythicalnorm.voxelspaceprogram.CelestialStateSupplier;
-import com.nythicalnorm.voxelspaceprogram.gui.screen.MapSolarSystemScreen;
-import com.nythicalnorm.voxelspaceprogram.util.KeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -15,46 +13,14 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = VoxelSpaceProgram.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {
-    @SubscribeEvent
-    public static void OnKeyInput (InputEvent.Key event) {
-        if (KeyBindings.INC_TIME_WARP_KEY.consumeClick()) {
-            VoxelSpaceProgram.getCelestialStateSupplier().ifPresent((celestialStateSupplier ->
-                    celestialStateSupplier.TryChangeTimeWarp(true)));
-        } else if (KeyBindings.DEC_TIME_WARP_KEY.consumeClick()) {
-            VoxelSpaceProgram.getCelestialStateSupplier().ifPresent((celestialStateSupplier ->
-                    celestialStateSupplier.TryChangeTimeWarp(false)));
-        } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.consumeClick()) {
-            VoxelSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
-                if (celestialStateSupplier.doRender()) {
-                    Minecraft.getInstance().setScreen(new MapSolarSystemScreen(false));
-                }
-            });
-        }
-        else if (KeyBindings.USE_PLAYER_JETPACK_KEY.consumeClick()) {
-            LocalPlayer player = Minecraft.getInstance().player;
-            ItemStack chestplateItem = player.getSlot(102).get();
-
-            if (chestplateItem.getItem() instanceof Jetpack) {
-                VoxelSpaceProgram.getCelestialStateSupplier().ifPresent(celestialStateSupplier -> {
-                    if (celestialStateSupplier.doRender()) {
-                        Minecraft.getInstance().setScreen(new PlayerSpacecraftScreen(chestplateItem, player, celestialStateSupplier));
-                        celestialStateSupplier.setControllingBody(celestialStateSupplier.getPlayerOrbit());
-                    }
-                });
-            }
-        }
-    }
-
     @SubscribeEvent
     public static void postPlayerRender(RenderPlayerEvent.Pre event) {
         PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
@@ -68,22 +34,19 @@ public class ForgeClientEvents {
     }
 
     @SubscribeEvent
-    public static void clientTickEvent(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            VoxelSpaceProgram.getCelestialStateSupplier().ifPresent(CelestialStateSupplier::tick);
+    public static void OnKeyInput (InputEvent.Key event) {
+        if (PSKeyBinds.USE_PLAYER_JETPACK_KEY.consumeClick()) {
+            LocalPlayer player = Minecraft.getInstance().player;
+            ItemStack chestplateItem = player.getSlot(102).get();
+
+            if (chestplateItem.getItem() instanceof Jetpack) {
+                PSClient.getInstance().ifPresent(psClient -> {
+                    if (psClient.doRender()) {
+                        Minecraft.getInstance().setScreen(new PlayerSpacecraftScreen(chestplateItem, player, psClient));
+                        psClient.setControllingBody(psClient.getPlayerOrbit());
+                    }
+                });
+            }
         }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerCloned(ClientPlayerNetworkEvent.Clone event) {
-        VoxelSpaceProgram.getCelestialStateSupplier().ifPresent(css -> {
-            if (css.getPlayerOrbit() != null) {
-                css.getPlayerOrbit().setPlayerEntity(event.getNewPlayer());
-            }
-
-            if (event.getNewPlayer().level().dimension() != SpaceDimension.SPACE_LEVEL_KEY) {
-                css.getPlayerOrbit().removeYourself();
-            }
-        });
     }
 }

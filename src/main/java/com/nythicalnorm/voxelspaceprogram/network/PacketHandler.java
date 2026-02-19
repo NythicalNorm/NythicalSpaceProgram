@@ -19,52 +19,10 @@ public class PacketHandler {
     public static void register() {
         int id = 500;
 
-        INSTANCE.messageBuilder(ClientboundLoginSolarSystemState.class, ++id)
-                .encoder(ClientboundLoginSolarSystemState::encode)
-                .decoder(ClientboundLoginSolarSystemState::new)
-                .consumerMainThread(ClientboundLoginSolarSystemState::handle)
-                .add();
-
-        INSTANCE.messageBuilder(ClientboundSolarSystemTimeUpdate.class, ++id)
-                .encoder(ClientboundSolarSystemTimeUpdate::encode)
-                .decoder(ClientboundSolarSystemTimeUpdate::new)
-                .consumerMainThread(ClientboundSolarSystemTimeUpdate::handle)
-                .add();
-
-        INSTANCE.messageBuilder(ClientboundFocusedOrbitUpdate.class, ++id)
-                .encoder(ClientboundFocusedOrbitUpdate::encode)
-                .decoder(ClientboundFocusedOrbitUpdate::new)
-                .consumerMainThread(ClientboundFocusedOrbitUpdate::handle)
-                .add();
-
-        INSTANCE.messageBuilder(ClientboundTimeWarpUpdate.class, ++id)
-                .encoder(ClientboundTimeWarpUpdate::encode)
-                .decoder(ClientboundTimeWarpUpdate::new)
-                .consumerMainThread(ClientboundTimeWarpUpdate::handle)
-                .add();
-
-        INSTANCE.messageBuilder(ClientboundPlanetTexturePacket.class, ++id)
-                .encoder(ClientboundPlanetTexturePacket::encode)
-                .decoder(ClientboundPlanetTexturePacket::new)
-                .consumerMainThread(ClientboundPlanetTexturePacket::handle)
-                .add();
-
         INSTANCE.messageBuilder(ClientboundAssemblerProblems.class, ++id)
                 .encoder(ClientboundAssemblerProblems::encode)
                 .decoder(ClientboundAssemblerProblems::new)
                 .consumerMainThread(ClientboundAssemblerProblems::handle)
-                .add();
-
-        INSTANCE.messageBuilder(ServerboundSpacecraftMove.class, ++id)
-                .encoder(ServerboundSpacecraftMove::encode)
-                .decoder(ServerboundSpacecraftMove::new)
-                .consumerMainThread(ServerboundSpacecraftMove::handle)
-                .add();
-
-        INSTANCE.messageBuilder(ServerboundTimeWarpChange.class, ++id)
-                .encoder(ServerboundTimeWarpChange::encode)
-                .decoder(ServerboundTimeWarpChange::new)
-                .consumerMainThread(ServerboundTimeWarpChange::handle)
                 .add();
     }
 

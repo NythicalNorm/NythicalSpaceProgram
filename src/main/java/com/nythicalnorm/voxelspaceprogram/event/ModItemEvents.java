@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = VoxelSpaceProgram.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModItemEvents {
-
     @SubscribeEvent
     public static void onItemUseTick(LivingEntityUseItemEvent event) {
         if (!ServerPlayer.class.isAssignableFrom(event.getEntity().getClass())) {

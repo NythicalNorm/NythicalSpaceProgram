@@ -1,14 +1,18 @@
 package com.nythicalnorm.voxelspaceprogram.gui.screen;
 
-import com.nythicalnorm.voxelspaceprogram.gui.input.PlayerInputAxis;
-import com.nythicalnorm.voxelspaceprogram.gui.input.PlayerInputDirection;
-import com.nythicalnorm.voxelspaceprogram.gui.widgets.AltitudeWidget;
-import com.nythicalnorm.voxelspaceprogram.gui.widgets.LeftPanelWidget;
-import com.nythicalnorm.voxelspaceprogram.gui.widgets.NavballWidget;
-import com.nythicalnorm.voxelspaceprogram.gui.widgets.TimeWarpWidget;
-import com.nythicalnorm.voxelspaceprogram.spacecraft.ClientPlayerSpacecraftBody;
-import com.nythicalnorm.voxelspaceprogram.CelestialStateSupplier;
-import com.nythicalnorm.voxelspaceprogram.util.KeyBindings;
+import com.nythicalnorm.planetshine.PSClient;
+import com.nythicalnorm.planetshine.gui.input.PlayerInputAxis;
+import com.nythicalnorm.planetshine.gui.input.PlayerInputDirection;
+import com.nythicalnorm.planetshine.gui.screen.ISpacecraftDataDisplay;
+import com.nythicalnorm.planetshine.gui.screen.MapSolarSystemScreen;
+import com.nythicalnorm.planetshine.gui.screen.MouseLookScreen;
+import com.nythicalnorm.planetshine.gui.widgets.AltitudeWidget;
+import com.nythicalnorm.planetshine.gui.widgets.LeftPanelWidget;
+import com.nythicalnorm.planetshine.gui.widgets.NavballWidget;
+import com.nythicalnorm.planetshine.gui.widgets.TimeWarpWidget;
+import com.nythicalnorm.planetshine.spacecraft.player.ClientPlayerOrbitBody;
+import com.nythicalnorm.planetshine.util.PSKeyBinds;
+import com.nythicalnorm.voxelspaceprogram.util.VSPKeyBinds;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
@@ -18,12 +22,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.Math;
 
 @OnlyIn(Dist.CLIENT)
-public class PlayerSpacecraftScreen extends MouseLookScreen {
+public class PlayerSpacecraftScreen extends MouseLookScreen implements ISpacecraftDataDisplay {
     private ItemStack jetpackItem;
     private final LocalPlayer player;
-    private final CelestialStateSupplier css;
+    private final PSClient css;
     private final Options minecraftOptions;
     private float initialYLookDir;
     private boolean SAS = false;
@@ -37,7 +44,7 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
     private PlayerInputDirection CtrlShiftAxis;
     private PlayerInputAxis throttleAxis;
 
-    public PlayerSpacecraftScreen(ItemStack spacesuitItem, LocalPlayer player, CelestialStateSupplier css) {
+    public PlayerSpacecraftScreen(ItemStack spacesuitItem, LocalPlayer player, PSClient css) {
         super(Component.empty());
         this.jetpackItem = spacesuitItem;
         this.player = player;
@@ -63,29 +70,29 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
 
         css.getScreenManager().setOpenSpacecraftScreen(this);
         throttleAxis = new PlayerInputAxis(0.05f, 0f, 1f, 0.08f,0f,
-                KeyBindings.DECREASE_THROTTLE_KEY, KeyBindings.INCREASE_THROTTLE_KEY);
+                VSPKeyBinds.DECREASE_THROTTLE_KEY, VSPKeyBinds.INCREASE_THROTTLE_KEY);
 
         SWAxis = new PlayerInputDirection(minecraftOptions.keyDown, minecraftOptions.keyUp);
         ADAxis = new PlayerInputDirection(minecraftOptions.keyLeft, minecraftOptions.keyRight);
-        QEAxis = new PlayerInputDirection(KeyBindings.ANTI_CLOCKWISE_SPIN_KEY, KeyBindings.CLOCKWISE_SPIN_KEY);
-        CtrlShiftAxis = new PlayerInputDirection(KeyBindings.DECREASE_THROTTLE_KEY, KeyBindings.INCREASE_THROTTLE_KEY);
+        QEAxis = new PlayerInputDirection(VSPKeyBinds.ANTI_CLOCKWISE_SPIN_KEY, VSPKeyBinds.CLOCKWISE_SPIN_KEY);
+        CtrlShiftAxis = new PlayerInputDirection(VSPKeyBinds.DECREASE_THROTTLE_KEY, VSPKeyBinds.INCREASE_THROTTLE_KEY);
     }
 
     @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
         boolean keyPressed = false;
 
-        if (KeyBindings.USE_PLAYER_JETPACK_KEY.matches(pKeyCode, pScanCode)) {
+        if (PSKeyBinds.USE_PLAYER_JETPACK_KEY.matches(pKeyCode, pScanCode)) {
             this.onClose();
             keyPressed = true;
-        } else if (KeyBindings.OPEN_SOLAR_SYSTEM_MAP_KEY.matches(pKeyCode, pScanCode)) {
+        } else if (PSKeyBinds.OPEN_SOLAR_SYSTEM_MAP_KEY.matches(pKeyCode, pScanCode)) {
             Minecraft.getInstance().setScreen(new MapSolarSystemScreen(true));
             keyPressed = true;
-        }  else if (KeyBindings.RCS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
+        }  else if (VSPKeyBinds.RCS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
             RCS = !RCS;
-        } else if (KeyBindings.SAS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
+        } else if (VSPKeyBinds.SAS_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
             SAS = !SAS;
-        } else if (KeyBindings.DOCKING_MODE_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
+        } else if (VSPKeyBinds.DOCKING_MODE_TOGGLE_KEY.matches(pKeyCode, pScanCode)) {
             dockingMode = !dockingMode;
         } else if (SWAxis.keyPressCheck(pKeyCode, pScanCode) || ADAxis.keyPressCheck(pKeyCode, pScanCode)
                 || QEAxis.keyPressCheck(pKeyCode, pScanCode)) {
@@ -121,36 +128,49 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
         return super.keyReleased(pKeyCode, pScanCode, pModifiers);
     }
 
+    @Override
     public float getThrottleSetting() {
         return throttleAxis.getAxisValue();
     }
 
+    @Override
     public boolean isSAS() {
         return SAS;
     }
 
+    @Override
     public boolean isRCS() {
         return RCS;
     }
 
+    @Override
     public boolean isDockingMode() {
         return dockingMode;
     }
 
+    @Override
     public PlayerInputDirection getSWAxis() {
         return SWAxis;
     }
 
+    @Override
     public PlayerInputDirection getADAxis() {
         return ADAxis;
     }
 
+    @Override
     public PlayerInputDirection getQEAxis() {
         return QEAxis;
     }
 
+    @Override
     public PlayerInputDirection getCtrlShiftAxis() {
         return CtrlShiftAxis;
+    }
+
+    @Override
+    public boolean movePlayerCamera() {
+        return true;
     }
 
     public void onClose() {
@@ -159,20 +179,11 @@ public class PlayerSpacecraftScreen extends MouseLookScreen {
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         player.setYBodyRot(initialYLookDir);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
 
-    public float getViewYrot() {
-        return -cameraYrot*57.29577951308232f;
-    }
-
-    public float getViewXrot() {
-        return -cameraXrot*57.29577951308232f;
-    }
-
-    public void sendInputs(ClientPlayerSpacecraftBody body) {
-        body.processLocalMovement(jetpackItem,ADAxis.getAxisValue(), SWAxis.getAxisValue(), QEAxis.getAxisValue(), CtrlShiftAxis.getAxisValue(), throttleAxis.getAxisValue(), SAS, RCS, dockingMode);
+    public void sendInputs(ClientPlayerOrbitBody body) {
     }
 }

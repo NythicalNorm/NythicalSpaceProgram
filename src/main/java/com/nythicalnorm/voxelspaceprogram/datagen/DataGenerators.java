@@ -28,6 +28,5 @@ public class DataGenerators {
         NSPBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
                 new NSPBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new NSPItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new NSPWorldGenProvider(packOutput, lookupProvider));
     }
 }
